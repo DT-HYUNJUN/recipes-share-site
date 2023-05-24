@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'django_browser_reload',
+    'pilkit',
     # default
     'django.contrib.admin',
     'django.contrib.auth',
