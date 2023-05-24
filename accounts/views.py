@@ -29,7 +29,7 @@ def login(request):
 def logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
-    return redirect('#')
+    return redirect('recipes/recipes_list.html')
 
 def signup(request):
     if request.user.is_authenticated:

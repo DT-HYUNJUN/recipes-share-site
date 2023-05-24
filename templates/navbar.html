@@ -29,10 +29,11 @@
       <!--까먹지 말고 not 넣기 !-->
         {% if not request.user.is_authenticated %}
           <!-- 로그인 안했을때 -->
-          <a href="#" class="text-[#2f4f4f] font-bold text-xl dark:text-blue-500 hover:underline">Login</a>
+          <a href="{% url 'accounts:login' %}" class="text-[#2f4f4f] font-bold text-xl dark:text-blue-500 hover:underline">Login</a>
+          <a href="{% url 'accounts:signup' %}" class="text-[#2f4f4f] font-bold text-xl dark:text-blue-500 hover:underline">Signup</a>
         {% else %}
           <!-- 로그인 했을때 --> 
-          <a href="#">
+          <a href="{% url 'accounts:profile' request.user %}">
             <div class="flex items-center content-center gap-1">
               <img class="w-9" src="{% static 'img/profile_image.png' %}" alt="profile">
               <p class="text-[#2f4f4f] font-bold text-xl">nickname</p>
