@@ -1,12 +1,17 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+  <!-- 배너 -->
   <div>
-  
+    
+  </div>
+
+  <!-- 목록 -->
+  <div>
     <!-- 인기, 좋아요 순 -->
     <div class="">
       <h1 class="text-2xl text-center mb-6">인기순</h1>
-      <div class="recipe-slide">
+      <div class="recipe-likes-slide">
         <div>
           <a class="inline-block" href="#">
             <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
@@ -110,7 +115,7 @@
     <!-- 날씨 순 -->
     <div class="">
       <h1 class="text-2xl text-center mb-6">날씨 별 레시피</h1>
-      <div class="recipe-slide">
+      <div class="recipe-weather-slide">
         <div>
           <a class="inline-block" href="#">
             <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
@@ -210,7 +215,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>

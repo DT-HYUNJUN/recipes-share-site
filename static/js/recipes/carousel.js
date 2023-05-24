@@ -1,19 +1,28 @@
-// $(document).ready(function(){
-// })
-$('.recipe-slide').slick({
-  infinite: true,
-  slidesToShow: 4,
-  slidesToScroll: 4,
-  prevArrow: '<button type="button" class="slick-prev"><</button>',
-  nextArrow: '<button type="button" class="slick-next">></button>',
-  // 이건 자동재생
-  // autoplay:true,
-  // autoplayspeed:10,
-  // 이건 자동재생때 멈추지 않는거 눌렀을때 포함
-  pauseOnHover: false,
-  pauseOnFocus: false,
-});
+$(document).ready(function () {
+  $(".recipe-weather-slide").slick({
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    prevArrow: '<button type="button" class="slick-prev"><</button>',
+    nextArrow: '<button type="button" class="slick-next">></button>',
+    autoplay: true,
+    autoplaySpeed: 5000, // Set the autoplay time for the recipe-slide slider
+    pauseOnHover: false,
+    pauseOnFocus: false,
+  });
 
+  $(".recipe-likes-slide").slick({
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    prevArrow: '<button type="button" class="slick-prev"><</button>',
+    nextArrow: '<button type="button" class="slick-next">></button>',
+    autoplay: true,
+    autoplaySpeed: 3000, // Set the autoplay time for the recipe-like-slide slider
+    pauseOnHover: false,
+    pauseOnFocus: false,
+  });
+});
 
 
 // 아니 여기에 previous라고 적혀있네요 애초에 덜더

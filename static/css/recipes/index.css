@@ -1,19 +1,37 @@
-.recipe-slide {
+.recipe-weather-slide {
   position: relative;
 }
 
-.recipe-slide button {
-  background-color: red;
+.recipe-weather-slide button {
+  background-color: rgb(191, 191, 191);
+  color: white;
   border-radius: 50%;
   position: absolute;
   z-index: 10;
   top: 25%;
   transform: translateY(-50%);
-  width: 2rem;
-  height: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.recipe-likes-slide {
+  position: relative;
+}
+
+.recipe-likes-slide button {
+  background-color: rgb(191, 191, 191);
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+  top: 25%;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .slick-prev {
+  text-align: center;
   left: -50px;
 }
 
