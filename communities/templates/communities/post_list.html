@@ -1,0 +1,9 @@
+{% block content %}
+<p>Post List</p>
+{% for post in posts %}
+<p>{{post.title}}</p>
+<p>{{post.content}}</p>
+
+{% endfor %}
+{% endblock content %}
+

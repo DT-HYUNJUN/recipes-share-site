@@ -17,6 +17,7 @@ django-taggit-templatetags2==1.6.1
 idna==3.4
 oauthlib==3.2.2
 pilkit==2.0
+Pillow==9.5.0
 pycparser==2.21
 PyJWT==2.7.0
 python-dotenv==1.0.0
