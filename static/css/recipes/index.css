@@ -1,0 +1,22 @@
+.recipe-slide {
+  position: relative;
+}
+
+.recipe-slide button {
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+  top: 25%;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+}
+
+.slick-prev {
+  left: -50px;
+}
+
+.slick-next {
+  right: -45px;
+}

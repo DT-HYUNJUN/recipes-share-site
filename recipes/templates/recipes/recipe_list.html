@@ -1,23 +1,211 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-  <div class="container mx-auto">
-
-    <h1>recipes</h1>
+  <div>
   
-    <div class="recipe-slide">
-      <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <a href="#">
-          <img class="rounded-t-lg" src="/docs/images/blog/image-1.jpg" alt="" />
-        </a>
-        <div class="p-5">
-          <a href="#">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+    <!-- 인기, 좋아요 순 -->
+    <div class="">
+      <h1 class="text-2xl text-center mb-6">인기순</h1>
+      <div class="recipe-slide">
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="w-fit" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827567675625554/7.jpeg" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
           </a>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-          <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Read more
-            <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </div>
+  
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110830867049357343/resized_SmartSelect_20220928_193644_YouTube.jpg" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+  
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827802946703430/e0147c2e083e50818e468babff9e8a76bf9dd24c_20230225_003103_waifu2x_photo_noise1_scale_waifu2x_photo_noise2_scale.png" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+  
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://media.discordapp.net/attachments/1100972915958235296/1110829107643695104/4.jpeg?width=961&height=1402" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+  
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829233279873085/2.jpeg" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+  
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829412687040553/i15448150203.png" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+        
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829355594158141/e2776e27ae8b44d2.jpeg" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 날씨 순 -->
+    <div class="">
+      <h1 class="text-2xl text-center mb-6">날씨 별 레시피</h1>
+      <div class="recipe-slide">
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="w-fit" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827567675625554/7.jpeg" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+  
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110830867049357343/resized_SmartSelect_20220928_193644_YouTube.jpg" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+  
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827802946703430/e0147c2e083e50818e468babff9e8a76bf9dd24c_20230225_003103_waifu2x_photo_noise1_scale_waifu2x_photo_noise2_scale.png" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+  
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://media.discordapp.net/attachments/1100972915958235296/1110829107643695104/4.jpeg?width=961&height=1402" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+  
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829233279873085/2.jpeg" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+  
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829412687040553/i15448150203.png" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
+          </a>
+        </div>
+        
+        <div>
+          <a class="inline-block" href="#">
+            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829355594158141/e2776e27ae8b44d2.jpeg" alt="" />
+              </div>
+              <div class="p-5">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+              </div>
+            </div>
           </a>
         </div>
       </div>
@@ -25,6 +213,6 @@
 
   </div>
 
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js" integrity="sha512-WNZwVebQjhSxEzwbettGuQgWxbpYdoLf7mH+25A7sfQbbxKeS5SQ9QBf97zOY4nOlwtksgDA/czSTmfj4DUEiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-{% endblock content %}  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+  <script src="{% static 'js/recipes/carousel.js' %}"></script>
+{% endblock content %}

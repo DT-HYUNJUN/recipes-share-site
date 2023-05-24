@@ -12,6 +12,9 @@
   <!-- slick slider -->
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/recipes/index.css' %}">
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
  
   <title>Document</title>
   <style>
@@ -25,7 +28,7 @@
   {% include 'navbar.html' %}
   {% include 'controller.html' %}
 
-  <div>
+  <div id="wrapper-body" class="container mx-auto max-w-screen-xl px-4">
     {% block content %}
     {% endblock content %}
   </div>

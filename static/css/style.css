@@ -1,0 +1,6 @@
+/* style */
+#wrapper-body {
+  position: relative;
+  height: auto;
+  min-height: calc(100vh - 120px);
+}
