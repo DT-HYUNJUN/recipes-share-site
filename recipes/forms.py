@@ -13,3 +13,9 @@ class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
         fields = '__all__'
+
+
+class RecipeReviewForm(forms.ModelForm):
+    class Meta:
+        model = RecipeReview
+        fields = '__all__'
