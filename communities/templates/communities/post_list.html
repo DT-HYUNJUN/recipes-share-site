@@ -1,8 +1,18 @@
 {% block content %}
-<p>Post List</p>
-{% for post in posts %}
-<p>{{post.title}}</p>
-<p>{{post.content}}</p>
+
+<div>
+  <p>Post List</p>
+
+  {% for post in posts %}
+  <p>{{post.pk}} 제목 : {{post.title}}</p>
+  <p>내용 : {{post.content}}</p>
+  <a href="{% url 'communities:delete' post.pk %}">삭제하기</a>
+  <hr>
+</div>
+
+<div>
+  <p>Post Detail</p>
+</div>
 
 {% endfor %}
 {% endblock content %}
