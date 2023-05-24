@@ -2,10 +2,15 @@ from django.db import models
 from django.conf import settings
 from imagekit.models import ProcessedImageField
 from django.core.validators import MinValueValidator, MaxValueValidator
-# Create your models here.
+
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
+
+    
+    def __str__(self):
+        return self.name
+
 
 class Recipe(models.Model):
     title = models.CharField(max_length=30) 
@@ -20,10 +25,16 @@ class Recipe(models.Model):
     book_mark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='book_mark_users', blank=True)  # 레시피 북마크
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
 
+
+    def __str__(self):
+        return self.title
+
+
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.CharField(max_length=50)
+
 
 class RecipeReview(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
@@ -31,6 +42,7 @@ class RecipeReview(models.Model):
     content = models.TextField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
 
 # class Equip(models.Model):
 #     microwave = models.BooleanField(default=False)
