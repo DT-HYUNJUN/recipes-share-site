@@ -9,7 +9,6 @@ class IngredientForm(forms.ModelForm):
 
 
 class RecipeForm(forms.ModelForm):
-    time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}), input_formats='%H:%M')
     class Meta:
         model = Recipe
         fields = '__all__'
