@@ -7,10 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+  <!-- 글꼴 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- slick slider -->
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+ 
   <title>Document</title>
   <style>
-  {% block style %}
-  {% endblock style %}
+    font-family: 'Noto Sans KR', sans-serif;
+    {% block style %}
+    {% endblock style %}
   </style>
 </head>
 
@@ -29,5 +36,6 @@
     {% block script %}
     {% endblock script %}
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 </body>
 </html>
