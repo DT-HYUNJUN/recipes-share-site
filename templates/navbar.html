@@ -1,0 +1,137 @@
+{% load static %}
+<nav class="bg-white border-gray-200 dark:bg-gray-900">
+    <!-- 로고 부분 -->
+  <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
+      <a href="https://flowbite.com" class="flex items-center">
+          <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" />
+          <span class="self-center text-2xl font-semibold whitespace-nowrap text-[#2f4f4f] dark:text-white">현준식탁</span>
+      </a>
+        <!-- 서치 부분 -->
+      <div class="flex">
+        <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" class="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1" >
+          <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+          <span class="sr-only">검색어를 입력해주세요.</span>
+        </button>
+        <div class="relative hidden md:block w-96">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+            <span class="sr-only">검색어를 입력해주세요.</span>
+          </div>
+          <input type="text" id="search-navbar" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-[#2f4f4f] focus:border-[#2f4f4f] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="검색어를 입력해주세요.">
+        </div>
+        <button data-collapse-toggle="navbar-search" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
+          <span class="sr-only">Open menu</span>
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+        </button>
+      </div>
+    <!-- 로그인 부분 -->
+      <div class="flex items-start md:order-2">
+      <!--까먹지 말고 not 넣기 !-->
+        {% if not request.user.is_authenticated %}
+          <!-- 로그인 안했을때 -->
+          <a href="#" class="text-[#2f4f4f] font-bold text-xl dark:text-blue-500 hover:underline">Login</a>
+        {% else %}
+          <!-- 로그인 했을때 --> 
+          <a href="#">
+            <div class="flex items-center content-center gap-1">
+              <img class="w-9" src="{% static 'img/profile_image.png' %}" alt="profile">
+              <p class="text-[#2f4f4f] font-bold text-xl">nickname</p>
+            </div>
+          </a>
+        {% endif %}
+      </div>
+  </div>
+</nav>
+<!-- 메뉴 부분 --> 
+<nav class="bg-[#90EE90] dark:bg-gray-700">
+  <div class="max-w-screen-xl px-4 py-3 mx-auto">
+    <div class="flex items-center">
+      <ul class="flex flex-row font-medium mt-0 mr-6 space-x-8 text-sm">
+        <li>
+          <a href="#" class="text-gray-900 dark:text-white hover:underline" aria-current="page">홈</a>
+        </li>
+        <!-- 드롭다운1 (레시피)--> 
+        <li>
+          <button id="dropdownDefaultButton" data-dropdown-toggle="recipeDropdown" class=" font-medium text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">레시피 <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+          <!-- Dropdown menu -->
+          <div id="recipeDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-96 dark:bg-gray-700">
+            <ul class="grid grid-flow-col w-96 py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+              <div>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">모두보기</a>
+                </li>
+              </div>
+              <div>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">한식</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">양식</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">일식</a>
+                </li>
+              </div>
+
+              <div>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">메인 요리</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">반찬</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">베이킹</a>
+                </li>
+              </div>
+
+              <div>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">간식</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">분식</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">도시락</a>
+                </li>
+              </div>
+              
+            </ul>
+          </div>
+        </li>
+        <!-- 드롭다운2 (조리도구)--> 
+        <li>
+          <button id="dropdownDefaultButton" data-dropdown-toggle="EquipDropdown" class=" font-medium text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">조리 도구 <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+          <!-- Dropdown menu -->
+          <div id="EquipDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-90 dark:bg-gray-700">
+            <ul class="grid grid-flow-row py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">모두보기</a>
+              </li>
+              <hr>
+              <div>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">전자레인지</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">가스레인지</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오븐</a>
+                </li>
+                 <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">에어프라이기</a>
+                </li>
+              </div>
+            </ul>
+          </div>
+
+        </li>
+        <li>
+          <a href="#" class="text-gray-900 dark:text-white hover:underline">커뮤니티</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
