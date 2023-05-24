@@ -35,7 +35,23 @@ class RecipeDeleteView(UserPassesTestMixin, DeleteView):
         return self.post(request, *args, **kwargs)
 
 
-class BookmarkView(LoginRequiredMixin, View):
+class RecipeLikeView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        recipe_pk = kwargs['recipe_pk']
+        recipe = Recipe.objects.get(pk=recipe_pk)
+        if recipe.like_recipes.filter(pk=request.user.pk).exists():
+            recipe.like_recipes.remove(request.user)
+            like = False
+        else:
+            recipe.like_recipes.add(request.user)
+            like = True
+        context = {
+            'like': like,
+        }
+        return JsonResponse(context)
+
+
+class RecipeBookmarkView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         recipe_pk = kwargs['recipe_pk']
         recipe = Recipe.objects.get(pk=recipe_pk)
