@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<form action="{% url 'accounts:login' %}" method="POST">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button type="submit">로그인</button>
+</form>
+
+{% endblock content %}
