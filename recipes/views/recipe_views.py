@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, View
+from recipes.forms import RecipeReviewForm
 from recipes.models import *
 
 
@@ -13,6 +14,16 @@ class RecipeListView(ListView):
 class RecipeDetailView(DetailView):
     model = Recipe
     context_object_name = 'recipe'
+    pk_url_kwarg = 'recipe_pk'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        recipe = Recipe.objects.get(pk=self.object.pk)
+        reviews = recipe.recipes.all()
+        context['reviews'] = reviews
+        context['review_form'] = RecipeReviewForm()
+        return context
 
 
 class RecipeCreateView(CreateView):
