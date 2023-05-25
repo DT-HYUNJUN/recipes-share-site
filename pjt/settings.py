@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # tag
     'taggit.apps.TaggitAppConfig',
-    'taggit_templatetags2'
+    'taggit_templatetags2',
+    # pillow
 ]
 
 TAGGIT_CASE_INSENSITIVE = True

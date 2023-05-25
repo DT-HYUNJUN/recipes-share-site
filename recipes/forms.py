@@ -17,4 +17,4 @@ class RecipeForm(forms.ModelForm):
 class RecipeReviewForm(forms.ModelForm):
     class Meta:
         model = RecipeReview
-        fields = '__all__'
+        fields = ('content',)

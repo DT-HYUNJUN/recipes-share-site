@@ -37,7 +37,7 @@ class RecipeIngredient(models.Model):
 
 
 class RecipeReview(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='recipes')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
