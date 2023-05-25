@@ -36,12 +36,14 @@ def signup(request):
     if request.user.is_authenticated:
         return redirect('recipes:recipe_list')
 
+
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
             return redirect('recipes:recipe_list')
+
     else:
         form = CustomUserCreationForm()
     context = {
@@ -84,6 +86,7 @@ def delete(request):
     auth_logout(request)
     return redirect('recipes:recipe_list')
 
+
 @login_required
 def follow(request, user_pk):
     User = get_user_model()
@@ -101,7 +104,9 @@ def follow(request, user_pk):
 
 @login_required
 def profile(request, username):
+    User = get_user_model()
+    person = User.objects.get(username=username)
     context = {
-        'username': username,
+        'person': person,
     }
     return render(request, 'accounts/profile.html', context)
