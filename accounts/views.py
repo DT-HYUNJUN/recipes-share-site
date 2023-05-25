@@ -33,14 +33,14 @@ def logout(request):
 
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('#')
+        return redirect('recipes/recipes_list.html')
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('#')
+            return redirect('recipes/recipes_list.html')
     else:
         form = CustomUserCreationForm()
     context = {
@@ -69,7 +69,7 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            return redirect('#')
+            return redirect('accounts:profile', request.user.username)
     else:
         form = PasswordChangeForm(request.user)
     context = {
@@ -81,7 +81,7 @@ def change_password(request):
 def delete(request):
     request.user.delete()
     auth_logout(request)
-    return redirect('#')
+    return redirect('recipes/recipes_list.html')
 
 
 
@@ -102,7 +102,9 @@ def follow(request, user_pk):
 
 @login_required
 def profile(request, username):
+    User = get_user_model()
+    person = User.objects.get(username=username)
     context = {
-        'username': username,
+        'person': person,
     }
     return render(request, 'accounts/profile.html', context)

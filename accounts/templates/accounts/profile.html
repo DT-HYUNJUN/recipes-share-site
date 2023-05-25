@@ -1,8 +1,140 @@
 {% extends 'base.html' %}
+{% block style%}
+.f_btn {
+  border: 2px solid #F7F7E6;
+  border-radius: 20px;
+  background-color: #FFFFE9;
+  box-shadow: 3px 3px 3px #E0E0E0;
+}
+
+.info {
+  border: 1px solid #E0E0E0;
+  border-radius: 5px;
+  {% comment %} height: 100%; {% endcomment %}
+}
+
+.box1 {
+  border-right: 1px solid #E0E0E0;
+  {% comment %} background-color: #E9F5DB; {% endcomment %}
+  background-color: #EDF6DB;
+  width:25%;
+}
+
+.f_list {
+  color: gray;
+  font-size: 15px;
+  margin-right: 5px;
+}
+
+.p_img {
+  width: 150px;
+  height: 150px;
+  border: 1px solid #E0E0E0;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.no_p {
+  width: 300px;
+  height: 300px;
+  left: 50%;
+}
+
+{% endblock style%}
 {% block content %}
 
 
-<p>{{username}} 의 페이지</p>
+  <div class='d-flex align-items-center justify-content-between mt-3 mb-2'>
+    <div class='mt-2 mb-2 align-items-center'>
+      <h2>
+        {{ person.username }}님의 프로필 페이지
+      </h2>
+      <div class = "flex">
+        <div class = "flex">
+          <button type="button" class="btn f_list" data-modal-toggle="staticModal1" data-modal-target="#exampleModal1">
+            팔로잉 {{ person.followings.all | length }}
+          </button>
+
+          <p class='f_list' style='color: gray;'>|</p>
+
+          <button type="button" class="btn f_list" data-modal-toggle="staticModal2" data-modal-target="#exampleModal2">
+            팔로워 {{ person.followers.all | length }}
+          </button>
+        </div>
+        <div>
+          {% if person != user %}
+          <form action="{% url 'accounts:follow' person.pk %}" method="post">
+            {% csrf_token %}
+            {% if user in person.followers.all %}
+            <button type="submit" class='f_btn'>Unfollow <i class="fa-solid fa-user-minus"></i></button>
+            {% else %}
+            <button type="submit" class='f_btn'>Follow <i class="fa-solid fa-user-plus"></i></button>
+            {% endif %}
+          </form>
+          {% endif %}
+        </div>
+      </div>
+
+      <div id="staticModal1" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                      팔로잉 목록
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="staticModal1">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6">
+                  {% if person.followings.all %}
+                  <ul>
+                    {% for following in person.followings.all %}
+                    <li class='me-3' style='font-weight:bold;'>{{ following }}</li>
+                    {% endfor %}
+                  </ul>
+                  {% else %}
+                  <p>팔로우하는 사람이 없습니다</p>
+                  {% endif %}
+                </div>
+            </div>
+        </div>
+      </div>    
+      <div id="staticModal2" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                      팔로워 목록
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="staticModal2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6">
+                  {% if person.followers.all %}
+                  <ul>
+                    {% for following in person.followers.all %}
+                    <li class='me-3' style='font-weight:bold;'>{{ following }}</li>
+                    {% endfor %}
+                  </ul>
+                  {% else %}
+                  <p>팔로워가 없습니다</p>
+                  {% endif %}
+                </div>
+            </div>
+        </div>
+      </div>  
+
+
+    </div>
+  </div>
 
 
 {% endblock content %}
