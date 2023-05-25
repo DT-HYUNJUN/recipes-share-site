@@ -33,16 +33,9 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    template_name = 'communities/post_list.html'
+    pk_url_kwarg = 'post_pk'
     
-    # def get_object(self, queryset=None):
-    #     # 현재 로그인한 사용자의 게시물만 삭제 가능하도록 설정
-    #     obj = super().get_object(queryset=queryset)
-    #     if not obj.user == self.request.user:
-    #         raise Http404
-    #     return obj
     
-
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.user
@@ -50,13 +43,62 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         return reverse_lazy('communities:post_list')
 
-    def get_object(self, queryset=None):
-        post_pk = self.kwargs['pk']
-        post = get_object_or_404(Post, pk=post_pk)
-        return post
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+   
     
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'communities/post_update.html'
+    pk_url_kwarg = 'post_pk'
+
+
+    def test_func(self):
+        review = Post.objects.get(pk=self.kwargs['post_pk'])
+        user = self.request.user
+        return (review.user == user) or user.is_superuser or user.is_staff
+
+
+    def get_success_url(self):
+        post_pk = self.kwargs['post_pk']
+        return reverse_lazy('communities:post_list')
+    
+    # model = Post
+    # form_class = PostForm
+    # template_name = 'communities/post_update.html'
+    # context_object_name = 'post'
+    # success_url = reverse_lazy('communities:post_list')
+    
+    # def test_func(self):
+    #     post = self.get_object()
+    #     return self.request.user == post.user
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data()
+    #     post = self.get_object()
+    #     context
         
-        messages.success(request, _('포스트가 삭제되었습니다.'))
-        return super().delete(request, *args, **kwargs)
+    # def form_valid(self, form, formset):
+    #     post = form.save()
+    #     instances = formset.save(commit=False)
+    #     for instance in instances:
+    #         instance.post = post 
+    #         instance.save()
+    #     formset.save()
+        
+    
+    # def get_object(self, queryset=None):
+    #     post_pk = self.kwargs.get('post_pk')  # 혹은 'post_pk'로 수정해야 할 수도 있음
+    #     post = get_object_or_404(Post, pk=post_pk, user=self.request.user)
+    #     return post
+            
+    # def post(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     form_class = self.get_form_class()
+    #     form = self.get_form(form_class)
+        
+    #     if form.is_valid():
+    #         return self.form_valid(form, formset)
+    #     else:
+    #         return self.form_invalid(form, formset)
