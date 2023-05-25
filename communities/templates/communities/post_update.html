@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<p>Post Update</p>
+
+<form action="{% url 'communities:update' post.pk %}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="제출">
+</form>
+{% endblock content %}
+

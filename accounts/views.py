@@ -31,6 +31,7 @@ def logout(request):
         auth_logout(request)
     return redirect('recipes:recipe_list')
 
+
 def signup(request):
     if request.user.is_authenticated:
         return redirect('recipes:recipe_list')
