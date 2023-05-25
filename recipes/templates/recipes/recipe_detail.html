@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+
+{% block content %}
+{{ recipe.title }}
+<hr>
+{% for review in reviews %}
+{{ review.user }}
+<input type="text" class="reviewContent{{ review.pk }}" value="{{ review.content }}" readonly>
+<div class="reviewUpdate{{ review.pk }}" style="display: inline-block;">
+  <input type="button" value="update" onClick="reviewUpdateFunc({{ review.pk }})">
+</div>
+<div class="reviewSubmit{{ review.pk }}" style="display:none;">
+  <input type="button" value="submit" onClick="reviewSubmitFunc({{ review.pk }})">
+  <input type="button" value="cancel" onClick="reviewUpdateCancel({{ review.pk }})">
+</div>
+<hr>
+{% endfor %}
+<form action="{% url 'recipes:review_create' recipe.pk %}" method="POST">
+  {% csrf_token %}
+  {{ review_form.content|as_crispy_field }}
+  <input type="submit">
+</form>
+
+<script>
+  const reviewUpdateFunc = (pk) => {
+    let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
+    let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
+    let reviewContent = document.querySelector(`.reviewContent${pk}`)
+
+    reviewUpdate.style.display = 'none'
+    reviewSubmit.style.display = 'inline-block'
+    reviewContent.readOnly = false
+  }
+
+  const reviewSubmitFunc = (pk) => {
+    let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
+    let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
+    let reviewContent = document.querySelector(`.reviewContent${pk}`)
+
+    let param = {
+      'pk': pk,
+      'content': reviewContent.value
+    }
+
+    $.ajax({
+      url: '{% url 'recipes:review_update' %}',
+      type: 'POST',
+      headers: {
+        'X-CSRFTOKEN': '{{ csrf_token }}'
+      },
+      data: JSON.stringify(param),
+      success:function(data) {
+        reviewContent.value = data.content
+        reviewContent.readOnly = true
+        reviewSubmit.style.display = 'none'
+        reviewUpdate.style.display = 'inline-block'
+      },
+      error: function() {
+        alert('오류!')
+      }
+    })
+  }
+
+  const reviewUpdateCancel = (pk) => {
+    let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
+    let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
+    let reviewContent = document.querySelector(`.reviewContent${pk}`)
+
+    reviewUpdate.style.display = 'inline-block'
+    reviewSubmit.style.display = 'none'
+    reviewContent.readOnly = true
+  }
+</script>
+{% endblock content %}

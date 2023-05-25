@@ -1,5 +1,7 @@
+import json
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.views.generic import CreateView, DeleteView, UpdateView
 from recipes.models import *
@@ -34,35 +36,28 @@ class RecipeReviewCreateView(LoginRequiredMixin, CreateView):
             return JsonResponse({'message': 'error',}, status=400)
 
 
-class RecipeReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class RecipeReviewUpdateView(LoginRequiredMixin, UpdateView):
     model = RecipeReview
-    form_class = RecipeReviewForm
-    template_name = 'recipes/review_update.html'
+    template_name = 'recipes/recipe_detail.html'
     pk_url_kwarg = 'review_pk'
 
 
-    def test_func(self):
-        review = RecipeReview.objects.get(pk=self.kwargs['review_pk'])
-        user = self.request.user
-        return (review.user == user) or user.is_superuser or user.is_staff
+    def post(self, request, *args, **kwargs):
+        jsonObject = json.loads(request.body)
+        review_pk = jsonObject.get('pk')
+        content = jsonObject.get('content')
+        review = RecipeReview.objects.filter(pk=review_pk)
 
-
-    def get_success_url(self):
-        recipe_pk = self.kwargs['recipe_pk']
-        return reverse_lazy('recipes:recipe_detail', kwargs={'recipe_pk': recipe_pk})
-    
-
-    def post(self, request,*args, **kwargs):
-        form = self.get_form()
-        if form.is_valid():
-            review = form.save(user=request.user)
-            context = {
-                'username': review.user.username,
-                'content': review.content,
-            }
-            return JsonResponse(context)
+        if review.user == request.user:
+            if review is not None:
+                review.update(content=jsonObject.get('content'))
+                context = {
+                    'content': content
+                }
+                return JsonResponse(context)
+            return JsonResponse({'result': 'error!'}, status=400)
         else:
-            return JsonResponse({'message': 'error',}, status=400)
+            raise PermissionDenied()
 
 
 class RecipeReviewDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
