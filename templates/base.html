@@ -22,6 +22,7 @@
  
   <title>Document</title>
   <style>
+    
     font-family: 'Noto Sans KR', sans-serif;
     {% block style %}
     {% endblock style %}
@@ -31,8 +32,9 @@
 <body>
   {% include 'navbar.html' %}
   {% include 'controller.html' %}
-  <img class="" src="{% static 'img/banner.png' %}" alt="">
-  <div id="wrapper-body" class="container mx-auto max-w-screen-xl px-4">
+  <img src="{% static 'img/banner.png' %}" alt="">
+  
+  <div id="wrapper-body" class="">
     {% block content %}
     {% endblock content %}
   </div>

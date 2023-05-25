@@ -3,7 +3,7 @@
 }
 
 .recipe-weather-slide button {
-  background-color: rgb(191, 191, 191);
+  background-color: #2e8b57;
   color: white;
   border-radius: 50%;
   position: absolute;
@@ -19,7 +19,23 @@
 }
 
 .recipe-likes-slide button {
-  background-color: rgb(191, 191, 191);
+  background-color: #2e8b57;
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+  top: 25%;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.recipe-fridge-slide {
+  position: relative;
+}
+
+.recipe-fridge-slide button {
+  background-color: #2e8b57;
   color: white;
   border-radius: 50%;
   position: absolute;
@@ -37,4 +53,34 @@
 
 .slick-next {
   right: -45px;
+}
+
+
+
+.half-bg-likes::before {
+  background: linear-gradient(rgb(255, 255, 255) 40%, rgb(245, 244, 240) 30%);
+  content: "";
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 800px;
+  z-index: -1;
+}
+
+.half-bg-weather::before {
+  background: linear-gradient(rgb(245, 244, 240) 40%, rgb(255, 255, 255) 30%);
+  content: "";
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 700px;
+  z-index: -1;
+}
+
+.recipe-wrapper {
+  width: 296px;
 }
