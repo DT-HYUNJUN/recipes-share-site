@@ -156,3 +156,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 
 CRISPY_TEMPLATE_PACK = "tailwind"
+
+# allauth 설정
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # <- 디폴트 모델 백엔드
+    'allauth.account.auth_backends.AuthenticationBackend', # <- 추가
+)
+
+SITE_ID = 1 # 사이트 아이디 기본값
