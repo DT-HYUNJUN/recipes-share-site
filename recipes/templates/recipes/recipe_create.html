@@ -4,6 +4,6 @@
   <form action="{% url 'recipes:recipe_create' %}" method="POST">
     {% csrf_token %}
     {{ form|crispy }}
-    <button type="submit">회원가입</button>
+    <button type="submit">생성</button>
   </form>
 {% endblock content %}
