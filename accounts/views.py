@@ -10,13 +10,13 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthentic
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect('accounts:profile', request.user.username)
+        return redirect('recipes:recipe_list')
 
     if request.method == 'POST':
         form = CustomAuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect('accounts:profile', request.user.username)
+            return redirect('recipes:recipe_list')
     else:
         form = CustomAuthenticationForm()
 
@@ -29,18 +29,21 @@ def login(request):
 def logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
-    return redirect('recipes/recipes_list.html')
+    return redirect('recipes:recipe_list')
+
 
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('recipes/recipes_list.html')
+        return redirect('recipes:recipe_list')
+
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('recipes/recipes_list.html')
+            return redirect('recipes:recipe_list')
+
     else:
         form = CustomUserCreationForm()
     context = {
@@ -81,8 +84,7 @@ def change_password(request):
 def delete(request):
     request.user.delete()
     auth_logout(request)
-    return redirect('recipes/recipes_list.html')
-
+    return redirect('recipes:recipe_list')
 
 
 @login_required
