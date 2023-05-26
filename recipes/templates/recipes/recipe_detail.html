@@ -10,7 +10,9 @@
     <div class="flex-col space-y-4">
       <!-- 사진 -->
       <div class="mb-4">
-        <img src="{{ recipe.image.url }}" alt="">
+        {% if recipe.image %}
+          <img src="{{ recipe.image.url }}" alt="">
+        {% endif %}
       </div>
       <!-- 제목, 북마크-->
       <div class="flex justify-between">
@@ -131,29 +133,35 @@
         <hr>
       {% endfor %} {% endcomment %}
       
-      {% for review in reviews %}
-        <div id="reviews" class="grid grid-cols-8">
-          <p>{{ review.user }}</p>
-          {% comment %} <p class="col-span-6">{{ review.content }}</p> {% endcomment %}
-          <input class="col-span-6 border-0 p-0 focus:ring-0" type="text" value="{{ review.content }}" readonly>
-          <div class="flex">
-            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ review.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
-            <div id="dropdown-{{ review.pk }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                {% comment %} <li>
-                  <a class="block px-4 m-0 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ review.pk }}</a>
-                </li> {% endcomment %}
-                <li>
-                  <a class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</a>
-                </li>
-                <li>
-                  <a class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
-                </li>
-              </ul>
+      <section id="reviews">
+        {% for review in reviews %}
+          <div id="review" class="grid grid-cols-8" data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}">
+            <p>{{ review.user }}</p>
+            <p id="review-content" class="col-span-5">{{ review.content|linebreaksbr }}</p>
+            <input class="rounded p-0 focus:ring-0 hidden col-span-5" type="text" value="{{ review.content }}">
+            <div id="submit-section" class="invisible">
+              <span class="cursor-pointer">수정</span>
+              <span class="cursor-pointer">취소</span>
+            </div>
+            <div class="flex">
+              <button class="" id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ review.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
+              <div id="dropdown-{{ review.pk }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                  {% comment %} <li>
+                    <a class="block px-4 m-0 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ review.pk }}</a>
+                  </li> {% endcomment %}
+                  <li>
+                    <a class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">수정</a>
+                  </li>
+                  <li>
+                    <a class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">삭제</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-          </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      </section>
 
       <form action="{% url 'recipes:review_create' recipe.pk %}" method="POST">
         {% csrf_token %}
