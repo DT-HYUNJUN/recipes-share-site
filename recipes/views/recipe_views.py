@@ -1,8 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, View
-from recipes.forms import RecipeReviewForm
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, View
+from recipes.forms import RecipeForm, RecipeReviewForm, RecipeIngredientFormSet
 from recipes.models import *
 
 
@@ -26,10 +27,33 @@ class RecipeDetailView(DetailView):
         return context
 
 
-class RecipeCreateView(LoginRequiredMixin, CreateView):
-    model = Recipe
-    fields = ('title', 'category', 'time', 'difficulty', 'content', 'image', 'ingredients',)
+class RecipeCreateView(LoginRequiredMixin, TemplateView):
     template_name = 'recipes/recipe_create.html'
+
+    
+    def get(self, *args, **kwargs):
+        formset = RecipeIngredientFormSet(queryset=RecipeIngredient.objects.none())
+        form = RecipeForm()
+        return self.render_to_response({'form': form, 'formset': formset})
+
+
+    def post(self, *args, **kwargs):
+        formset = RecipeIngredientFormSet(self.request.POST)
+        form = RecipeForm(self.request.POST)
+
+        if form.is_valid() and form.is_valid():
+            recipe = form.save(commit=False)
+            recipe.user = self.request.user
+            recipe.save()
+
+            for subform in formset:
+                ingredient = subform.save(commit=False)
+                ingredient.recipe = recipe
+                ingredient.save()
+
+            return redirect('recipes:recipe_detail', recipe_pk=recipe.pk)
+        
+        return self.render_to_response({'form': form, 'formset': formset})
 
 
 class RecipeDeleteView(UserPassesTestMixin, DeleteView):

@@ -13,10 +13,13 @@ class IngredientForm(forms.ModelForm):
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = '__all__'
+        fields = ('title', 'content', 'category', 'time', 'difficulty', 'image',)
 
 
 class RecipeReviewForm(forms.ModelForm):
     class Meta:
         model = RecipeReview
         fields = ('content',)
+
+
+RecipeIngredientFormSet = forms.inlineformset_factory(Recipe, RecipeIngredient, fields=('ingredient', 'quantity',), extra=1, can_delete=False)
