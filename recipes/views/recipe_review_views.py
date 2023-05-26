@@ -46,11 +46,12 @@ class RecipeReviewUpdateView(LoginRequiredMixin, UpdateView):
         jsonObject = json.loads(request.body)
         review_pk = jsonObject.get('pk')
         content = jsonObject.get('content')
-        review = RecipeReview.objects.filter(pk=review_pk)
+        review = RecipeReview.objects.get(pk=review_pk)
 
         if review.user == request.user:
             if review is not None:
-                review.update(content=jsonObject.get('content'))
+                review.content=jsonObject.get('content')
+                review.save()
                 context = {
                     'content': content
                 }
