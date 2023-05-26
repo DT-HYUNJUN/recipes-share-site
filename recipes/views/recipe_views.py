@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, View
+from recipes.forms import RecipeReviewForm
 from recipes.models import *
 
 
@@ -13,6 +14,16 @@ class RecipeListView(ListView):
 class RecipeDetailView(DetailView):
     model = Recipe
     context_object_name = 'recipe'
+    pk_url_kwarg = 'recipe_pk'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        recipe = Recipe.objects.get(pk=self.object.pk)
+        reviews = recipe.recipes.all()
+        context['reviews'] = reviews
+        context['review_form'] = RecipeReviewForm()
+        return context
 
 
 class RecipeCreateView(CreateView):
@@ -55,11 +66,11 @@ class RecipeBookmarkView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         recipe_pk = kwargs['recipe_pk']
         recipe = Recipe.objects.get(pk=recipe_pk)
-        if recipe.book_mark.filter(pk=request.user.pk).exists():
-            recipe.book_mark.remove(request.user)
+        if recipe.bookmark.filter(pk=request.user.pk).exists():
+            recipe.bookmark.remove(request.user)
             bookmark = False
         else:
-            recipe.book_mark.add(request.user)
+            recipe.bookmark.add(request.user)
             bookmark = True
         context = {
             'bookmark': bookmark,

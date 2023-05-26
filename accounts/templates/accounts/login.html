@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
+{% load static %}
 
-<form action="{% url 'accounts:login' %}" method="POST">
-  {% csrf_token %}
-  {{ form|crispy }}
-  <button type="submit">로그인</button>
-</form>
-
+<div style="width: 50%; margin: 0 auto;">
+  <form action="{% url 'accounts:login' %}" method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit">로그인</button>
+  </form>
+  {% load socialaccount %}
+    <a href="{% url 'accounts:signup' %}">회원가입 페이지로 가기</a>
+    <a href="{% provider_login_url 'kakao' method='oauth2' %}" class="social--login"> 
+      <img src="{% static 'img/kakao_login_medium_wide.png' %}" alt="카카오">
+    </a>
+</div>
 {% endblock content %}
