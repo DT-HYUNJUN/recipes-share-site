@@ -27,8 +27,10 @@
       e.preventDefault()
 
       let newForm = ingredientForm[0].cloneNode(true)
+      let formRegex = RegExp(`recipeingredient_set-(\\d){1}-`,'g')
 
       formNum++
+      newForm.innerHTML = newForm.innerHTML.replace(formRegex, `recipeingredient_set-${formNum}-`)
       formContainer.insertBefore(newForm, addIngredient)
       totalForms.setAttribute('value', `${formNum + 1}`)
     }
