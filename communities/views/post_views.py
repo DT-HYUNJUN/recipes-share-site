@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import TemplateView, CreateView, DeleteView, View, UpdateView
 from communities.models import *
 from communities.forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.http import Http404
 from django.contrib import messages
+from django.http import JsonResponse
 
 
 
@@ -63,6 +64,23 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_success_url(self):
         post_pk = self.kwargs['post_pk']
         return reverse_lazy('communities:post_list')
+
+
+class PostLikeView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        post_pk = kwargs['post_pk']
+        post = Post.objects.get(pk=post_pk)
+        if post.like_posts.filter(pk=request.user.pk).exists():
+            post.like_posts.remove(request.user)
+            like = False
+        else:
+            post.like_posts.add(request.user)
+            like = True
+        context = {
+            'like': like,
+        }
+        return JsonResponse(context)
+    
     
     # model = Post
     # form_class = PostForm

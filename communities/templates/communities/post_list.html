@@ -11,12 +11,13 @@
   <a href="{% url 'communities:update' post.pk %}">수정하기</a>
 
   <hr>
+  <p>Comment</p>
+  <a href="{% url 'communities:comment_create' post.pk %}">댓글 작성</a>
+
+
+  {% endfor %}
+
 </div>
 
-<div>
-  <p>Post Detail</p>
-</div>
-
-{% endfor %}
 {% endblock content %}
 
