@@ -1,26 +1,135 @@
 {% extends 'base.html' %}
 {% load tailwind_filters %}
-
+{% load static %}
 {% block content %}
-{{ recipe.title }}
-<hr>
-{% for review in reviews %}
-{{ review.user }}
-<input type="text" class="reviewContent{{ review.pk }}" value="{{ review.content }}" readonly>
-<div class="reviewUpdate{{ review.pk }}" style="display: inline-block;">
-  <input type="button" value="update" onClick="reviewUpdateFunc({{ review.pk }})">
+<div class="container mx-auto max-w-screen-xl">
+  <section class="px-52">
+    <!-- 레시피 정보 -->
+    <div class="flex-col space-y-4">
+      <!-- 사진 -->
+      <div class="mb-4">
+        <img src="{{ recipe.image.url }}" alt="">
+      </div>
+      <!-- 제목, 북마크-->
+      <div class="flex justify-between">
+        <h1 class="text-2xl font-bold">{{ recipe.title }}</h1>
+        <button class="text-2xl"><i class="bi bi-bookmark-plus"></i></button>
+      </div>
+      <!-- 난이도, 소요시간-->
+      <div class="flex items-center gap-10">
+        <div class="flex items-center gap-2">
+          <span>난이도</span>
+          <img src="{% static 'img/rating-star.svg' %}" alt="">
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="text-xs">
+            <img src="{% static 'img/coocking-time.png' %}" alt="">
+          </div>
+          <span class="">{{ recipe.time }}</span>
+        </div>
+      </div>
+      <hr>
+      <h1 class="text-gray-600">{{ recipe.content }}</h1>
+    </div>
+
+    <!-- 재료 -->
+    <div>
+      <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57]">재료</p>
+      <div class="mt-3">
+
+        <div class="relative overflow-x-auto">
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                  재료
+                </th>
+                <th scope="col" class="px-6 py-3 text-end">
+                  수량
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Apple MacBook Pro 17"
+                </th>
+                <td class="px-6 py-4 text-end">
+                  Silver
+                </td>
+              </tr>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Microsoft Surface Pro
+                </th>
+                <td class="px-6 py-4 text-end">
+                  White
+                </td>
+              </tr>
+              <tr class="bg-white dark:bg-gray-800">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Magic Mouse 2
+                </th>
+                <td class="px-6 py-4 text-end">
+                  Black
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 레시피 순서-->
+    <div>
+      <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57]">레시피</p>
+      <div>
+        <!-- 레시피 순서 content -->
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="mt-10 ">
+      {% for review in reviews %}
+        <div>
+          <span>{{ review.user }}</span>
+          <input type="text" class="reviewContent{{ review.pk }} border-0" value="{{ review.content }}" readonly>
+          <div class="reviewUpdate{{ review.pk }} text-end" style="display: inline-block;">
+            <input type="button" value="update" onClick="reviewUpdateFunc({{ review.pk }})">
+          </div>
+          <div class="reviewSubmit{{ review.pk }}" style="display:none;">
+            <input type="button" value="submit" onClick="reviewSubmitFunc({{ review.pk }})">
+            <input type="button" value="cancel" onClick="reviewUpdateCancel({{ review.pk }})">
+          </div>
+        </div>
+        <hr>
+      {% endfor %}
+      <form action="{% url 'recipes:review_create' recipe.pk %}" method="POST">
+        {% csrf_token %}
+        {{ review_form.content|as_crispy_field }}
+        <input type="submit">
+      </form>
+    </div>
+
+  </section>
 </div>
-<div class="reviewSubmit{{ review.pk }}" style="display:none;">
-  <input type="button" value="submit" onClick="reviewSubmitFunc({{ review.pk }})">
-  <input type="button" value="cancel" onClick="reviewUpdateCancel({{ review.pk }})">
-</div>
-<hr>
-{% endfor %}
-<form action="{% url 'recipes:review_create' recipe.pk %}" method="POST">
-  {% csrf_token %}
-  {{ review_form.content|as_crispy_field }}
-  <input type="submit">
-</form>
+
+
+
+
+
+
 
 <script>
   const reviewUpdateFunc = (pk) => {

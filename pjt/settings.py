@@ -159,7 +159,7 @@ CRISPY_TEMPLATE_PACK = "tailwind"
 
 # allauth 설정
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # <- 디폴트 모델 백엔드
+    # 'django.contrib.auth.backends.ModelBackend',  # <- 디폴트 모델 백엔드
     'allauth.account.auth_backends.AuthenticationBackend', # <- 추가
 )
 
