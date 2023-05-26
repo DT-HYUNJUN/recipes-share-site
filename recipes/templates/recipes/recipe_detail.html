@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+
 {% load tailwind_filters %}
 {% load static %}
+
 {% block content %}
 <div class="container mx-auto max-w-screen-xl">
   <section class="px-52">
@@ -101,20 +103,58 @@
 
 
     <div class="mt-10 ">
-      {% for review in reviews %}
-        <div>
-          <span>{{ review.user }}</span>
-          <input type="text" class="reviewContent{{ review.pk }} border-0" value="{{ review.content }}" readonly>
-          <div class="reviewUpdate{{ review.pk }} text-end" style="display: inline-block;">
-            <input type="button" value="update" onClick="reviewUpdateFunc({{ review.pk }})">
+      {% comment %} {% for review in reviews %}
+        <div class="flex items-center justify-between">
+          <div>
+            <span>{{ review.user }}</span>
+            <input type="text" class="reviewContent{{ review.pk }} border-0" value="{{ review.content }}" readonly>
           </div>
-          <div class="reviewSubmit{{ review.pk }}" style="display:none;">
+          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="" type="button"><i class="bi bi-three-dots-vertical"></i></button>
+          <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+              <li class="reviewUpdate{{ review.pk }}">
+                <button onClick="reviewUpdateFunc({{ review.pk }})" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</button>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
+              </li>
+            </ul>
+          </div>
+          <div class="reviewUpdate{{ review.pk }}">
+            <button type="button" onClick="reviewUpdateFunc({{ review.pk }})">수정</button>
+          </div>
+          <div class="reviewSubmit{{ review.pk }}" style="display: none;">
             <input type="button" value="submit" onClick="reviewSubmitFunc({{ review.pk }})">
             <input type="button" value="cancel" onClick="reviewUpdateCancel({{ review.pk }})">
           </div>
         </div>
         <hr>
+      {% endfor %} {% endcomment %}
+      
+      {% for review in reviews %}
+        <div id="reviews" class="grid grid-cols-8">
+          <p>{{ review.user }}</p>
+          {% comment %} <p class="col-span-6">{{ review.content }}</p> {% endcomment %}
+          <input class="col-span-6 border-0 p-0 focus:ring-0" type="text" value="{{ review.content }}" readonly>
+          <div class="flex">
+            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ review.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
+            <div id="dropdown-{{ review.pk }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                {% comment %} <li>
+                  <a class="block px-4 m-0 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ review.pk }}</a>
+                </li> {% endcomment %}
+                <li>
+                  <a class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</a>
+                </li>
+                <li>
+                  <a class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
+                </li>
+              </ul>
+          </div>
+          </div>
+        </div>
       {% endfor %}
+
       <form action="{% url 'recipes:review_create' recipe.pk %}" method="POST">
         {% csrf_token %}
         {{ review_form.content|as_crispy_field }}
@@ -127,10 +167,6 @@
 
 
 
-
-
-
-
 <script>
   const reviewUpdateFunc = (pk) => {
     let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
@@ -139,6 +175,8 @@
 
     reviewUpdate.style.display = 'none'
     reviewSubmit.style.display = 'inline-block'
+    reviewSubmit.style.display = 'inline-block'
+    
     reviewContent.readOnly = false
   }
 
@@ -181,4 +219,6 @@
     reviewContent.readOnly = true
   }
 </script>
+
+<script src="{% static 'js/recipes/review.js' %}"></script>
 {% endblock content %}
