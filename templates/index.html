@@ -3,6 +3,7 @@
 
 {% block style %}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+  
 {% endblock style%}
 
 {% block content %}
@@ -12,7 +13,7 @@
 
   <!-- 목록 -->
     <!-- 인기, 좋아요 순 -->
-    <section class="banner pb-60 half-bg-likes">
+    {% comment %} <section class="banner pb-60 half-bg-likes">
       <div>
         <h1 class="logo-font text-4xl text-center my-8">인기순</h1>
         <div class="recipe-likes-slide">
@@ -164,7 +165,38 @@
           </div>
         </div>
       </div>
+    </section> {% endcomment %}
+
+    <section class="banner pb-60 half-bg-likes">
+    <h1 class="logo-font text-4xl text-center my-8">인기순</h1>
+      <div class="flex gap-3">
+        <div class="">
+          <a class="relative" href="#">
+            <img class="w-[588px] h-[588px] object-cover" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827567675625554/7.jpeg" alt="">
+            <p class="absolute bottom-6 left-6 text-white">고양이</p>
+          </a>
+        </div>
+        <div>
+          <div class="mb-3">
+            <a class="relative" href="#">
+              <img class="w-[588px] h-[288px] object-cover" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110830867049357343/resized_SmartSelect_20220928_193644_YouTube.jpg" alt="">
+              <p class="absolute bottom-6 left-6 text-white">난 졸려</p>
+            </a>
+          </div>
+          <div class="flex gap-3">
+            <a class="relative" href="#">
+              <img class="w-[288px] h-[288px] object-cover hover:brightness-50 peer" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827802946703430/e0147c2e083e50818e468babff9e8a76bf9dd24c_20230225_003103_waifu2x_photo_noise1_scale_waifu2x_photo_noise2_scale.png" alt="">
+              <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 peer-hover:block text-white">고양이</p>
+            </a>
+            <a class="relative" href="#">
+              <img class="w-[288px] h-[288px] object-cover hover:brightness-50 peer" src="https://media.discordapp.net/attachments/1100972915958235296/1110829107643695104/4.jpeg?width=961&height=1402" alt="">
+              <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 peer-hover:block text-white">고양이</p>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
+
 
     <!-- 날씨 순 -->
     <section class="half-bg-weather">
