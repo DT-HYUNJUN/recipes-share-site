@@ -38,7 +38,10 @@
 
     <!-- 재료 -->
     <div>
-      <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57]">재료</p>
+      <div>
+        <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57]">재료</p>
+
+      </div>
       <div class="mt-3">
 
         <div class="relative overflow-x-auto">
@@ -132,24 +135,30 @@
         </div>
         <hr>
       {% endfor %} {% endcomment %}
-      
+
       <section id="reviews">
         {% for review in reviews %}
           <div id="review" class="grid grid-cols-8" data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}">
             <p>{{ review.user }}</p>
-            <p id="review-content" class="col-span-5">{{ review.content|linebreaksbr }}</p>
+            <p id="review-content" class="col-span-6">{{ review.content|linebreaksbr }}</p>
             <input class="rounded p-0 focus:ring-0 hidden col-span-5" type="text" value="{{ review.content }}">
-            <div id="submit-section" class="invisible">
-              <span class="cursor-pointer">수정</span>
-              <span class="cursor-pointer">취소</span>
+            <div id="comment-textarea" class="hidden col-span-6 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+              <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                  <label for="comment" class="sr-only">Your comment</label>
+                  <textarea rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400">{{ review.content|linebreaksbr }}</textarea>
+              </div>
+              <div class="flex items-cente gap-3 px-3 py-2 border-t dark:border-gray-600">
+                <button id="submit-btn" type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-[#2E8B57] rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-[#3CB371]">
+                    수정
+                </button>
+                <button id="cancel-btn" class="text-gray-500">취소</button>
+              </div>
             </div>
-            <div class="flex">
+            {% if request.user == review.user %}
+            <div class="text-end">
               <button class="" id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ review.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
               <div id="dropdown-{{ review.pk }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                  {% comment %} <li>
-                    <a class="block px-4 m-0 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{ review.pk }}</a>
-                  </li> {% endcomment %}
+                <ul class="text-start py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                   <li>
                     <a class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">수정</a>
                   </li>
@@ -159,6 +168,7 @@
                 </ul>
               </div>
             </div>
+            {% endif %}
           </div>
         {% endfor %}
       </section>
@@ -175,7 +185,7 @@
 
 
 
-<script>
+{% comment %} <script>
   const reviewUpdateFunc = (pk) => {
     let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
     let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
@@ -226,7 +236,7 @@
     reviewSubmit.style.display = 'none'
     reviewContent.readOnly = true
   }
-</script>
+</script> {% endcomment %}
 
 <script src="{% static 'js/recipes/review.js' %}"></script>
 {% endblock content %}
