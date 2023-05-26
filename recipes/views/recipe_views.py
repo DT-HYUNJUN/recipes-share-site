@@ -66,11 +66,11 @@ class RecipeBookmarkView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         recipe_pk = kwargs['recipe_pk']
         recipe = Recipe.objects.get(pk=recipe_pk)
-        if recipe.book_mark.filter(pk=request.user.pk).exists():
-            recipe.book_mark.remove(request.user)
+        if recipe.bookmark.filter(pk=request.user.pk).exists():
+            recipe.bookmark.remove(request.user)
             bookmark = False
         else:
-            recipe.book_mark.add(request.user)
+            recipe.bookmark.add(request.user)
             bookmark = True
         context = {
             'bookmark': bookmark,
