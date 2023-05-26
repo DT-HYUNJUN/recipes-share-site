@@ -26,7 +26,7 @@ class RecipeDetailView(DetailView):
         return context
 
 
-class RecipeCreateView(CreateView):
+class RecipeCreateView(LoginRequiredMixin, CreateView):
     model = Recipe
     fields = ('title', 'category', 'time', 'difficulty', 'content', 'image', 'ingredients',)
     template_name = 'recipes/recipe_create.html'
@@ -39,7 +39,8 @@ class RecipeDeleteView(UserPassesTestMixin, DeleteView):
 
 
     def test_func(self):
-        return self.request.user.is_superuser or self.request.user.is_staff
+        recipe = Recipe.objects.get(pk=self.object.pk)
+        return recipe.user == self.request.user or self.request.user.is_superuser or self.request.user.is_staff
     
 
     def get(self, request, *args, **kwargs):
