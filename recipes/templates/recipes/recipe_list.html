@@ -3,5 +3,198 @@
 {% load static %}
 
 {% block content %}
-  <!---->
-{% endblock content %}
+
+  {% block style %}
+    <style></style>
+
+  {% endblock style %}
+
+  <div>
+    <!--제목 ( Our recipes )-->
+    <div>
+      <h1 class="logo-font text-4xl text-center mt-8">| OUR RECIPES |</h1>
+      <p class="text-center text-base">다양한 레시피를 골라서 요리해보세요 !</p>
+    </div>
+
+    <!--카테고리-->
+    <div class=" text-center mt-10 ">
+      <ul class="grid grid-cols-4  w-[640px] mx-auto " style="margin-bottom: -1px;">
+        <li class="bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">모두보기</a>
+        </li>
+        <li class="hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">메인요리</a>
+        </li>
+        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">밑반찬</a>
+        </li>
+        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">간식</a>
+        </li>
+        <li class=" hover:bg-[#3CB371]  hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">간단요리</a>
+        </li>
+        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">채식</a>
+        </li>
+        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">한식</a>
+        </li>
+        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">양식</a>
+        </li>
+        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">일식</a>
+        </li>
+        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">중식</a>
+        </li>
+        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">분식</a>
+        </li>
+        <li class=" hover:bg-[#3CB371] hover:text-white  border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">안주</a>
+        </li>
+        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
+          <a href="#">베이킹</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Dropdown menu -->
+    <div class="container mx-auto">
+      <section class="border-t-4 pt-10 mt-10">
+        <div class="flex justify-end md:mx-52">
+          <button id="dropdownOffsetButton" data-dropdown-toggle="dropdownOffset" data-dropdown-offset-distance="-35" data-dropdown-offset-skidding="0" class="text-black bg-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center   type=" button"=" button""=" button" "">최신순
+            <svg class=" w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <div id="dropdownOffset" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">최신순</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천순</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">난이도순</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">조리시간 순</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex ">
+          <div class=" grid grid-cols-2 md:grid-cols-4 gap-4 mx-auto mt-9 ">
+            <div>
+              <a class="inline-block" href="#">
+                <div class="w-72 bg-white">
+                  <div class="class">
+                    <img class="object-cover w-72 h-72" src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" alt=""/>
+                  </div>
+                  <div class="p-5 text-center">
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">피자</h5>
+                    <!--난이도 -->
+                    <div class="flex row-auto justify-center">
+                      <div class="flex items-center justify-center gap-2">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      </div>
+                      <!--조리시간 -->
+                      <div class="flex items-center justify-center gap-2">
+                        <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">1시간</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div>
+              <a class="inline-block" href="#">
+                <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                  <div>
+                    <img class="object-cover w-72 h-72" src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" alt=""/>
+                  </div>
+                  <div class="p-5 text-center">
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">피자</h5>
+                    <!--난이도 -->
+                    <div class="flex row-auto justify-center">
+                      <div class="flex items-center justify-center gap-2">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      </div>
+                      <!--조리시간 -->
+                      <div class="flex items-center justify-center gap-2">
+                        <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">1시간</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div>
+              <a class="inline-block" href="#">
+                <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                  <div>
+                    <img class="object-cover w-72 h-72" src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" alt=""/>
+                  </div>
+                  <div class="p-5 text-center">
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">피자</h5>
+                    <!--난이도 -->
+                    <div class="flex row-auto justify-center">
+                      <div class="flex items-center justify-center gap-2">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      </div>
+                      <!--조리시간 -->
+                      <div class="flex items-center justify-center gap-2">
+                        <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">1시간</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div>
+              <a class="inline-block" href="#">
+                <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                  <div>
+                    <img class="object-cover w-72 h-72" src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" alt=""/>
+                  </div>
+                  <div class="p-5 text-center ">
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">피자</h5>
+                    <!--난이도 -->
+                    <div class="flex row-auto justify-center">
+                      <div class="flex items-center justify-center gap-2">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      </div>
+                      <!--조리시간 -->
+                      <div class="flex items-center justify-center gap-2">
+                        <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">1시간</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+  {% endblock content %}
