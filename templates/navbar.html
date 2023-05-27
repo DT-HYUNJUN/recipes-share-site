@@ -58,7 +58,7 @@
           <!-- 로그인 했을때 -->
           <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="text-gray-500  focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm  text-center inline-flex items-center " type="button">
             <div class="flex items-center content-center gap-1">
-              <img class="w-9" src="{% static 'img/profile_image.png' %}" alt="profile">
+                <img class="w-9 rounded-full" {% if request.user.profile_image %} src="{{ request.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image.png' %}" {% endif %} alt="profile">
               <p class="text-[#2f4f4f] font-bold">{{request.user.nickname}}</p>
             </div>
           </button>

@@ -18,7 +18,7 @@ function onGeoOk(position) {
       weatherIcon.classList.add('bi-cloudy')
     } else if(weather == 'Snow') {
       weatherIcon.classList.add('bi-cloud-snow')
-    } else if(weather == 'Rain' || weather == 'Drizzle') {
+    } else if(weather == 'Rain' || weather == 'Drizzle' || weather == 'Mist') {
       weatherIcon.classList.add('bi-cloud-rain')
     }
     
