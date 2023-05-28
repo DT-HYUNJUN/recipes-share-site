@@ -3,40 +3,38 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
-from django.views.generic import CreateView, DeleteView, UpdateView
+from django.views.generic import View
 from recipes.models import *
 from recipes.forms import *
 
 
-class RecipeReviewCreateView(LoginRequiredMixin, CreateView):
+class RecipeReviewCreateView(LoginRequiredMixin, View):
     model = RecipeReview
-    form_class = RecipeReviewForm
-    template_name = 'recipes/review_create.html'
+    template_name = 'recipes/review_detail.html'
+    pk_url_kwarg = 'review_pk'
 
-
-    def get_success_url(self):
-        return reverse('recipes:recipe_detail', args=(self.object.recipe.pk,))
-    
 
     def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        if form.is_valid():
-            recipe_pk = kwargs['recipe_pk']
-            recipe = Recipe.objects.get(pk=recipe_pk)
-            review = form.save(commit=False)
-            review.user = request.user
-            review.recipe = recipe
-            review.save()
-            context = {
-                'username': review.user.username,
-                'content': review.content,
-            }
-            return JsonResponse(context)
-        else:
-            return JsonResponse({'message': 'error',}, status=400)
+        jsonObject = json.loads(request.body)
+        recipe_pk = jsonObject.get('pk')
+        content = jsonObject.get('content')
+        review = RecipeReview.objects.create(
+            recipe = Recipe.objects.get(pk=recipe_pk),
+            user = request.user,
+            content = content
+        )
+        review.save()
+
+        context = {
+            'user': review.user.pk,
+            'content': review.content,
+            'created_at': review.created_at,
+            'updated_at': review.updated_at
+        }
+        return JsonResponse(context)
 
 
-class RecipeReviewUpdateView(LoginRequiredMixin, UpdateView):
+class RecipeReviewUpdateView(LoginRequiredMixin, View):
     model = RecipeReview
     template_name = 'recipes/recipe_detail.html'
     pk_url_kwarg = 'review_pk'
@@ -61,7 +59,7 @@ class RecipeReviewUpdateView(LoginRequiredMixin, UpdateView):
             raise PermissionDenied()
 
 
-class RecipeReviewDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class RecipeReviewDeleteView(LoginRequiredMixin, UserPassesTestMixin, View):
     model = RecipeReview
     template_name = 'recipes/recipe_detail.html'
     pk_url_kwarg = 'review_pk'
@@ -72,6 +70,10 @@ class RecipeReviewDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView
         return self.request.user == review.user
     
 
-    def get_success_url(self):
-        recipe_pk = self.kwargs['recipe_pk']
-        return reverse_lazy('recipes:recipe_detail', kwargs={'recipe_pk': recipe_pk})
+    def post(self, request, *args, **kwargs):
+        jsonObject = json.loads(request.body)
+        review = RecipeReview.objects.get(pk=jsonObject.get('review_pk'))
+        if review is not None:
+            review.delete()
+            return JsonResponse({'result': 'success'})
+        return JsonResponse({'result': 'fail'})
