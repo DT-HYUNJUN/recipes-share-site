@@ -36,7 +36,6 @@ def signup(request):
     if request.user.is_authenticated:
         return redirect('recipes:recipe_list')
 
-
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -106,7 +105,9 @@ def follow(request, user_pk):
 def profile(request, username):
     User = get_user_model()
     person = User.objects.get(username=username)
+    q = request.GET.get('q')
     context = {
+        'q': q,
         'person': person,
     }
     return render(request, 'accounts/profile.html', context)
