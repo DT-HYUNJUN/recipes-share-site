@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from imagekit.models import ProcessedImageField
 from django.core.validators import MinValueValidator, MaxValueValidator
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Ingredient(models.Model):
@@ -15,7 +16,8 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     title = models.CharField(max_length=30)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='recipe_written')
-    content = models.TextField(max_length=1000)
+    # content = models.TextField(max_length=1000)
+    content = RichTextUploadingField(blank=True,null=True)
     category = models.CharField(max_length=10)
     image = ProcessedImageField(upload_to='images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

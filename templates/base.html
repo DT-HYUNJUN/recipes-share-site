@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <!-- favicon -->
     <link rel="icon" href="{% static 'img/plate_leaves.svg' %}">
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
 
     <title>Document</title>
 
@@ -39,11 +40,7 @@
 
     {% include 'footer.html' %}
 
-    <script>
-      { % block script %
-      } { % endblock script %
-      }
-    </script>
+    {% block script %}{% endblock script %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
   </body>
 

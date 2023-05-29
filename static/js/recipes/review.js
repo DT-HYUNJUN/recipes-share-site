@@ -5,8 +5,6 @@ const reviewForm = document.querySelector('#review-form')
 const reviewField = document.querySelector('#id_content')
 reviewField.setAttribute('rows', '2')
 reviewField.setAttribute('placeholder', '여기에 댓글을 작성해보세요!')
-reviewField.setAttribute('onkeydown', 'resize(this')
-reviewField.setAttribute('onkeyup', 'resize(this')
 reviewField.classList.add ('border-0')
 reviewField.classList.add ('focus:ring-0')
 reviewField.classList.add ('resize-none')
@@ -97,26 +95,26 @@ reviews.forEach(review => {
 
 // 댓글 작성
 
-const reviewSubmit = reviewForm.querySelector('button')
-reviewSubmit.addEventListener('click', (e) => {
-  e.preventDefault()
-  console.log(reviewForm.dataset.url)
-  let param = {
-    'pk': reviewForm.dataset.pk,
-    'content': reviewField.textContent
-  }
-  $.ajax({
-    url: reviewForm.dataset.url,
-    type: 'POST',
-    headers: {
-      'X-CSRFTOKEN': reviewForm.dataset.csrftoken
-    },
-    data: JSON.stringify(param),
-    success:function(data) {
-      console.log(data.content)
-    },
-    error: function() {
-      alert('오류!')
-    }
-  })
-})
+// const reviewSubmit = reviewForm.querySelector('button')
+// reviewSubmit.addEventListener('click', (e) => {
+//   e.preventDefault()
+//   console.log(reviewForm.dataset.url)
+//   let param = {
+//     'pk': reviewForm.dataset.pk,
+//     'content': reviewField.textContent
+//   }
+//   $.ajax({
+//     url: reviewForm.dataset.url,
+//     type: 'POST',
+//     headers: {
+//       'X-CSRFTOKEN': reviewForm.dataset.csrftoken
+//     },
+//     data: JSON.stringify(param),
+//     success:function(data) {
+//       console.log(data.content)
+//     },
+//     error: function() {
+//       alert('오류!')
+//     }
+//   })
+// })
