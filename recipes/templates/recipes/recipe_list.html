@@ -89,112 +89,84 @@
           </div>
         </div>
 
-        <div class="flex ">
+        <div class="flex">
           <div class=" grid grid-cols-2 md:grid-cols-4 gap-4 mx-auto mt-9 ">
-            <div>
-              <a class="inline-block" href="#">
-                <div class="w-72 bg-white">
-                  <div class="class">
-                    <img class="object-cover w-72 h-72" src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" alt=""/>
-                  </div>
-                  <div class="p-5 text-center">
-                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">피자</h5>
-                    <!--난이도 -->
-                    <div class="flex row-auto justify-center">
-                      <div class="flex items-center justify-center gap-2">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      </div>
-                      <!--조리시간 -->
-                      <div class="flex items-center justify-center gap-2">
-                        <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">1시간</span>
+            {% for recipe in page_obj %}
+              <div>
+                <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
+                  <div class="w-72 bg-white">
+                    <div class="class">
+                      <img class="object-cover w-72 h-72" {% if recipe.image %} src="{{ recipe.image.url }}" {% else %} src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" {% endif %}alt=""/>
+                    </div>
+                    <div class="p-5 text-center">
+                      <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{ recipe.title }}</h5>
+                      <!--난이도 -->
+                      <div class="flex row-auto justify-center">
+                        <div class="flex items-center gap-2">
+                          <span>난이도</span>
+                          {% if recipe.difficulty == 1 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          {% elif recipe.difficulty == 2 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          {% elif recipe.difficulty == 3 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          {% endif %}
+                        </div>
+                        <!--조리시간 -->
+                        <div class="flex items-center justify-center gap-2">
+                          <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                          <span class="font-normal text-gray-700 dark:text-gray-400">{{ recipe.time }}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </a>
-            </div>
-
-            <div>
-              <a class="inline-block" href="#">
-                <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
-                  <div>
-                    <img class="object-cover w-72 h-72" src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" alt=""/>
-                  </div>
-                  <div class="p-5 text-center">
-                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">피자</h5>
-                    <!--난이도 -->
-                    <div class="flex row-auto justify-center">
-                      <div class="flex items-center justify-center gap-2">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      </div>
-                      <!--조리시간 -->
-                      <div class="flex items-center justify-center gap-2">
-                        <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">1시간</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div>
-              <a class="inline-block" href="#">
-                <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
-                  <div>
-                    <img class="object-cover w-72 h-72" src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" alt=""/>
-                  </div>
-                  <div class="p-5 text-center">
-                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">피자</h5>
-                    <!--난이도 -->
-                    <div class="flex row-auto justify-center">
-                      <div class="flex items-center justify-center gap-2">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      </div>
-                      <!--조리시간 -->
-                      <div class="flex items-center justify-center gap-2">
-                        <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">1시간</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <div>
-              <a class="inline-block" href="#">
-                <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
-                  <div>
-                    <img class="object-cover w-72 h-72" src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" alt=""/>
-                  </div>
-                  <div class="p-5 text-center ">
-                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">피자</h5>
-                    <!--난이도 -->
-                    <div class="flex row-auto justify-center">
-                      <div class="flex items-center justify-center gap-2">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      </div>
-                      <!--조리시간 -->
-                      <div class="flex items-center justify-center gap-2">
-                        <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">1시간</span>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </a>
-            </div>
+                </a>
+              </div>
+            {% endfor %}
           </div>
-
         </div>
       </section>
+
+      <nav aria-label="Page navigation example" class="flex justify-center my-14">
+        <ul class="inline-flex -space-x-px">
+          {% if page_obj.has_previous %}
+            <li>
+              <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</a>
+            </li>
+          {% else %}
+            <li>
+              <a class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">이전</a>
+            </li>
+          {% endif %}
+
+
+          {% for index in pagelist %}
+            {% if index == page_obj.number %}
+                <li>
+                  <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
+                </li>
+              {% else %}
+                <li>
+                  <a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="?page={{ index }}">{{ index }}</a>
+                </li>
+            {% endif %}
+          {% endfor %}
+          
+          {% if page_obj.has_next %}
+          <li>
+            <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
+          </li>
+          {% else %}
+          <li>
+            <a class="px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+
     </div>
 
   {% endblock content %}

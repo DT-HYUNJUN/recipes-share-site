@@ -22,7 +22,7 @@ function onGeoOk(position) {
       weatherIcon.classList.add('bi-cloud-rain')
     }
     
-    userWeather.textContent = `${name}시의 현재 날씨: `
+    userWeather.textContent = `${name}의 현재 날씨: `
   })
 }
 

@@ -2,6 +2,7 @@ from django import forms
 from .models import *
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (Layout, Field)
+from ckeditor_uploader.fields import RichTextUploadingFormField
 
 
 class IngredientForm(forms.ModelForm):
@@ -9,8 +10,41 @@ class IngredientForm(forms.ModelForm):
         model = Ingredient
         fields = '__all__'
 
+class DifficultyWidget(forms.widgets.Widget):
+    template_name = 'recipes/difficulty.html'  # 커스텀 위젯의 HTML 템플릿 경로
+
+class DifficultyField(forms.CharField):
+    widget = DifficultyWidget  # 위젯에 커스텀 위젯을 지정
 
 class RecipeForm(forms.ModelForm):
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                
+            }
+        ),
+        label='요리 이름',
+    )
+    content = RichTextUploadingFormField(
+        label='조리법',
+    )
+    category = forms.CharField(
+        widget=forms.TimeInput(
+            attrs={
+                
+            }
+        ),
+        label='카테고리',
+    )
+    time = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                
+            }
+        ),
+        label='소요 시간',
+    )
+    difficulty = DifficultyField(label='난이도')
     class Meta:
         model = Recipe
         fields = ('title', 'content', 'category', 'time', 'difficulty', 'image',)

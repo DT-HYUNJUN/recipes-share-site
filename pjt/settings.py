@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'django_browser_reload',
     'pilkit',
+    # ckeditor
+    'ckeditor',
+    'ckeditor_uploader',
     # default
     'django.contrib.admin',
     'django.contrib.auth',
@@ -180,3 +183,15 @@ SITE_ID = 1 # 사이트 아이디 기본값
 # }
 
 LOGIN_REDIRECT_URL = '/recipes'
+
+# ckeditor 설정
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow" 
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+    },
+}

@@ -9,7 +9,17 @@ from recipes.models import *
 
 class RecipeListView(ListView):
     model = Recipe
+    paginate_by = 12
+    # paginate_orphans = 3
     template_name = 'recipes/recipe_list.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(RecipeListView, self).get_context_data()
+        page = context['page_obj']
+        paginator = page.paginator
+        pagelist = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
+        context['pagelist'] = pagelist
+        return context
 
 
 class RecipeDetailView(DetailView):

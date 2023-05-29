@@ -91,8 +91,7 @@ reviews.forEach(review => {
   }
 });
 
-// 리뷰 작성
-
+// 리뷰 
 const reviewSubmit = reviewForm.querySelector('#review_create_submit')
 reviewSubmit.addEventListener('click', (e) => {
   e.preventDefault()
