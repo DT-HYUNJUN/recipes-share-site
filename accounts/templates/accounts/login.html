@@ -1,18 +1,42 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% block style %}
+  button:hover {
+    background-color: #3CB371;
+    color: white;
+  }
+{% endblock style %}
+
+
 {% block content %}
 {% load static %}
 
-<div style="width: 50%; margin: 0 auto;">
-  <form action="{% url 'accounts:login' %}" method="POST">
+<div class="container mt-5 mx-auto max-w-xs">
+  <h1 class="logo-font text-4xl text-center my-8">LOGIN</h1>
+  <form action="{% url 'accounts:login' %}" method="POST" >
     {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit">로그인</button>
+    <div class="mb-4 relative">
+      <input type="text" name="username" id="id_username" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+      <label for="id_username" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">아이디</label>
+    </div>
+    <div class="mb-4 relative">
+      <input type="password" name="password" id="id_password" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+      <label for="id_password" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">패스워드</label>
+    </div>
+    <button type="submit" class="mt-1 w-full border border-gray-300 py-3 rounded-lg bg-green-700 hover:bg-green-600 text-white font-bold">
+      로그인
+    </button>
   </form>
   {% load socialaccount %}
-    <a href="{% url 'accounts:signup' %}">회원가입 페이지로 가기</a>
-    <a href="{% provider_login_url 'kakao' method='oauth2' %}" class="social--login"> 
-      <img src="{% static 'img/kakao_login_medium_wide.png' %}" alt="카카오">
+  <a href="{% provider_login_url 'kakao' method='oauth2' %}" class="social--login w-full h-full object-cover"> 
+    <img src="{% static 'img/kakao_login_medium_wide.png' %}" class="mt-5 w-full h-full object-cover" alt="카카오">
+  </a>
+  <div class="mt-4 flex justify-center">
+    <span class="text-gray-500 text-sm mr-1">아이디가 없으신가요? </span>
+    <a href="{% url 'accounts:signup' %}" class="align-middle">
+      <span class="font-bold">회원가입</span>
     </a>
+  </div>
 </div>
+
 {% endblock content %}
