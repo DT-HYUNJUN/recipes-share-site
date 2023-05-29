@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+
 {% load tailwind_filters %}
 {% load static %}
+
 {% block content %}
 <div class="container mx-auto max-w-screen-xl">
   <section class="px-52">
@@ -8,7 +10,9 @@
     <div class="flex-col space-y-4">
       <!-- 사진 -->
       <div class="mb-4">
-        <img src="{{ recipe.image.url }}" alt="">
+        {% if recipe.image %}
+          <img src="{{ recipe.image.url }}" alt="">
+        {% endif %}
       </div>
       <!-- 제목, 북마크-->
       <div class="flex justify-between">
@@ -16,27 +20,45 @@
         <button class="text-2xl"><i class="bi bi-bookmark-plus"></i></button>
       </div>
       <!-- 난이도, 소요시간-->
-      <div class="flex items-center gap-10">
-        <div class="flex items-center gap-2">
-          <span>난이도</span>
-          <img src="{% static 'img/rating-star.svg' %}" alt="">
-        </div>
-        <div class="flex items-center gap-2">
-          <div class="text-xs">
-            <img src="{% static 'img/coocking-time.png' %}" alt="">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-10">
+          <div class="flex items-center gap-2">
+            <span>난이도</span>
+            {% if recipe.difficulty == 1 %}
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            {% elif recipe.difficulty == 2 %}
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            {% elif recipe.difficulty == 3 %}
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            {% endif %}
           </div>
-          <span class="">{{ recipe.time }}</span>
+          <div class="flex items-center gap-2">
+            <div class="text-xs">
+              <img src="{% static 'img/coocking-time.png' %}" alt="">
+            </div>
+            <span class="">{{ recipe.time }}</span>
+          </div>
+        </div>
+        <div>
+          <a class="underline" href="#reviews">후기 보기</a>
         </div>
       </div>
       <hr>
-      <h1 class="text-gray-600">{{ recipe.content }}</h1>
+      <p class="text-gray-600">{{ recipe.content }}</p>
     </div>
 
     <!-- 재료 -->
     <div>
-      <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57]">재료</p>
+      <div class="flex justify-between items-center">
+        <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57]">재료</p>
+        <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-lg" type="button">
+          <i class="bi bi-info-circle"></i>
+        </button>
+      </div>
       <div class="mt-3">
-
         <div class="relative overflow-x-auto">
           <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -88,50 +110,183 @@
       </div>
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="mt-10 ">
-      {% for review in reviews %}
-        <div>
-          <span>{{ review.user }}</span>
-          <input type="text" class="reviewContent{{ review.pk }} border-0" value="{{ review.content }}" readonly>
-          <div class="reviewUpdate{{ review.pk }} text-end" style="display: inline-block;">
-            <input type="button" value="update" onClick="reviewUpdateFunc({{ review.pk }})">
+      {% comment %} {% for review in reviews %}
+        <div class="flex items-center justify-between">
+          <div>
+            <span>{{ review.user }}</span>
+            <input type="text" class="reviewContent{{ review.pk }} border-0" value="{{ review.content }}" readonly>
           </div>
-          <div class="reviewSubmit{{ review.pk }}" style="display:none;">
+          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="" type="button"><i class="bi bi-three-dots-vertical"></i></button>
+          <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+              <li class="reviewUpdate{{ review.pk }}">
+                <button onClick="reviewUpdateFunc({{ review.pk }})" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</button>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
+              </li>
+            </ul>
+          </div>
+          <div class="reviewUpdate{{ review.pk }}">
+            <button type="button" onClick="reviewUpdateFunc({{ review.pk }})">수정</button>
+          </div>
+          <div class="reviewSubmit{{ review.pk }}" style="display: none;">
             <input type="button" value="submit" onClick="reviewSubmitFunc({{ review.pk }})">
             <input type="button" value="cancel" onClick="reviewUpdateCancel({{ review.pk }})">
           </div>
         </div>
         <hr>
-      {% endfor %}
-      <form action="{% url 'recipes:review_create' recipe.pk %}" method="POST">
-        {% csrf_token %}
-        {{ review_form.content|as_crispy_field }}
-        <input type="submit">
-      </form>
-    </div>
+      {% endfor %} {% endcomment %}
 
+      <section id="reviews">
+        <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 {{ reviews.count }}</p>
+        {% for review in reviews %}
+        <div id="review" {% if request.user == review.user %} class="flex text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2]" {% else %} class="flex text-sm gap-3 my-5 px-3" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
+          <!-- 리뷰 작성자 프로필 사진 -->
+          <div class="flex items-start gap-3 mb-1">
+            <img class="w-10 rounded-full" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
+          </div>
+          <!-- 작성자 / 내용 -->
+          <div class="flex-grow">
+            <div class="flex justify-between">
+              <p class="font-bold mb-1">{{ review.user.nickname }}</p>
+              {% if request.user == review.user %}
+              <div>
+                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ review.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
+                <div id="dropdown-{{ review.pk }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                    <li>
+                      <a id="edit-btn" class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">수정</a>
+                    </li>
+                    <li>
+                      <a id="delete-btn" class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">삭제</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            <div id="review" class="mb-2" data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}">
+              <p id="review-content" class="col-span-6 flex items-center">{{ review.content|linebreaksbr }}</p>
+              <div id="comment-textarea" class="hidden col-span-6 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                  <label for="comment" class="sr-only">Your comment</label>
+                  <textarea id="review-update-field" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400">{{ review.content|linebreaksbr }}</textarea>
+                </div>
+                <div class="flex items-cente gap-3 px-3 py-2 border-t dark:border-gray-600">
+                  <button id="submit-btn" type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-[#2E8B57] rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-[#3CB371]">
+                      수정
+                  </button>
+                  <button id="cancel-btn" class="text-gray-500">취소</button>
+                </div>
+              </div>
+              <!-- 드롭다운 버튼 -->
+            </div>
+            <span class="text-gray-500">{{ review.created_at|date:'Y-m-d H:i' }}</span>
+          </div>
+        </div>
+        <hr>
+        {% endfor %}
+      </section>
+
+      {% if request.user.is_authenticated %}
+        <form id="review-form" class="mt-5" data-pk="{{ recipe.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'recipes:review_create' recipe.pk %}">
+          {% csrf_token %}
+          <div class="border rounded-lg p-5 pb-0">
+            <p class="font-bold ms-4">{{ request.user.nickname }}</p>
+            {{ review_form.content|as_crispy_field }}
+            <div class="flex justify-end">
+              <button type="submit" id="review_create_submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">작성</button>
+            </div>
+          </div>
+        </form>
+      {% endif %}
+    </div>
   </section>
 </div>
 
+<!-- 계량 모달 -->
+<div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div class="relative w-full max-w-lg max-h-full">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <!-- Modal header -->
+      <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+          계량법 안내
+        </h3>
+        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultModal">
+          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <div class="space-y-6">
+        <div class="relative overflow-x-auto sm:rounded-lg">
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <tbody>
+              <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Microsoft Surface Pro
+                </th>
+                <td class="px-6 py-4 text-end">
+                  White
+                </td>
+              </tr>
+              <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Apple MacBook Pro 17"
+                </th>
+                <td class="px-6 py-4 text-end">
+                  Silver
+                </td>
+              </tr>
+              <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Microsoft Surface Pro
+                </th>
+                <td class="px-6 py-4 text-end">
+                  White
+                </td>
+              </tr>
+              <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Magic Mouse 2
+                </th>
+                <td class="px-6 py-4 text-end">
+                  Black
+                </td>
+              </tr>
+              <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Google Pixel Phone
+                </th>
+                <td class="px-6 py-4 text-end">
+                  Gray
+                </td>
+              </tr>
+              <tr class="border-b">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Apple Watch 5
+                </th>
+                <td class="px-6 py-4 text-end">
+                  Red
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div class="flex items-center p-6 justify-center border-gray-200 rounded-b dark:border-gray-600">
+        <button data-modal-hide="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-
-
-
-
-<script>
+{% comment %} <script>
   const reviewUpdateFunc = (pk) => {
     let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
     let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
@@ -139,6 +294,8 @@
 
     reviewUpdate.style.display = 'none'
     reviewSubmit.style.display = 'inline-block'
+    reviewSubmit.style.display = 'inline-block'
+    
     reviewContent.readOnly = false
   }
 
@@ -180,5 +337,7 @@
     reviewSubmit.style.display = 'none'
     reviewContent.readOnly = true
   }
-</script>
+</script> {% endcomment %}
+
+<script src="{% static 'js/recipes/review.js' %}"></script>
 {% endblock content %}

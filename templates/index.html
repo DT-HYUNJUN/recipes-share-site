@@ -1,0 +1,458 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+{% endblock style%}
+
+{% block content %}
+  <div class="container mx-auto max-w-screen-xl">
+  <!-- 배너 -->
+    <img class="absolute left-0" src="{% static 'img/banner.png' %}" alt="banner">
+
+  <!-- 목록 -->
+    <!-- 인기, 좋아요 순 -->
+    {% comment %} <section class="banner pb-60 half-bg-likes">
+      <div>
+        <h1 class="logo-font text-4xl text-center my-8">인기순</h1>
+        <div class="recipe-likes-slide">
+          <div>
+            <a class="inline-block" href="#">
+              <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="w-fit" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827567675625554/7.jpeg" alt="" />
+                </div>
+                <div class="p-5 text-center">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">썩소고양이</h5>
+                  <div class="flex items-center justify-center gap-2">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  </div>
+                  <div class="flex items-center justify-center gap-2">
+                    <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">15분</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <!-- 2 -->
+          <div>
+            <a class="inline-block" href="#">
+              <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110830867049357343/resized_SmartSelect_20220928_193644_YouTube.jpg" alt="" />
+                </div>
+                  <div class="p-5 text-center">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">미묘</h5>
+                  <div class="flex items-center justify-center gap-2">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  </div>
+                  <div class="flex items-center justify-center gap-2">
+                    <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">15분</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <!-- 3 -->
+          <div>
+            <a class="inline-block" href="#">
+              <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827802946703430/e0147c2e083e50818e468babff9e8a76bf9dd24c_20230225_003103_waifu2x_photo_noise1_scale_waifu2x_photo_noise2_scale.png" alt="" />
+                </div>
+                <div class="p-5 text-center">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">이백이</h5>
+                  <div class="flex items-center justify-center gap-2">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  </div>
+                  <div class="flex items-center justify-center gap-2">
+                    <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">15분</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- 4 -->
+          <div>
+            <a class="inline-block" href="#">
+              <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover w-72 h-72" src="https://media.discordapp.net/attachments/1100972915958235296/1110829107643695104/4.jpeg?width=961&height=1402" alt="" />
+                </div>
+                 <div class="p-5 text-center">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">짱이 될거야</h5>
+                  <div class="flex items-center justify-center gap-2">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  </div>
+                  <div class="flex items-center justify-center gap-2">
+                    <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">15분</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- 5 -->
+          <div>
+            <a class="inline-block" href="#">
+              <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829233279873085/2.jpeg" alt="" />
+                </div>
+                 <div class="p-5 text-center">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">노래듣는 강아지</h5>
+                  <div class="flex items-center justify-center gap-2">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  </div>
+                  <div class="flex items-center justify-center gap-2">
+                    <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">15분</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <!-- 6 -->
+          <div>
+            <a class="inline-block" href="#">
+              <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829412687040553/i15448150203.png" alt="" />
+                </div>
+                 <div class="p-5 text-center">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">백수</h5>
+                  <div class="flex items-center justify-center gap-2">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  </div>
+                  <div class="flex items-center justify-center gap-2">
+                    <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">15분</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <!-- 7 -->
+          <div>
+            <a class="inline-block" href="#">
+              <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover w-72 h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829355594158141/e2776e27ae8b44d2.jpeg" alt="" />
+                </div>
+                 <div class="p-5 text-center">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">외않되</h5>
+                  <div class="flex items-center justify-center gap-2">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">난이도</span>
+                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  </div>
+                  <div class="flex items-center justify-center gap-2">
+                    <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">15분</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section> {% endcomment %}
+
+    <section class="banner pb-60 half-bg-likes">
+    <h1 class="logo-font text-4xl text-center my-8">인기순</h1>
+      <div class="flex gap-3">
+        <div class="">
+          <a class="relative" href="#">
+            <img class="w-[588px] h-[588px] object-cover" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827567675625554/7.jpeg" alt="">
+            <p class="absolute bottom-6 left-6 text-white">고양이</p>
+          </a>
+        </div>
+        <div>
+          <div class="mb-3">
+            <a class="relative" href="#">
+              <img class="w-[588px] h-[288px] object-cover" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110830867049357343/resized_SmartSelect_20220928_193644_YouTube.jpg" alt="">
+              <p class="absolute bottom-6 left-6 text-white">난 졸려</p>
+            </a>
+          </div>
+          <div class="flex gap-3">
+            <a class="relative" href="#">
+              <img class="w-[288px] h-[288px] object-cover hover:brightness-50 peer" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827802946703430/e0147c2e083e50818e468babff9e8a76bf9dd24c_20230225_003103_waifu2x_photo_noise1_scale_waifu2x_photo_noise2_scale.png" alt="">
+              <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 peer-hover:block text-white">고양이</p>
+            </a>
+            <a class="relative" href="#">
+              <img class="w-[288px] h-[288px] object-cover hover:brightness-50 peer" src="https://media.discordapp.net/attachments/1100972915958235296/1110829107643695104/4.jpeg?width=961&height=1402" alt="">
+              <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 peer-hover:block text-white">고양이</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 날씨 순 -->
+    <section class="half-bg-weather">
+      <div>
+        <div class="mb-6">
+          <h1 class="logo-font text-4xl text-center mb-3">날씨 별 레시피</h1>
+          <h6 id="" class="text-center">
+            <span id="user-weather"></span>
+            <span class="text-2xl"><i id="weather-icon" class="bi"></i></span>
+          </h6>
+        </div>
+        <div class="recipe-weather-slide">
+          <div class="">
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="w-fit" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827567675625554/7.jpeg" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <div>
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110830867049357343/resized_SmartSelect_20220928_193644_YouTube.jpg" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <div>
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827802946703430/e0147c2e083e50818e468babff9e8a76bf9dd24c_20230225_003103_waifu2x_photo_noise1_scale_waifu2x_photo_noise2_scale.png" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <div class="">
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover recipe-wrapper h-72" src="https://media.discordapp.net/attachments/1100972915958235296/1110829107643695104/4.jpeg?width=961&height=1402" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <div>
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829233279873085/2.jpeg" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <div>
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829412687040553/i15448150203.png" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          
+          <div>
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829355594158141/e2776e27ae8b44d2.jpeg" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 냉장고 -->
+    <section class="my-60">
+      <div>
+        <div class="mb-6">
+          <h1 class="logo-font text-4xl text-center mb-3">냉장고</h1>
+        </div>
+        <div class="recipe-fridge-slide">
+          <div class="">
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="w-fit" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827567675625554/7.jpeg" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <div>
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110830867049357343/resized_SmartSelect_20220928_193644_YouTube.jpg" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <div>
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827802946703430/e0147c2e083e50818e468babff9e8a76bf9dd24c_20230225_003103_waifu2x_photo_noise1_scale_waifu2x_photo_noise2_scale.png" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <div class="">
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover recipe-wrapper h-72" src="https://media.discordapp.net/attachments/1100972915958235296/1110829107643695104/4.jpeg?width=961&height=1402" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <div>
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829233279873085/2.jpeg" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+    
+          <div>
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829412687040553/i15448150203.png" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          
+          <div>
+            <a class="inline-block" href="#">
+              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829355594158141/e2776e27ae8b44d2.jpeg" alt="" />
+                </div>
+                <div class="p-5">
+                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 레시피 더보기 -->
+    <section>
+      <h1 class="logo-font text-4xl text-center mb-7">레시피 더보기</h1>
+      <div class="">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+          <div class="bg-red-400">1</div>
+          <div class="bg-red-400">2</div>
+          <div class="bg-red-400">3</div>
+          <div class="bg-red-400">4</div>
+        </div>
+
+        <div id="recipe-hidden-1" class="hidden grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+          <div class="bg-red-400">5</div>
+          <div class="bg-red-400">6</div>
+          <div class="bg-red-400">7</div>
+          <div class="bg-red-400">8</div>
+        </div>
+
+        <div id="recipe-hidden-2" class="hidden grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+          <div class="bg-red-400">9</div>
+          <div class="bg-red-400">10</div>
+          <div class="bg-red-400">11</div>
+          <div class="bg-red-400">12</div>
+        </div>
+      </div>
+
+      <div class="flex justify-center">
+        <button id="more-btn" type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">더보기</button>
+      </div>
+    </section>
+
+  <!--container 끝-->
+  </div>
+
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.js"></script>
+  <script src="{% static 'js/recipes/carousel.js' %}"></script>
+  <script src="{% static 'js/recipes/weather.js' %}"></script>
+  <script src="{% static 'js/recipes/index-more.js' %}"></script>
+{% endblock content %}

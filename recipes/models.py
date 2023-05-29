@@ -13,7 +13,8 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    title = models.CharField(max_length=30) 
+    title = models.CharField(max_length=30)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='recipe_written')
     content = models.TextField(max_length=1000)
     category = models.CharField(max_length=10)
     image = ProcessedImageField(upload_to='images/', null=True, blank=True)
