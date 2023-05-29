@@ -4,7 +4,7 @@ const reviews = document.querySelectorAll('#review')
 const reviewForm = document.querySelector('#review-form')
 const reviewField = document.querySelector('#id_content')
 reviewField.setAttribute('rows', '2')
-reviewField.setAttribute('placeholder', '여기에 댓글을 작성해보세요!')
+reviewField.setAttribute('placeholder', '여기에 리뷰를 작성해보세요!')
 reviewField.classList.add ('border-0')
 reviewField.classList.add ('focus:ring-0')
 reviewField.classList.add ('resize-none')
@@ -30,7 +30,6 @@ reviews.forEach(review => {
 
   if (editBtn) {
     editBtn.addEventListener('click', () => {
-      console.log('edit click')
       reviewContent.classList.add('hidden')
       commentTextarea.classList.remove('hidden')
       dropdown.classList.add('hidden')
@@ -67,54 +66,50 @@ reviews.forEach(review => {
         }
       })
     })
+
+    deleteBtn.addEventListener('click', () => {
+      let param = {
+        'review_pk': review.dataset.reviewPk,
+        'recipe_pk': review.dataset.recipePk,
+      }
+
+      $.ajax({
+        url: review.dataset.deleteUrl,
+        type: 'POST',
+        headers: {
+          'X-CSRFTOKEN': review.dataset.csrftoken
+        },
+        data: JSON.stringify(param),
+        success:function(data) {
+          reviewSection.removeChild(review)
+        },
+        error: function() {
+          alert('오류!')
+        }
+      })
+    })
   }
-  
-
-  // deleteBtn.addEventListener('click', () => {
-  //   let param = {
-  //     'reviewPk': review.dataset.reviewPk,
-  //     'recipePk': review.dataset.recipePk,
-  //   }
-
-  //   $.ajax({
-  //     url: review.dataset.deleteUrl,
-  //     type: 'POST',
-  //     headers: {
-  //       'X-CSRFTOKEN': review.dataset.csrftoken
-  //     },
-  //     data: JSON.stringify(param),
-  //     success:function(data) {
-  //       reviewSection.removeChild(review)
-  //     },
-  //     error: function() {
-  //       alert('오류!')
-  //     }
-  //   })
-  // })
 });
 
-// 댓글 작성
-
-// const reviewSubmit = reviewForm.querySelector('button')
-// reviewSubmit.addEventListener('click', (e) => {
-//   e.preventDefault()
-//   console.log(reviewForm.dataset.url)
-//   let param = {
-//     'pk': reviewForm.dataset.pk,
-//     'content': reviewField.textContent
-//   }
-//   $.ajax({
-//     url: reviewForm.dataset.url,
-//     type: 'POST',
-//     headers: {
-//       'X-CSRFTOKEN': reviewForm.dataset.csrftoken
-//     },
-//     data: JSON.stringify(param),
-//     success:function(data) {
-//       console.log(data.content)
-//     },
-//     error: function() {
-//       alert('오류!')
-//     }
-//   })
-// })
+// 리뷰 
+const reviewSubmit = reviewForm.querySelector('#review_create_submit')
+reviewSubmit.addEventListener('click', (e) => {
+  e.preventDefault()
+  let param = {
+    'pk': reviewForm.dataset.pk,
+    'content': reviewField.value
+  }
+  $.ajax({
+    url: reviewForm.dataset.url,
+    type: 'POST',
+    headers: {
+      'X-CSRFTOKEN': reviewForm.dataset.csrftoken
+    },
+    data: JSON.stringify(param),
+    success:function(data) {
+    },
+    error: function() {
+      alert('오류!')
+    }
+  })
+})
