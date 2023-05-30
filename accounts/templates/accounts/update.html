@@ -4,14 +4,15 @@
 
 <div class="container mt-5 mx-auto max-w-xs">
   <h1 class="logo-font text-4xl text-center my-8">UPDATE PROFILE</h1>
-  <form action="{% url 'accounts:update' %}" method="POST" enctype="multipart/form-data">
+  <form action="{% url 'accounts:update' %}" method="POST" class="group" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
+    {% include 'error.html' %}
     <div class="mb-4 relative">
-      <input type="text" name="nickname" id="id_nickname" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="{{ form.nickname.value }}" />
+      <input type="text" name="nickname" id="id_nickname" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer" placeholder=" " value="{{ form.nickname.value }}" pattern=".{1,}" required />
       <label for="id_nickname" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">닉네임</label>
     </div>
     <div class="mb-4 relative">
-      <input type="text" name="email" id="id_email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="{{ form.email.value }}" />
+      <input type="text" name="email" id="id_email" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer" placeholder=" " value="{{ form.email.value }}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required />
       <label for="id_email" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">이메일</label>
     </div>
     <div class="mb-4 relative">
@@ -21,7 +22,7 @@
     <div class="mb-4 relative">
       <img id="imagePreview" class="w-full" style="display: none;" src="{{ form.instance.profile_image.url }}" />
     </div>
-    <button type="submit" class="mt-1 w-full border border-gray-300 py-3 rounded-lg bg-green-700 hover:bg-green-600 text-white font-bold">
+    <button type="submit" class="mt-1 w-full border border-gray-300 py-3 rounded-lg bg-green-700 hover:bg-green-600 text-white font-bold group-invalid:pointer-events-none group-invalid:opacity-30">
       회원정보 수정
     </button>
   </form>
