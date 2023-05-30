@@ -12,6 +12,8 @@ urlpatterns = [
     path('<int:recipe_pk>/like/', RecipeLikeView.as_view(), name='recipe_like'),
     path('<int:recipe_pk>/bookmark/', RecipeBookmarkView.as_view(), name='recipe_bookmark'),
     path('search/', RecipeSearchView.as_view(), name='recipe_search'),
+    path('search/name/', RecipeNameSearchView.as_view(), name='recipe_search_name'),
+    path('search/ingredient/', RecipeIngredientSearchView.as_view(), name='recipe_search_ingredient'),
     # 레시피 리뷰
     path('<int:recipe_pk>/create/', RecipeReviewCreateView.as_view(), name='review_create'),
     path('review_update/', RecipeReviewUpdateView.as_view(), name='review_update'),
