@@ -1,0 +1,21 @@
+{% if form.errors %}
+<div class="bg-yellow-50 border-l-4 border-green-600 text-green-600 p-4 mb-4" role="alert">
+  {% for field in form %}
+  {% if field.errors %}
+  <div class="pt-4">
+    {% if field.label != '사용자 이름' %}
+      <strong>{{ field.label }}</strong>
+    {% else %}
+      <strong>아이디</strong>
+    {% endif %}
+    {{ field.errors }}
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% for error in form.non_field_errors %}
+  <div>
+    <strong>{{ error }}</strong>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}

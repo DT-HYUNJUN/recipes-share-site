@@ -5,18 +5,56 @@
   <p>Post List</p>
 
   {% for post in posts %}
-  <p>{{post.pk}} 제목 : {{post.title}}</p>
-  <p>내용 : {{post.content}}</p>
-  <a href="{% url 'communities:delete' post.pk %}">삭제하기</a>
-  <a href="{% url 'communities:update' post.pk %}">수정하기</a>
+  <div class="m-3 p-3 shadow-xl">
+    <p> 글 번호 : {{post.pk}} </p>
+    <p> 제목 : {{post.title}}</p>
+    <p>내용 : {{post.content}}</p>
+    <a href="{% url 'communities:delete' post.pk %}" >삭제하기</a>
+    <a href="{% url 'communities:update' post.pk %}">수정하기</a>
 
-  <hr>
+    <hr>
+    <a href="{% url 'communities:comment_create' post.pk %}">댓글 작성</a>
+    {% comment %} <form id="comment-form" data-post-id="{{post.pk}}" action="{% url 'communities:comment_create' post.pk %}" method="post">
+      {% csrf_token %}
+      {{form.as_p}}
+      <input type="submit" class="btnReply" value="제출">
+  </form> {% endcomment %}
+    <hr>
+    {% for comment in comments %}
+      {% if comment.post.pk == post.pk%}
+        <p> 작성자 : {{comment.user}} </p>
+        <p> 댓글 내용 : {{comment.content}} </p>
+        <a href="{% url 'communities:comment_update' post.pk comment.pk %}">수정하기</a>
+        <a href="{% url 'communities:comment_delete' post.pk comment.pk %}">삭제하기</a>
+      {% endif %}
+  
+    {% endfor %}
+    <hr class="mb-4">
+
+  </div>
+  {% endfor %}
+
 </div>
 
-<div>
-  <p>Post Detail</p>
-</div>
-
-{% endfor %}
 {% endblock content %}
+
+{% comment %} {% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  const form = document.querySelector('#comment-form')
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+  form.addEventListener('submit', function(event) {
+    event.preventDefault()
+
+    const postId = event.target.dataset.postId
+    axios({
+      method : 'post',
+      url :  `communities/${postId}/create`,
+      headers : {'X-CSRFToken': csrftoken,}
+    })
+  })
+</script>
+{% endblock script %} {% endcomment %}
+
 

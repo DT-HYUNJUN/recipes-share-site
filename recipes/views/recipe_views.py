@@ -129,3 +129,12 @@ class RecipeSearchView(ListView):
         keyword = self.request.GET.get('keyword')
         context['keyword'] = keyword
         return context
+
+class RecipeFridge(LoginRequiredMixin, ListView):
+    model = Ingredient
+    template_name = 'recipes/fridge.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(RecipeFridge, self).get_context_data()
+        return context
+
