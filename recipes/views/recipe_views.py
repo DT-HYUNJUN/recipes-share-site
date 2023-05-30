@@ -111,3 +111,21 @@ class RecipeBookmarkView(LoginRequiredMixin, View):
             'bookmark': bookmark,
         }
         return JsonResponse(context)
+    
+
+class RecipeSearchView(ListView):
+    model = Recipe
+    template_name = 'recipes/recipe_search.html'
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        keyword = self.request.GET.get('keyword')
+        if keyword:
+            queryset = queryset.filter(title__icontains=keyword)
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        keyword = self.request.GET.get('keyword')
+        context['keyword'] = keyword
+        return context
