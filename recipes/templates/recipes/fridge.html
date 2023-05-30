@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/recipes/fridge.css' %}">
+{% endblock style %}
+
+{% block content %}
+<div class="container mx-auto max-w-screen-xl">
+  <h1 class="logo-font flex justify-center text-4xl my-10"> | {{ request.user.username }}님의 냉장고 입니다. |</h1>
+  <div class='flex justify-center relative'>
+    <img class="w-3/4" src="{% static 'img/fridge.jpg' %}" alt="">
+    <div id="fridge-list" class="grid grid-cols-3 gap-x-14 gap-y-20 absolute top-[6.5rem] left-[14.5rem]">
+      <button class="rounded-full bg-[#2e8b57] text-white w-20 h-20 text-4xl pb-2">+</button>
+      <button class="rounded-full bg-[#2e8b57] text-white w-20 h-20 text-4xl pb-2">+</button>
+      <button class="rounded-full bg-[#2e8b57] text-white w-20 h-20 text-4xl pb-2">+</button>
+      <button class="rounded-full bg-[#2e8b57] text-white w-20 h-20 text-4xl pb-2">+</button>
+      <button class="rounded-full bg-[#2e8b57] text-white w-20 h-20 text-4xl pb-2">+</button>
+      <button class="rounded-full bg-[#2e8b57] text-white w-20 h-20 text-4xl pb-2">+</button>
+      <button class="rounded-full bg-[#2e8b57] text-white w-20 h-20 text-4xl pb-2">+</button>
+      <button class="rounded-full bg-[#2e8b57] text-white w-20 h-20 text-4xl pb-2">+</button>
+      <button class="rounded-full bg-[#2e8b57] text-white w-20 h-20 text-4xl pb-2">+</button>
+    </div>
+    <fieldset class="absolute top-[2rem] right-[12rem] w-[425px] h-[605px] bg-white text-center pt-8">
+      <label for="browser" class="logo-font text-xl">- 냉장고 재료를 선택하세요. -</label>
+      <input class="mt-8" autocomplete="off" role="combobox" list="" id="input" name="browsers" placeholder="재료를 검색하세요 !">
+      <datalist id="browsers" role="listbox">
+        <option value="파">파</option>
+        <option value="당근">당근</option>
+        <option value="배추">배추</option>
+        <option value="양파">양파</option>
+        <option value="오이">오이</option>
+        <option value="피망">피망</option>
+        <option value="사과">사과</option>
+        <option value="오렌지">오렌지</option>
+        <option value="자몽">자몽</option>
+      </datalist>
+    </fieldset>
+  </div>
+  
+</div>
+<script src="{% static 'js/recipes/fridge.js' %}"></script>
+{% endblock content %} 

@@ -15,4 +15,6 @@ urlpatterns = [
     path('<int:recipe_pk>/create/', RecipeReviewCreateView.as_view(), name='review_create'),
     path('review_update/', RecipeReviewUpdateView.as_view(), name='review_update'),
     path('<int:recipe_pk>/<int:review_pk>/delete/', RecipeReviewDeleteView.as_view(), name='review_delete'),
+    # 냉장고
+    path('fridge/', RecipeFridge.as_view(), name='recipe_fridge'),
 ]
