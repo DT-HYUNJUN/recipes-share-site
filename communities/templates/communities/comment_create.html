@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<p>Comment Create</p>
+
+<form id="comment-form" data-post-id="{{post.pk}}" action="{% url 'communities:comment_create' post.pk %}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    {% comment %} <textarea class="replyContent" placeholder="댓글"></textarea> {% endcomment %}
+    <input type="submit" class="btnReply" value="제출">
+</form>
+{% endblock content %}
+
+{% block script %}
+{% comment %} <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    const form = document.querySelector('#comment-form')
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+    form.addEventListener('submit', function(event) {
+      event.preventDefault()
+  
+      const postId = event.target.dataset.postId
+      axios({
+        method : 'post',
+        url :  `communities/${postId}/create`,
+        headers : {'X-CSRFToken': csrftoken,}
+      })
+    })
+  </script> {% endcomment %}
+
+
+  
+{% comment %} <script>
+$(document).ready(function() {
+    $('#comment-form').submit(function(event) {
+        event.preventDefault();  // 기본 폼 제출 동작 막기
+
+        var form = $(this);
+        var formData = form.serialize();  // 폼 데이터 직렬화
+
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                // 서버로부터의 응답 처리
+                // 예를 들어, 새로운 댓글을 화면에 추가하거나 기타 동작 수행
+                console.log(response);
+            },
+            error: function(xhr, errmsg, err) {
+                // 오류 처리
+                console.log(xhr.status + ": " + xhr.responseText);
+            }
+        });
+    });
+});
+</script> {% endcomment %}
+{% endblock script %}
+
