@@ -26,8 +26,8 @@
   <a href="{% provider_login_url 'kakao' method='oauth2' %}" class="social--login w-full h-full object-cover"> 
     <img src="{% static 'img/kakao_login_medium_wide.png' %}" class="mt-5 w-full h-full object-cover" alt="카카오">
   </a>
-  <div class="mt-4 flex justify-center">
-    <span class="text-gray-500 text-sm mr-1">아이디가 없으신가요? </span>
+  <div class="mt-4 flex justify-center items-center">
+    <span class="text-gray-500 text-sm mr-2">아이디가 없으신가요? </span>
     <a href="{% url 'accounts:signup' %}" class="align-middle">
       <span class="font-bold">회원가입</span>
     </a>

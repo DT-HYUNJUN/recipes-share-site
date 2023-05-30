@@ -116,19 +116,34 @@ class RecipeBookmarkView(LoginRequiredMixin, View):
 class RecipeSearchView(ListView):
     model = Recipe
     template_name = 'recipes/recipe_search.html'
-    
+
     def get_queryset(self):
         queryset = super().get_queryset()
         keyword = self.request.GET.get('keyword')
         if keyword:
             queryset = queryset.filter(title__icontains=keyword)
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         keyword = self.request.GET.get('keyword')
+        
+        # 제목에 키워드가 포함된 레시피들 쿼리셋
+        title_queryset = self.model.objects.filter(title__icontains=keyword)
+        
+        # 재료에 키워드가 포함된 레시피들 쿼리셋
+        ingredient_queryset = self.model.objects.filter(ingredients__name__icontains=keyword)
+        
         context['keyword'] = keyword
+        context['title_recipes'] = title_queryset
+        context['ingredient_recipes'] = ingredient_queryset
         return context
+
+class RecipeNameSearchView(RecipeSearchView):
+    template_name = 'recipes/recipe_search_name.html'
+
+class RecipeIngredientSearchView(RecipeSearchView):
+    template_name = 'recipes/recipe_search_ingredient.html'
 
 class RecipeFridge(LoginRequiredMixin, ListView):
     model = Ingredient
