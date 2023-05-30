@@ -10,7 +10,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthentic
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect('recipes:recipe_list')
+        return redirect('index')
 
     if request.method == 'POST':
         form = CustomAuthenticationForm(request, request.POST)
@@ -20,7 +20,7 @@ def login(request):
             if prev_url:
                 del request.session['prev_url']
                 return redirect(prev_url)
-            return redirect('recipes:recipe_list')
+            return redirect('index')
     else:
         form = CustomAuthenticationForm()
         request.session['prev_url'] = request.META.get('HTTP_REFERER')
@@ -34,19 +34,19 @@ def login(request):
 def logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
-    return redirect('recipes:recipe_list')
+    return redirect('index')
 
 
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('recipes:recipe_list')
+        return redirect('index')
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
-            return redirect('recipes:recipe_list')
+            return redirect('index')
 
     else:
         form = CustomUserCreationForm()
@@ -88,7 +88,7 @@ def change_password(request):
 def delete(request):
     request.user.delete()
     auth_logout(request)
-    return redirect('recipes:recipe_list')
+    return redirect('index')
 
 
 @login_required
