@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, CreateView, DeleteView, View, UpdateView
+from django.views.generic import TemplateView, CreateView, DeleteView, View, UpdateView, ListView
 from communities.models import *
 from communities.forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -12,13 +12,32 @@ from django.http import JsonResponse
 
 # Create your views here.
 
-class PostListView(TemplateView):
+class PostListView(ListView):
+    model = Post
     template_name = 'communities/post_list.html'
+    context_object_name = 'posts'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['posts'] = Post.objects.all()
+        context['comments'] = Comment.objects.all()
         return context
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        for post in queryset:
+            post.comments = Comment.objects.filter(post=post.pk)
+        return queryset
+
+# class PostListView(TemplateView):
+#     template_name = 'communities/post_list.html'
+    
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['posts'] = Post.objects.all()
+#         context['comments'] = Comment.objects.filter(post=post.pk)
+
+#         return context
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
@@ -35,7 +54,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     pk_url_kwarg = 'post_pk'
-    
     
     def test_func(self):
         post = self.get_object()
