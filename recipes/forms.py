@@ -5,12 +5,6 @@ from crispy_forms.layout import (Layout, Field)
 from ckeditor_uploader.fields import RichTextUploadingFormField
 
 
-class IngredientForm(forms.ModelForm):
-    class Meta:
-        model = RecipeIngredient
-        fields = '__all__'
-
-
 class DifficultyWidget(forms.widgets.Widget):
     template_name = 'recipes/difficulty.html'  # 커스텀 위젯의 HTML 템플릿 경로
 
@@ -51,5 +45,6 @@ RecipeIngredientFormSet = forms.inlineformset_factory(
     RecipeIngredient,
     fields=('ingredient', 'quantity',),
     extra=1,
-    can_delete=False
+    can_delete=False,
+    labels={'ingredient': '', 'quantity': ''},
 )
