@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
+
+{% load static %}
+
 {% block content %}
 
 <div class="container mx-auto max-w-screen-xl">
   <div>
     <h1 class="logo-font text-4xl text-center mt-3">| Community |</h1>
     <div class="text-end pr-[10%] mb-1">
-      <button type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+      <button type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
         <a href="{% url 'communities:create' %}">글 작성</a>
       </button>
     </div>
   </div>
 
-
   <div class="relative overflow-x-auto flex flex-col items-center">
-    <table class="w-4/5 text-sm text-left text-gray-500 dark:text-gray-400">
+    <table class="w-5/6 text-sm text-left text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-[#f0fff0] dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th scope="col" class="px-6 py-3">
@@ -35,14 +37,14 @@
       </thead>
       <tbody>
         {% for post in posts %}
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 grid-rows-1 hover:bg-gray-100">
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
             <td class="px-6 py-4 col-span-1">
               {{ post.pk }}
             </td>
-            <td class="px-6 py-4 col-span-1">
+            <td class="px-6 py-4 col-span-7">
               <a class="hover:underline decoration-1" href="{% url 'communities:detail' post.pk %}">{{ post.title }}</a>
             </td>
-            <td class="px-6 py-4 col-span-1">
+            <td class="px-6 py-4 col-span-2">
              {{ post.created_at|date:'Y-m-d H:i' }}
             </td>
             <td class="px-6 py-4 col-span-1">
@@ -113,6 +115,7 @@
 {% endblock content %}
 
 {% block script %}
+<script src="{% static 'js/communities/index.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -160,7 +163,7 @@
 </script> {% endcomment %}
 
 <!--댓글 입력 비동기 (미완)-->
-<script>
+{% comment %} <script>
   const form = document.querySelector('#comment-form')
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
   form.addEventListener('submit', function(event) {
@@ -173,7 +176,5 @@
       headers : {'X-CSRFToken': csrftoken2,}
     })
   })
-</script>
+</script> {% endcomment %}
 {% endblock script %}
-
-

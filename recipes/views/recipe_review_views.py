@@ -24,9 +24,15 @@ class RecipeReviewCreateView(LoginRequiredMixin, View):
             content = content
         )
         review.save()
-
+        if review.user.profile_image:
+            profile_image = review.user.profile_image.url
+        else:
+            profile_image = None
         context = {
+            'review_pk': review.pk,
             'user': review.user.pk,
+            'nickname': review.user.nickname,
+            'profile_image': profile_image,
             'content': review.content,
             'created_at': review.created_at,
             'updated_at': review.updated_at
