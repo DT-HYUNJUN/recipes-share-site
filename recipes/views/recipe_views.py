@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, View
+from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
 from recipes.forms import RecipeForm, RecipeReviewForm, RecipeIngredientFormSet
 from recipes.models import *
 
@@ -42,12 +42,15 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
 
     
     def get(self, *args, **kwargs):
+        ingredients = Ingredient.objects.all()
+        options = [ingredient for ingredient in ingredients]
         formset = RecipeIngredientFormSet(queryset=RecipeIngredient.objects.none())
         form = RecipeForm()
-        return self.render_to_response({'form': form, 'formset': formset})
+        return self.render_to_response({'form': form, 'formset': formset, 'options': options,})
 
 
     def post(self, *args, **kwargs):
+        ingredients = Ingredient.objects.all()
         formset = RecipeIngredientFormSet(self.request.POST)
         form = RecipeForm(self.request.POST)
 
@@ -139,11 +142,14 @@ class RecipeSearchView(ListView):
         context['ingredient_recipes'] = ingredient_queryset
         return context
 
+      
 class RecipeNameSearchView(RecipeSearchView):
     template_name = 'recipes/recipe_search_name.html'
 
+    
 class RecipeIngredientSearchView(RecipeSearchView):
     template_name = 'recipes/recipe_search_ingredient.html'
+
 
 class RecipeFridge(LoginRequiredMixin, ListView):
     model = Ingredient
@@ -152,4 +158,3 @@ class RecipeFridge(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(RecipeFridge, self).get_context_data()
         return context
-
