@@ -8,12 +8,12 @@
   <section class="border-t-4 pt-10 mt-10">
     <div>
       <h2>
-        '{{ keyword }}'가 포함된 레시피 검색결과입니다.
+        '{{ keyword }}' 이/가 포함된 레시피 검색결과입니다.
       </h2>
       <div class="flex">
 
         <div class=" grid grid-cols-2 md:grid-cols-4 gap-4 mx-auto mt-9 ">
-          {% for recipe in object_list %}
+          {% for recipe in title_recipes|slice:":4" %}
             <div>
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                 <div class="w-72 bg-white">
@@ -52,8 +52,8 @@
       </div>
     </div>
     <div class="grid grid-cols-12">
-      <div class="col-start-10 col-span-2">
-          <p>더보기</p>
+      <div class="col-start-12 col-span-2">
+        <p><a href="{% url 'recipes:recipe_search_name' %}?keyword={{ keyword }}">더보기</a></p>
       </div>
     </div>
   </section>
@@ -61,12 +61,12 @@
   <section class="border-t-4 pt-10 mt-10">
     <div>
       <h2>
-        '{{ keyword }}'가 재료에 포함된 레시피 검색결과입니다.
+        '{{ keyword }}' 이/가 재료에 포함된 레시피 검색결과입니다.
       </h2>
       <div class="flex">
 
         <div class=" grid grid-cols-2 md:grid-cols-4 gap-4 mx-auto mt-9 ">
-          {% for recipe in object_list %}
+          {% for recipe in ingredient_recipes|slice:":4" %}
             <div>
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                 <div class="w-72 bg-white">
@@ -105,8 +105,8 @@
       </div>
     </div>
     <div class="grid grid-cols-12">
-      <div class="col-start-10 col-span-2">
-          <p>더보기</p>
+      <div class="col-start-12 col-span-2">
+        <p><a href="{% url 'recipes:recipe_search_ingredient' %}?keyword={{ keyword }}">더보기</a></p>
       </div>
     </div>
   

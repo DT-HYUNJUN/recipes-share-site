@@ -20,7 +20,11 @@
       <input type="file" name="profile_image" id="id_profile_image" onchange="previewImage(event)" class="hidden" />
     </div>
     <div class="mb-4 relative">
-      <img id="imagePreview" class="w-full" style="display: none;" src="{{ form.instance.profile_image.url }}" />
+      {% if form.instance.profile_image %}
+        <img id="imagePreview" class="w-full" src="{{ form.instance.profile_image.url }}" />
+      {% else %}
+        <img id="imagePreview" class="w-full" style="display: none;" />
+      {% endif %}
     </div>
     <button type="submit" class="mt-1 w-full border border-gray-300 py-3 rounded-lg bg-green-700 hover:bg-green-600 text-white font-bold group-invalid:pointer-events-none group-invalid:opacity-30">
       회원정보 수정
