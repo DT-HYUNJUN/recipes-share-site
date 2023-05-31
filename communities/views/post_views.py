@@ -60,11 +60,14 @@ class PostDetailView(DetailView):
 
 #         return context
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'communities/post_create.html'
     success_url = reverse_lazy('communities:post_list')
+
+    def test_func(self):
+        return self.request.user.is_authenticated 
     
     def form_valid(self, form):
         post = form.save(commit=False)
