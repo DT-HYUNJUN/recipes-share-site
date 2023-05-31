@@ -17,6 +17,7 @@ class PostListView(ListView):
     template_name = 'communities/post_list.html'
     paginate_by = 10
     context_object_name = 'posts'
+    queryset = Post.objects.order_by('-pk')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,11 +29,11 @@ class PostListView(ListView):
         context['pagelist'] = pagelist
         return context
     
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        for post in queryset:
-            post.comments = Comment.objects.filter(post=post.pk)
-        return queryset
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     for post in queryset:
+    #         post.comments = Comment.objects.filter(post=post.pk)
+    #     return queryset
 
 
 class PostDetailView(DetailView):
@@ -43,8 +44,11 @@ class PostDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['posts'] = Post.objects.all()
-        context['comments'] = Comment.objects.all()
+        # context['posts'] = Post.objects.all()
+        # context['comments'] = Comment.objects.all()
+        post = Post.objects.get(pk=self.object.pk)
+        comments = post.posts.all()
+        context['comments'] = comments
         context['comment_form'] = CommentForm()
 
         return context
@@ -75,7 +79,7 @@ class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return self.request.user.is_authenticated 
     
     def form_valid(self, form):
-        post = form.save(commit=False)
+        post = form.save(commit=False)  
         post.user = self.request.user
         post.save()
         return super().form_valid(form)

@@ -72,30 +72,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Apple MacBook Pro 17"
-                </th>
-                <td class="px-6 py-4 text-end">
-                  Silver
-                </td>
-              </tr>
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Microsoft Surface Pro
-                </th>
-                <td class="px-6 py-4 text-end">
-                  White
-                </td>
-              </tr>
-              <tr class="bg-white dark:bg-gray-800">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Magic Mouse 2
-                </th>
-                <td class="px-6 py-4 text-end">
-                  Black
-                </td>
-              </tr>
+              {% for ingredient in ingredients %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Apple MacBook Pro 17"
+                  </th>
+                  <td class="px-6 py-4 text-end">
+                    Silver
+                  </td>
+                </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -138,11 +124,69 @@
         </div>
         <hr>
       {% endfor %} {% endcomment %}
+      {% comment %} <div id="clone">
+        <p>작성자</p>
+        <div>
+          <p>내용</p>
+        </div>
+      </div> {% endcomment %}
 
+      {% comment %} <div class="absolute invisible">
+        <section id="reviews">
+          <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 {{ reviews.count }}</p>
+          <div id="review" {% if request.user == review.user %} class="flex text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2]" {% else %} class="flex text-sm gap-3 my-5 px-3" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}">
+            <!-- 리뷰 작성자 프로필 사진 -->
+            <div class="flex items-start gap-3 mb-1">
+              <img class="w-10 rounded-full" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
+            </div>
+            <!-- 작성자 / 내용 -->
+            <div class="flex-grow">
+              <div class="flex justify-between">
+                <p class="font-bold mb-1">{{ review.user.nickname }}</p>
+                {% if request.user == review.user %}
+                <div>
+                  <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ review.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
+                  <div id="dropdown-{{ review.pk }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                      <li>
+                        <a id="edit-btn" class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">수정</a>
+                      </li>
+                      <li>
+                        <a id="delete-btn" class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">삭제</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+              <div id="review" class="mb-2" data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}">
+                <p id="review-content" class="col-span-6 flex items-center">{{ review.content|linebreaksbr }}</p>
+                <div id="comment-textarea" class="hidden col-span-6 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                  <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+                    <label for="comment" class="sr-only">Your comment</label>
+                    <textarea id="review-update-field" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400">{{ review.content|linebreaksbr }}</textarea>
+                  </div>
+                  <div class="flex items-cente gap-3 px-3 py-2 border-t dark:border-gray-600">
+                    <button id="submit-btn" type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-[#2E8B57] rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-[#3CB371]">
+                        수정
+                    </button>
+                    <button id="cancel-btn" class="text-gray-500">취소</button>
+                  </div>
+                </div>
+                <!-- 드롭다운 버튼 -->
+              </div>
+              <span class="text-gray-500">{{ review.created_at|date:'Y-m-d H:i' }}</span>
+            </div>
+          </div>
+          <hr>
+        </section>
+      </div> {% endcomment %}
+
+      <!-- 이게 진짜 댓글 -->
       <section id="reviews">
-        <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 {{ reviews.count }}</p>
+        <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 <span id="review-count">{{ reviews.count }}</span></p>
         {% for review in reviews %}
-        <div id="review" {% if request.user == review.user %} class="flex text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2]" {% else %} class="flex text-sm gap-3 my-5 px-3" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
+        <div id="review" {% if request.user == review.user %} class="flex text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b" {% else %} class="flex text-sm gap-3 my-5 px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
           <!-- 리뷰 작성자 프로필 사진 -->
           <div class="flex items-start gap-3 mb-1">
             <img class="w-10 rounded-full" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
@@ -186,7 +230,6 @@
             <span class="text-gray-500">{{ review.created_at|date:'Y-m-d H:i' }}</span>
           </div>
         </div>
-        <hr>
         {% endfor %}
       </section>
 
