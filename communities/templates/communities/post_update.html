@@ -3,12 +3,15 @@
 
 {% block content %}
 
-<p>Post Update</p>
-
-<form action="{% url 'communities:update' post.pk %}" method="post">
+<div>
+  <p>Post Update</p>
+  
+  <form action="{% url 'communities:update' post.pk %}" method="post">
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit" value="제출">
-</form>
+  </form>
+</div>
+
 {% endblock content %}
 

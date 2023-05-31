@@ -5,10 +5,10 @@
 <p>Comment Create</p>
 
 <form id="comment-form" data-post-id="{{post.pk}}" action="{% url 'communities:comment_create' post.pk %}" method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    {% comment %} <textarea class="replyContent" placeholder="댓글"></textarea> {% endcomment %}
-    <input type="submit" class="btnReply" value="제출">
+  {% csrf_token %}
+  {{form.as_p}}
+  {% comment %} <textarea class="replyContent" placeholder="댓글"></textarea> {% endcomment %}
+  <input type="submit" class="btnReply" value="제출">
 </form>
 {% endblock content %}
 
