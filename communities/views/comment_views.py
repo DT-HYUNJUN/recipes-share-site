@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy, reverse
-
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.views.generic import CreateView, DeleteView, UpdateView
@@ -12,11 +12,8 @@ from django.shortcuts import get_object_or_404, redirect
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     form_class = CommentForm
-    template_name = 'communities/comment_create.html'
-
-
-    def get_success_url(self):
-        return reverse('communities:post_list')
+    template_name = 'communities/post_detail.html'
+    pk_url_kwarg = 'post_pk'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -24,7 +21,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         post = get_object_or_404(Post, pk=post_pk)
         context['post'] = post
         return context
-
+    
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
@@ -37,12 +34,18 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
             context = {
                 'username': comment.user.username,
                 'content': comment.content,
+                'success_url': reverse('communities:detail', kwargs={'post_pk': comment.post.pk})
+
             }
-            # return JsonResponse(context)
-            return redirect(self.get_success_url())
+            return JsonResponse(context)
+            # return redirect(self.get_success_url())
         else:
             return JsonResponse({'message': 'error',}, status=400)
-
+        
+    def get_success_url(self):
+        return reverse('communities:detail', kwargs={'post_pk': self.post.pk})
+    
+    
 
 class CommentUpdateView (LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
@@ -55,10 +58,6 @@ class CommentUpdateView (LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         user = self.request.user
         return (comment.user == user) or user.is_superuser or user.is_staff
 
-
-    def get_success_url(self):
-        comment_pk = self.kwargs['comment_pk']
-        return reverse_lazy('communities:post_list')
     
 
     def get_context_data(self, **kwargs):
@@ -83,6 +82,10 @@ class CommentUpdateView (LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return redirect(self.get_success_url())
         else:
             return JsonResponse({'message': 'error',}, status=400)
+        
+    def get_success_url(self):
+        comment = Comment.objects.get(pk=self.kwargs['comment_pk'])
+        return reverse_lazy('communities:detail', kwargs={'post_pk': comment.post.pk})
 
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -94,9 +97,10 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         comment = Comment.objects.get(pk=self.kwargs['comment_pk'])
         return self.request.user == comment.user
     
-
-    def get_success_url(self):
-        return reverse_lazy('communities:post_list')
     
     def get(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)
+    
+    def get_success_url(self):
+        comment = Comment.objects.get(pk=self.kwargs['comment_pk'])
+        return reverse_lazy('communities:detail', kwargs={'post_pk': comment.post.pk})

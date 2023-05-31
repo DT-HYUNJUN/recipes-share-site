@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, CreateView, DeleteView, View, UpdateView, ListView
+from django.views.generic import TemplateView, CreateView, DeleteView, View, UpdateView, ListView, DetailView
 from communities.models import *
 from communities.forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -21,6 +21,27 @@ class PostListView(ListView):
         context = super().get_context_data(**kwargs)
         context['posts'] = Post.objects.all()
         context['comments'] = Comment.objects.all()
+        return context
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        for post in queryset:
+            post.comments = Comment.objects.filter(post=post.pk)
+        return queryset
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'communities/post_detail.html'
+    context_object_name = 'post'
+    pk_url_kwarg = 'post_pk'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.all()
+        context['comments'] = Comment.objects.all()
+        context['comment_form'] = CommentForm()
+
         return context
     
     def get_queryset(self):

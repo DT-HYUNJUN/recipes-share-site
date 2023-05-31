@@ -9,23 +9,31 @@
     <p> 글 번호 : {{post.pk}} </p>
     <p> 제목 : {{post.title}}</p>
     <p>내용 : {{post.content}}</p>
+
+    <form class="like-form" data-post-id="{{post.pk}}" >
+      {% csrf_token %}
+      {% if request.user in post.like_posts.all %}
+        <button title="{{post.like_posts.all|length}}" type="submit" value="좋아요 취소" id="like-{{post.pk}}">
+          <i class="bi bi-heart-fill" id="like-heart"></i>
+        </button>
+      {% else %}
+        <button title="{{post.like_posts.all|length}}" type="submit" svalue="좋아요" id="like-{{post.pk}}">
+          <i class="bi bi-heart" id="like-heart"></i>
+        </button>
+      {% endif %}
+    </form>
     <a href="{% url 'communities:delete' post.pk %}" >삭제하기</a>
     <a href="{% url 'communities:update' post.pk %}">수정하기</a>
-
+    <a href="{% url 'communities:detail' post.pk %}">자세히 보기</a>
     <hr>
-    <a href="{% url 'communities:comment_create' post.pk %}">댓글 작성</a>
-    {% comment %} <form id="comment-form" data-post-id="{{post.pk}}" action="{% url 'communities:comment_create' post.pk %}" method="post">
-      {% csrf_token %}
-      {{form.as_p}}
-      <input type="submit" class="btnReply" value="제출">
-  </form> {% endcomment %}
+    {% comment %} <a href="{% url 'communities:comment_create' post.pk %}">댓글 작성</#a> {% endcomment %}
+    
     <hr>
     {% for comment in comments %}
       {% if comment.post.pk == post.pk%}
         <p> 작성자 : {{comment.user}} </p>
         <p> 댓글 내용 : {{comment.content}} </p>
-        <a href="{% url 'communities:comment_update' post.pk comment.pk %}">수정하기</a>
-        <a href="{% url 'communities:comment_delete' post.pk comment.pk %}">삭제하기</a>
+        
       {% endif %}
   
     {% endfor %}
@@ -38,9 +46,52 @@
 
 {% endblock content %}
 
-{% comment %} {% block script %}
+{% block script %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+<!--좋아요 비동기-->
+<script>
+  const forms = document.querySelectorAll('.like-form')
+  const crsftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+  forms.forEach( (form) => {
+    form.addEventListener('submit', function(event) {
+      event.preventDefault()
+
+      const postId = event.target.dataset.postId
+      axios({
+        method : 'post',
+        url: `http://127.0.0.1:8000/communities/${postId}/like/`,
+        headers : {'X-CSRFToken': csrftoken},
+      })
+
+      
+
+      .then((response) => {
+        const like = response.data.like
+        const likeBtn = document.querySelector(`#like-${postId}`)
+        const likeBtni = document.querySelector('#like-heart')
+        if (like === true) {
+          likeBtni.classList.remove('bi-heart')
+          likeBtni.classList.add('bi-heart-fill') 
+        } else {
+          likeBtni.classList.remove('bi-heart-fill')
+          likeBtni.classList.add('bi-heart')  
+        }
+        
+      })
+
+      .catch((error) => {
+        console.log(error.response)
+      })
+    })
+  })
+
+
+</script>
+
+<!--댓글 입력 비동기 (미완)-->
 <script>
   const form = document.querySelector('#comment-form')
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
@@ -51,10 +102,10 @@
     axios({
       method : 'post',
       url :  `communities/${postId}/create`,
-      headers : {'X-CSRFToken': csrftoken,}
+      headers : {'X-CSRFToken': csrftoken2,}
     })
   })
 </script>
-{% endblock script %} {% endcomment %}
+{% endblock script %}
 
 
