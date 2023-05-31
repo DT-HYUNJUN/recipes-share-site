@@ -5,9 +5,8 @@
 <p>Comment Create</p>
 
 <form action="{% url 'communities:comment_update' post.pk comment.pk %}" method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="제출">
+  {% csrf_token %}
+  {{form.as_p}}
+  <input type="submit" value="제출">
 </form>
 {% endblock content %}
-

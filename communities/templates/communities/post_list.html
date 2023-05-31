@@ -1,47 +1,113 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div>
-  <p>Post List</p>
-
-  {% for post in posts %}
-  <div class="m-3 p-3 shadow-xl">
-    <p> 글 번호 : {{post.pk}} </p>
-    <p> 제목 : {{post.title}}</p>
-    <p>내용 : {{post.content}}</p>
-
-    <form class="like-form" data-post-id="{{post.pk}}" >
-      {% csrf_token %}
-      {% if request.user in post.like_posts.all %}
-        <button title="{{post.like_posts.all|length}}" type="submit" value="좋아요 취소" id="like-{{post.pk}}">
-          <i class="bi bi-heart-fill" id="like-heart"></i>
-        </button>
-      {% else %}
-        <button title="{{post.like_posts.all|length}}" type="submit" svalue="좋아요" id="like-{{post.pk}}">
-          <i class="bi bi-heart" id="like-heart"></i>
-        </button>
-      {% endif %}
-    </form>
-    <a href="{% url 'communities:delete' post.pk %}" >삭제하기</a>
-    <a href="{% url 'communities:update' post.pk %}">수정하기</a>
-    <a href="{% url 'communities:detail' post.pk %}">자세히 보기</a>
-    <hr>
-    {% comment %} <a href="{% url 'communities:comment_create' post.pk %}">댓글 작성</#a> {% endcomment %}
-    
-    <hr>
-    {% for comment in comments %}
-      {% if comment.post.pk == post.pk%}
-        <p> 작성자 : {{comment.user}} </p>
-        <p> 댓글 내용 : {{comment.content}} </p>
-        
-      {% endif %}
-  
-    {% endfor %}
-    <hr class="mb-4">
-
+<div class="container mx-auto max-w-screen-xl">
+  <div>
+    <h1 class="logo-font text-4xl text-center mt-3">| Community |</h1>
+    <div class="text-end pr-[10%] mb-1">
+      <button type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+        <a href="{% url 'communities:create' %}">글 작성</a>
+      </button>
+    </div>
   </div>
-  {% endfor %}
 
+
+  <div class="relative overflow-x-auto flex flex-col items-center">
+    <table class="w-4/5 text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-[#f0fff0] dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            글번호
+          </th>
+          <th scope="col" class="px-6 py-3">
+            제목
+          </th>
+          <th scope="col" class="px-6 py-3">
+            작성시간
+          </th>
+          <th scope="col" class="px-6 py-3">
+            작성자
+          </th>
+          <th scope="col" class="px-6 py-3">
+            좋아요
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in posts %}
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 grid-rows-1 hover:bg-gray-100">
+            <td class="px-6 py-4 col-span-1">
+              {{ post.pk }}
+            </td>
+            <td class="px-6 py-4 col-span-1">
+              <a class="hover:underline decoration-1" href="{% url 'communities:detail' post.pk %}">{{ post.title }}</a>
+            </td>
+            <td class="px-6 py-4 col-span-1">
+             {{ post.created_at|date:'Y-m-d H:i' }}
+            </td>
+            <td class="px-6 py-4 col-span-1">
+              <a class="hover:underline decoration-1" href="{% url 'accounts:profile' post.user %}">{{ post.user.nickname }}</a>
+            </td>
+            <td class="px-6 py-4 col-span-1">
+              <form class="like-form" data-post-id="{{post.pk}}" >
+                {% csrf_token %}
+                {% if request.user in post.like_posts.all %}
+                  <button title="{{post.like_posts.all|length}}" type="submit" value="좋아요 취소" id="like-{{post.pk}}">
+                    <i class="bi bi-heart-fill" id="like-heart"></i>
+                  </button>
+                {% else %}
+                  <button title="{{post.like_posts.all|length}}" type="submit" svalue="좋아요" id="like-{{post.pk}}">
+                    <i class="bi bi-heart" id="like-heart"></i>
+                  </button>
+                {% endif %}
+                <span id="post-like-count">{{ post.like_posts.all|length }}</span>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+    <!--페이지 네이션-->
+    <nav aria-label="Page navigation example" class="flex justify-center my-14">
+      <ul class="inline-flex -space-x-px">
+        {% if page_obj.has_previous %}
+          <li>
+            <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</a>
+          </li>
+        {% else %}
+          <li>
+            <a class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">이전</a>
+          </li>
+        {% endif %}
+
+
+        {% for index in pagelist %}
+          {% if index == page_obj.number %}
+              <li>
+                <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
+              </li>
+            {% else %}
+              <li>
+                <a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="?page={{ index }}">{{ index }}</a>
+              </li>
+          {% endif %}
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+        <li>
+          <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
+        </li>
+        {% else %}
+        <li>
+          <a class="px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+      
+  </div>
 </div>
 
 {% endblock content %}
@@ -51,9 +117,9 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <!--좋아요 비동기-->
-<script>
+{% comment %} <script>
   const forms = document.querySelectorAll('.like-form')
-  const crsftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
 
   forms.forEach( (form) => {
     form.addEventListener('submit', function(event) {
@@ -66,18 +132,20 @@
         headers : {'X-CSRFToken': csrftoken},
       })
 
-      
-
       .then((response) => {
         const like = response.data.like
         const likeBtn = document.querySelector(`#like-${postId}`)
-        const likeBtni = document.querySelector('#like-heart')
+        const likeBtni = form.querySelector('#like-heart')
+        const postLikeCount = form.querySelector('#post-like-count')
         if (like === true) {
           likeBtni.classList.remove('bi-heart')
-          likeBtni.classList.add('bi-heart-fill') 
+          likeBtni.classList.add('bi-heart-fill')
+          postLikeCount.textContent = parseStr(parserInt(postLikeCount) + 1)
+          
         } else {
           likeBtni.classList.remove('bi-heart-fill')
-          likeBtni.classList.add('bi-heart')  
+          likeBtni.classList.add('bi-heart')
+          postLikeCount.textContent = parserInt(postLikeCount) - 1
         }
         
       })
@@ -89,7 +157,7 @@
   })
 
 
-</script>
+</script> {% endcomment %}
 
 <!--댓글 입력 비동기 (미완)-->
 <script>

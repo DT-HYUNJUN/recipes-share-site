@@ -15,12 +15,17 @@ from django.http import JsonResponse
 class PostListView(ListView):
     model = Post
     template_name = 'communities/post_list.html'
+    paginate_by = 10
     context_object_name = 'posts'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['posts'] = Post.objects.all()
-        context['comments'] = Comment.objects.all()
+        # context['posts'] = Post.objects.all()
+        # context['comments'] = Comment.objects.all()
+        page = context['page_obj']
+        paginator = page.paginator
+        pagelist = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
+        context['pagelist'] = pagelist
         return context
     
     def get_queryset(self):

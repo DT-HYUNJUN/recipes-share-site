@@ -2,12 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<p>Post Create</p>
-
-<form action="{% url 'communities:create' %}" method="post">
+<div>
+  <p>Post Create</p>
+  <form action="{% url 'communities:create' %}" method="post">
     {% csrf_token %}
-    {{form.as_p}}
+    {{form|crispy}}
     <input type="submit" value="제출">
-</form>
+  </form>
+</div>
 {% endblock content %}
-
