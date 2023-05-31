@@ -16,7 +16,15 @@
     {{ formset.management_form }}
     {% for subform in formset %}
     <div class="ingredient-form">
-      {{ subform|crispy }}
+      <label for="id_recipeingredient_set-0-ingredient">재료</label>
+      <input id="id_recipeingredient_set-0" name="recipeingredient_set-0-ingredient" list="id_recipeingredient_set-0-ingredient">
+      <datalist id="id_recipeingredient_set-0-ingredient">
+        {% for option in options %}
+          <option value="{{ option }}">{{ option }}</option>
+        {% endfor %}
+      </datalist>
+      <label for="id_recipeingredient_set-0-quantity">수량</label>
+      <input type="text" name="recipeingredient_set-0-quantity" maxlength="50" id="id_recipeingredient_set-0-quantity">
     </div>
     {% endfor %}
     <button type="button" id="add-ingredient">재료 추가</button>
@@ -28,9 +36,9 @@
 {% block script %}
 <script>
   let ingredientForm = document.querySelectorAll('.ingredient-form')
-  let formContainer = document.getElementById('form-container')
-  let addIngredient = document.getElementById('add-ingredient')
-  let totalForms = document.getElementById('id_recipeingredient_set-TOTAL_FORMS')
+  let formContainer = document.querySelector('#form-container')
+  let addIngredient = document.querySelector('#add-ingredient')
+  let totalForms = document.querySelector('#id_recipeingredient_set-TOTAL_FORMS')
   let formNum = ingredientForm.length - 1
 
   addIngredient.addEventListener('click', addForm)
