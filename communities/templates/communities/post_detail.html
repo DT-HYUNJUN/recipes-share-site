@@ -72,7 +72,7 @@
 <!--좋아요 비동기-->
 <script>
   const forms = document.querySelectorAll('.like-form')
-  const crsftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
 
   forms.forEach( (form) => {
     form.addEventListener('submit', function(event) {
@@ -90,7 +90,7 @@
       .then((response) => {
         const like = response.data.like
         const likeBtn = document.querySelector(`#like-${postId}`)
-        const likeBtni = document.querySelector('#like-heart')
+        const likeBtni = form.querySelector('#like-heart')
         if (like === true) {
           likeBtni.classList.remove('bi-heart')
           likeBtni.classList.add('bi-heart-fill') 
@@ -110,22 +110,7 @@
 
 </script>
 
-<!--댓글 입력 비동기-->
-{% comment %} <script>
-  const form = document.querySelector('#comment-form')
-  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-  form.addEventListener('submit', function(event) {
-    event.preventDefault()
-
-    const postId = event.target.dataset.postId
-    axios({
-      method : 'post',
-      url :  `communities/${postId}/create`,
-      headers : {'X-CSRFToken': csrftoken2,}
-    })
-  })
-</script> {% endcomment %}
-
+<!--댓글 작성-->
 <script>
 const commentSection = document.querySelector('#comments')
 const comments = document.querySelectorAll('#comment')
@@ -143,13 +128,13 @@ commentSubmit.addEventListener('click', (e) => {
   e.preventDefault()
   let param = {
     'pk': commentForm.dataset.pk,
-    'content': reviewField.value
+    'content': commentField.value
   }
   $.ajax({
-    url: reviewForm.dataset.url,
+    url: commentForm.dataset.url,
     type: 'POST',
     headers: {
-      'X-CSRFTOKEN': reviewForm.dataset.csrftoken
+      'X-CSRFTOKEN': commentForm.dataset.csrftoken
     },
     data: JSON.stringify(param),
     success:function(data) {

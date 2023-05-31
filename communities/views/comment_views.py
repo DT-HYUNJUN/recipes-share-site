@@ -22,28 +22,37 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         context['post'] = post
         return context
     
-    def post(self, request, *args, **kwargs):
-        form = self.get_form()
-        if form.is_valid():
-            post_pk = kwargs['post_pk']
-            post = Post.objects.get(pk=post_pk)
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.post = post
-            comment.save()
-            context = {
-                'username': comment.user.username,
-                'content': comment.content,
-                'success_url': reverse('communities:detail', kwargs={'post_pk': comment.post.pk})
+    def form_valid(self, form):
+        post_pk = self.kwargs['post_pk']
+        post = get_object_or_404(Post, pk=post_pk)
+        comment = form.save(commit=False)
+        comment.user = self.request.user
+        comment.post = post
+        comment.save()
+        return redirect('communities:detail', post_pk=post_pk)
+    
+    # def post(self, request, *args, **kwargs):
+    #     form = self.get_form()
+    #     if form.is_valid():
+    #         post_pk = kwargs['post_pk']
+    #         post = Post.objects.get(pk=post_pk)
+    #         comment = form.save(commit=False)
+    #         comment.user = request.user
+    #         comment.post = post
+    #         comment.save()
+    #         context = {
+    #             'username': comment.user.username,
+    #             'content': comment.content,
+    #             'success_url': reverse('communities:detail', kwargs={'post_pk': comment.post.pk})
 
-            }
-            return JsonResponse(context)
-            # return redirect(self.get_success_url())
-        else:
-            return JsonResponse({'message': 'error',}, status=400)
+    #         }
+    #         return JsonResponse(context)
+    #         # return redirect(self.get_success_url())
+    #     else:
+    #         return JsonResponse({'message': 'error',}, status=400)
         
-    def get_success_url(self):
-        return reverse('communities:detail', kwargs={'post_pk': self.post.pk})
+    # def get_success_url(self):
+    #     return reverse('communities:detail', kwargs={'post_pk': self.post.pk})
     
     
 
