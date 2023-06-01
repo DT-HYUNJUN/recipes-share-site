@@ -14,13 +14,25 @@
     {% csrf_token %}
     {{ form.media }}
     {{ form|crispy }}
+    <div class="flex content-center">
+      <span class="block text-gray-700 text-sm font-bold mb-2 me-3 leading-relaxed">조리법</span>
+    </div>
+    {{ stepformset.management_form }}
+    <div class="stepforms">
+      {% for stepform in stepformset %}
+      <div class="step-form">
+        {{ stepform|crispy }}
+      </div>
+      {% endfor %}
+    </div>
+    <button type="button" id="add-step" class="text-white bg-black hover:bg-[#003153] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-3 py-1 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">추가</button>
     <span class="block text-gray-700 text-sm font-bold mb-2">재료</span>
-    {{ formset.management_form }}
-    {% for subform in formset %}
+    {{ ingredientformset.management_form }}
+    {% for ingredientform in ingredientformset %}
     <div class="ingredient-form hidden">
       <div class="flex content-center">
-        {{ subform.ingredient }}
-        {{ subform.quantity|as_crispy_field }}
+        {{ ingredientform.ingredient }}
+        {{ ingredientform.quantity|as_crispy_field }}
       </div>
     </div>
     {% endfor %}
@@ -31,11 +43,6 @@
 {% endblock content %}
 
 {% block script %}
-<script>
-  const editorId = document.querySelector('.django-ckeditor-widget')
-  editorId.style.display = 'block'
-</script>
-
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 

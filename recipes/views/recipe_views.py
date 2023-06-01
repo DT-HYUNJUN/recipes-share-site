@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
-from recipes.forms import RecipeForm, RecipeReviewForm, RecipeIngredientFormSet
+from recipes.forms import RecipeForm, RecipeReviewForm, RecipeIngredientFormSet, RecipeStepFormset
 from recipes.models import *
 from django.db.models import Count
 from django.http import JsonResponse
@@ -15,7 +15,8 @@ class RecipeListView(ListView):
     paginate_by = 12
     # paginate_orphans = 3
     template_name = 'recipes/recipe_list.html'
-    
+
+
     def get_context_data(self, **kwargs):
         context = super(RecipeListView, self).get_context_data()
         page = context['page_obj']
@@ -47,14 +48,20 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
     def get(self, *args, **kwargs):
         ingredients = Ingredient.objects.all()
         options = [ingredient for ingredient in ingredients]
-        formset = RecipeIngredientFormSet(queryset=RecipeIngredient.objects.none())
+        ingredientformset = RecipeIngredientFormSet(queryset=RecipeIngredient.objects.none())
+        stepformset = RecipeStepFormset(queryset=RecipeStep.objects.none())
         form = RecipeForm()
-        return self.render_to_response({'form': form, 'formset': formset, 'options': options,})
+        return self.render_to_response({
+            'form': form,
+            'ingredientformset': ingredientformset,
+            'stepformset': stepformset,
+            'options': options,
+        })
 
 
     def post(self, *args, **kwargs):
-        ingredients = Ingredient.objects.all()
-        formset = RecipeIngredientFormSet(self.request.POST)
+        stepforms = RecipeStepFormset(self.request.POST)
+        ingredientforms = RecipeIngredientFormSet(self.request.POST)
         form = RecipeForm(self.request.POST)
 
         if form.is_valid():
@@ -62,8 +69,14 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
             recipe.user = self.request.user
             recipe.save()
 
-            for subform in formset:
-                print(subform)
+            for subform in stepforms:
+                if subform.is_valid():
+                    step = subform.save(commit=False)
+                    if step.detail != '':
+                        step.recipe = recipe
+                        step.save()
+
+            for subform in ingredientforms:
                 if subform.is_valid():
                     try:
                         ingredient = subform.save(commit=False)
@@ -74,7 +87,7 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
 
             return redirect('recipes:recipe_detail', recipe_pk=recipe.pk)
         
-        return self.render_to_response({'form': form, 'formset': formset})
+        return self.render_to_response({'form': form, 'ingredientforms': ingredientforms, 'stepforms': stepforms,})
 
 
 class RecipeDeleteView(UserPassesTestMixin, DeleteView):
