@@ -16,8 +16,7 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     title = models.CharField(max_length=30)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='recipe_written')
-    content = models.TextField(max_length=1000)
-    # content = RichTextUploadingField(blank=True,null=True)
+    content = models.TextField(max_length=1000, blank=True, null=True)
     category = models.CharField(max_length=10)
     image = ProcessedImageField(upload_to='images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -58,7 +57,7 @@ class RecipeStep(models.Model):
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    quantity = models.CharField(max_length=50)
+    quantity = models.CharField(max_length=50, blank=True, null=True)
 
 
 class RecipeReview(models.Model):

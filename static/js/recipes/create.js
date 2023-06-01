@@ -1,10 +1,26 @@
-// step
+// variables
+let title = document.querySelector('#div_id_title')
+let difficulty = document.querySelector('#difficulty')
+let image = document.querySelector('#div_id_image')
+let ingredientForm = document.querySelectorAll('.ingredient-form')
+let addIngredient = document.querySelector('#add-ingredient')
+let totalForms = document.querySelector('#id_recipeingredient_set-TOTAL_FORMS')
+let ingredientLabel = document.querySelector('#ingredient_label')
+let formNum = ingredientForm.length - 1
+let line = document.querySelector('#bottom-line')
 let formContainer = document.querySelector('#form-container')
 let stepForm = document.querySelectorAll('.step-form')
 let addStep = document.querySelector('#add-step')
 let totalSteps = document.querySelector('#id_recipestep_set-TOTAL_FORMS')
 let stepNum = stepForm.length - 1
 
+// base form
+title.classList.add('grow')
+image.classList.add('grow')
+difficulty.classList.add('mt-4')
+image.querySelector('input').classList.add('w-full')
+
+// step
 addStep.addEventListener('click', addDetail)
 
 function addDetail(e) {
@@ -16,16 +32,11 @@ function addDetail(e) {
   stepNum++
   newForm.innerHTML = newForm.innerHTML.replace(formRegex, `recipestep_set-${stepNum}-`)
   newForm.innerHTML = newForm.innerHTML.replace()
-  formContainer.insertBefore(newForm, addStep)
+  formContainer.insertBefore(newForm, ingredientLabel)
   totalSteps.setAttribute('value', `${stepNum + 1}`)
 }
 
 // ingredient
-let ingredientForm = document.querySelectorAll('.ingredient-form')
-let addIngredient = document.querySelector('#add-ingredient')
-let totalForms = document.querySelector('#id_recipeingredient_set-TOTAL_FORMS')
-let formNum = ingredientForm.length - 1
-
 addIngredient.addEventListener('click', addForm)
 
 function addForm(e) {
@@ -37,7 +48,7 @@ function addForm(e) {
   formNum++
   newForm.innerHTML = newForm.innerHTML.replace(formRegex, `recipeingredient_set-${formNum}-`)
   newForm.innerHTML = newForm.innerHTML.replace()
-  formContainer.insertBefore(newForm, addIngredient)
+  formContainer.insertBefore(newForm, line)
   totalForms.setAttribute('value', `${formNum + 1}`)
 
   $(function() {
@@ -50,38 +61,6 @@ function addForm(e) {
   let options = newForm.querySelector('.select2-container')
   let quantity = newForm.querySelector('.textinput')
   options.style.width = '60%'
-  quantity.classList.add('ms-4')
   quantity.classList.add('py-0.5')
+  quantity.parentNode.classList.add('grow')
 }
-
-/*
-// new ingredient
-let newIngredientForm = document.querySelectorAll('.ingredient-add-form')
-let newAddBtn = document.querySelector('#new-ingredient')
-let totalNew = document.querySelector('#id_newingredient-TOTAL_FORMS')
-let newNum = newIngredientForm.length - 1
-
-newAddBtn.addEventListener('click', addNew)
-
-function addNew(e) {
-  e.preventDefault()
-
-  let newForm = newIngredientForm[0].cloneNode(true)
-  let formRegex = RegExp(`newingredient-(\\d){1}-`,'g')
-
-  newNum++
-  newForm.innerHTML = newForm.innerHTML.replace(formRegex, `newingredient-${newNum}-`)
-  newForm.innerHTML = newForm.innerHTML.replace()
-  formContainer.insertBefore(newForm, newAddBtn)
-  totalNew.setAttribute('value', `${newNum + 1}`)
-
-  newForm.classList.remove('hidden')
-  let nameDiv = newForm.querySelector('#div_id_newingredient-' + `${newNum}` + '-ingredient')
-  let name = newForm.querySelector('#id_newingredient-' + `${newNum}` + '-ingredient')
-  let quantity = newForm.querySelector('#id_newingredient-' + `${newNum}` + '-quantity')
-  nameDiv.style.width = '60%'
-  name.classList.add('py-0.5')
-  quantity.classList.add('ms-4')
-  quantity.classList.add('py-0.5')
-}
-*/

@@ -1,7 +1,5 @@
 from django import forms
 from .models import *
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import (Layout, Field)
 
 
 class DifficultyWidget(forms.widgets.Widget):
@@ -27,6 +25,12 @@ class RecipeForm(forms.ModelForm):
         label='소요 시간(분)',
     )
     difficulty = DifficultyField(label='난이도')
+    image = forms.ImageField(
+        label='사진',
+        widget=forms.FileInput(
+            attrs={'class': 'border border-inherit'}
+        )
+    )
 
 
     class Meta:
