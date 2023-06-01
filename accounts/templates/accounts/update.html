@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container mt-5 mx-auto max-w-xs">
-  <h1 class="logo-font text-4xl text-center my-8">UPDATE PROFILE</h1>
+  <h1 class="logo-font text-4xl text-center my-8">| UPDATE PROFILE |</h1>
   <form action="{% url 'accounts:update' %}" method="POST" class="group" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     {% include 'error.html' %}

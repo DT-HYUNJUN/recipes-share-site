@@ -4,8 +4,8 @@
 
 {% block content %}
 <div class="container mt-5 mx-auto max-w-xs">
-  <h1 class="logo-font text-4xl text-center my-8">SIGN UP</h1>
-  <form action="{% url 'accounts:signup' %}" class="group" method="POST" enctype="multipart/form-data" onsubmit="return false" novalidate>
+  <h1 class="logo-font text-4xl text-center my-8">| SIGN UP |</h1>
+  <form action="{% url 'accounts:signup' %}" class="group" method="POST" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     {% include 'error.html' %}
     <div class="mb-4 relative">
