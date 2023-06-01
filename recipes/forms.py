@@ -17,9 +17,12 @@ class RecipeForm(forms.ModelForm):
     title = forms.CharField(
         label='요리 이름',
     )
-    content = RichTextUploadingFormField(
-        label='조리법',
-    )
+    # content = RichTextUploadingFormField(
+    #     label='조리법',
+    # )
+    # content = forms.Textarea(
+    #     label='요리 설명',
+    # )
     category = forms.CharField(
         label='카테고리',
     )

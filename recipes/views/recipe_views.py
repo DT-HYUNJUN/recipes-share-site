@@ -55,7 +55,7 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
     def post(self, *args, **kwargs):
         ingredients = Ingredient.objects.all()
         formset = RecipeIngredientFormSet(self.request.POST)
-        form = RecipeForm(self.request.POST)
+        form = RecipeForm(self.request.POST, self.request.FILES)
 
         if form.is_valid():
             recipe = form.save(commit=False)
