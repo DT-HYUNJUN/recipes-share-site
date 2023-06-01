@@ -19,43 +19,43 @@
     <div class=" text-center mt-10 ">
       <ul class="grid grid-cols-4  w-[640px] mx-auto " style="margin-bottom: -1px;">
         <li class="bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">모두보기</a>
+          <button name="filter" value="모두보기" class ='filtering'>모두보기</button>
         </li>
         <li class="hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">메인요리</a>
+          <button name="filter" value="메인요리" class ='filtering'>메인요리</button>
         </li>
         <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">밑반찬</a>
+          <button name="filter" value="밑반찬" class ='filtering'>밑반찬</button>
         </li>
         <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">간식</a>
+          <button name="filter" value="간식" class ='filtering'>간식</button>
         </li>
         <li class=" hover:bg-[#3CB371]  hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">간단요리</a>
+          <button name="filter" value="간단요리" class ='filtering'>간단요리</button>
         </li>
         <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">채식</a>
+          <button name="filter" value="채식" class ='filtering'>채식</button>
         </li>
         <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">한식</a>
+          <button name="filter" value="한식" class ='filtering'>한식</button>
         </li>
         <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">양식</a>
+          <button name="filter" value="양식" class ='filtering'>양식</button>
         </li>
         <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">일식</a>
+          <button name="filter" value="일식" class ='filtering'>일식</button>
         </li>
         <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">중식</a>
+          <button name="filter" value="중식" class ='filtering'>중식</button>
         </li>
         <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">분식</a>
+          <button name="filter" value="분식" class ='filtering'>분식</button>
         </li>
         <li class=" hover:bg-[#3CB371] hover:text-white  border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">안주</a>
+          <button name="filter" value="안주" class ='filtering'>안주</button>
         </li>
         <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">베이킹</a>
+          <button name="filter" value="베이킹" class ='filtering'>베이킹</button>
         </li>
       </ul>
     </div>
@@ -100,8 +100,8 @@
                     <div class="p-5 text-center">
                       <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{ recipe.title }}</h5>
                       <!--난이도 -->
-                      <div class="flex row-auto justify-center">
-                        <div class="flex items-center gap-2">
+                      <div class="flex flex-col justify-center">
+                        <div class="flex items-center justify-center gap-2">
                           <span>난이도</span>
                           {% if recipe.difficulty == 1 %}
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
@@ -116,8 +116,11 @@
                         </div>
                         <!--조리시간 -->
                         <div class="flex items-center justify-center gap-2">
-                          <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                          <span class="font-normal text-gray-700 dark:text-gray-400">{{ recipe.time }}</span>
+                          <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                          <span class="font-normal text-gray-700 dark:text-gray-400">
+                            {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
+                            {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -166,4 +169,31 @@
         </ul>
       </nav>
     </div>
+
+
+<script>
+  const buttons = document.querySelectorAll('.filtering');
+
+  buttons.forEach((btn) => {
+    const btnName = btn.getAttribute('name');
+    const btnValue = btn.getAttribute('value');
+    btn.addEventListener('click', () => {
+      const Url = window.location.href;
+      
+      if (btnValue === '모두보기') {
+        const newUrl = Url.replace(new RegExp(`[?&]${btnName}=[^&]+&?`), '');
+        window.location.href = newUrl;
+      } else if (Url.includes(`?${btnName}=${btnValue}`)) {
+        const newUrl = Url.replace(`?${btnName}=${btnValue}`, '');
+        window.location.href = newUrl;
+      } else if (Url.includes(`?${btnName}=`)) {
+        const newUrl = Url.replace(new RegExp(`\\?${btnName}=[^&]+`), `?${btnName}=${btnValue}`);
+        window.location.href = newUrl;
+      } else {
+        const newUrl = `${Url}?${btnName}=${btnValue}`;
+        window.location.href = newUrl;
+      }
+    });
+  });
+</script>
   {% endblock content %}

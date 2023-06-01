@@ -8,22 +8,31 @@ from recipes.models import *
 from django.db.models import Count
 from django.http import JsonResponse
 from django.views import View
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 
 class RecipeListView(ListView):
     model = Recipe
     paginate_by = 12
-    # paginate_orphans = 3
     template_name = 'recipes/recipe_list.html'
 
 
     def get_context_data(self, **kwargs):
-        context = super(RecipeListView, self).get_context_data()
-        page = context['page_obj']
-        paginator = page.paginator
-        pagelist = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
-        context['pagelist'] = pagelist
+        context = super().get_context_data(**kwargs)
+        category = self.request.GET.get('filter')
+        queryset = self.get_queryset()
+        if category:
+            queryset = queryset.filter(category=category)
+        paginator = Paginator(queryset, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        page = paginator.get_page(page_number)
+        context['page_obj'] = page
+        context['pagelist'] = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
         return context
+
+    def get_queryset(self):
+        return super().get_queryset()
 
 
 class RecipeDetailView(DetailView):

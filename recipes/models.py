@@ -31,6 +31,19 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+    
+    @property
+    def get_hour(self):
+        time = int(self.time)
+        hour = time // 60
+        return hour
+    
+    @property
+    def get_minute(self):
+        time = self.time
+        minute = time % 60
+        return minute
+
 
 
 class RecipeStep(models.Model):
