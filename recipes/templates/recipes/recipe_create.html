@@ -10,12 +10,22 @@
 
 {% block content %}
 <div class="container mx-auto max-w-screen-xl">
-  <form id="form-container" action="{% url 'recipes:recipe_create' %}" method="POST" enctype="multipart/form-data">
+  <form id="form-container" class="mt-4" action="{% url 'recipes:recipe_create' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.media }}
-    {{ form|crispy }}
+    <div class="flex gap-4">
+      {{ form.title|as_crispy_field }}
+      {{ form.category|as_crispy_field }}
+    </div>
+    <div class="flex gap-4">
+      {{ form.time|as_crispy_field }}
+      {{ form.difficulty|as_crispy_field }}
+      {{ form.image|as_crispy_field }}
+    </div>
+    {{ form.content|as_crispy_field }}
     <div class="flex content-center">
-      <span class="block text-gray-700 text-sm font-bold mb-2 me-3 leading-relaxed">조리법</span>
+      <span class="block text-gray-700 text-sm font-bold mb-2 me-3 leading-loose">조리법</span>
+      <button type="button" id="add-step" class="border border-[#3CB371] hover:bg-[#003153] focus:ring-1 focus:ring-black font-medium text-sm px-2 py-1 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">단계 추가</button>
     </div>
     {{ stepformset.management_form }}
     {% for stepform in stepformset %}
@@ -23,20 +33,21 @@
       {{ stepform|crispy }}
     </div>
     {% endfor %}
-    <button type="button" id="add-step" class="text-white bg-black hover:bg-[#003153] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-3 py-1 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">추가</button>
-    <span class="block text-gray-700 text-sm font-bold mb-2">재료</span>
+    <div id="ingredient_label" class="flex gap-4">
+      <span class="block text-gray-700 text-sm font-bold leading-loose mb-2">재료</span>
+      <button type="button" id="add-ingredient" class="border border-[#3CB371] hover:bg-[#003153] focus:ring-1 focus:ring-black font-medium text-sm px-2 py-1 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">추가</button>
+    </div>
     {{ ingredientformset.management_form }}
     {% for ingredientform in ingredientformset %}
     <div class="ingredient-form hidden">
-      <div class="flex content-center">
+      <div class="flex content-center gap-2">
         {{ ingredientform.ingredient }}
         {{ ingredientform.quantity|as_crispy_field }}
       </div>
     </div>
     {% endfor %}
-    <button type="button" id="add-ingredient" class="text-white bg-black hover:bg-[#003153] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-3 py-1 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">재료 추가</button>
-    <hr class="mb-2">
-    <button type="submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-3 py-1 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">레시피 등록</button>
+    <hr id="bottom-line" class="mb-2">
+    <button type="submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium text-base px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">레시피 등록</button>
   </form>
 </div>
 {% endblock content %}
