@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container mx-auto max-w-screen-xl">
+
+    <div>
+      <h1 class="logo-font text-4xl text-center mt-10">| EQUIPS |</h1>
+      <p class="text-center text-base">조리도구 별 요리를 골라보세요 !</p>
+    </div>
+
+    <div class="flex gap-5 justify-center mt-10 bg-gray-100 p-5 ">
+      <a href="#">
+        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700">
+          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/microwave.png' %}" alt="">
+          <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white">전자레인지</p>
+        </div>
+      </a>
+      <a href="#">
+        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700">
+          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/oven.png' %}" alt="">
+          <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white">오븐</p>
+        </div>
+      </a>
+      <a href="#">
+        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700">
+          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/airfryer.png' %}" alt="">
+          <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white">에어프라이기</p>
+        </div>
+      </a>
+      <a href="#">
+        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700">
+          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/stove.png' %}" alt="">
+          <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white">가스레인지</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="container mx-auto">
+      <section class="border-t-4 pt-10 mt-10">
+
+        <div class="flex">
+          <div class=" grid grid-cols-2 md:grid-cols-4 gap-4 mx-auto mt-9 ">
+            {% for recipe in page_obj %}
+              <div>
+                <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
+                  <div class="w-72 bg-white">
+                    <div class="class">
+                      {% if recipe.image %}
+                        <img class="object-cover w-72 h-72" src="{{ recipe.image.url }}" alt="">
+                      {% else %}
+                        <img class="object-cover w-72 h-72 border" src="{% static 'img/no_img.jpeg' %}" alt="">
+                      {% endif %}
+                    </div>
+                    <div class="p-5 text-center">
+                      <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{ recipe.title }}</h5>
+                      <!--난이도 -->
+                      <div class="flex row-auto justify-center">
+                        <div class="flex items-center gap-2">
+                          <span>난이도</span>
+                          {% if recipe.difficulty == 1 %}
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          {% elif recipe.difficulty == 2 %}
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          {% elif recipe.difficulty == 3 %}
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          {% endif %}
+                        </div>
+                        <!--조리시간 -->
+                        <div class="flex items-center justify-center gap-2">
+                          <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                          <span class="font-normal text-gray-700 dark:text-gray-400">{{ recipe.time }}분</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <nav aria-label="Page navigation example" class="flex justify-center my-14">
+        <ul class="inline-flex -space-x-px">
+          {% if page_obj.has_previous %}
+            <li>
+              <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</a>
+            </li>
+          {% else %}
+            <li>
+              <a class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">이전</a>
+            </li>
+          {% endif %}
+
+          {% for index in pagelist %}
+            {% if index == page_obj.number %}
+              <li>
+                <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
+              </li>
+            {% else %}
+              <li>
+                <a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="?page={{ index }}">{{ index }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <li>
+              <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
+            </li>
+          {% else %}
+            <li>
+              <a class="px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+{% endblock content %}

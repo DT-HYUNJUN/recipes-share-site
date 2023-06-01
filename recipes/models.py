@@ -31,6 +31,19 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+    
+    @property
+    def get_hour(self):
+        time = int(self.time)
+        hour = time // 60
+        return hour
+    
+    @property
+    def get_minute(self):
+        time = self.time
+        minute = time % 60
+        return minute
+
 
 
 class RecipeStep(models.Model):
@@ -56,8 +69,8 @@ class RecipeReview(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-# class Equip(models.Model):
-#     microwave = models.BooleanField(default=False)
-#     stove = models.BooleanField(default=False)
-#     oven = models.BooleanField(default=False)
-#     air_fryer = models.BooleanField(default=False) 태그
+class Equip(models.Model):
+    microwave = models.BooleanField(default=False)
+    stove = models.BooleanField(default=False)
+    oven = models.BooleanField(default=False)
+    air_fryer = models.BooleanField(default=False) # 태그
