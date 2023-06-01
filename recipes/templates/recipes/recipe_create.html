@@ -5,6 +5,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/recipes/create.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 {% endblock style %}
 
 {% block content %}
@@ -13,54 +14,31 @@
     {% csrf_token %}
     {{ form.media }}
     {{ form|crispy }}
+    <span class="block text-gray-700 text-sm font-bold mb-2">재료</span>
     {{ formset.management_form }}
     {% for subform in formset %}
-    <div class="ingredient-form">
-      <label for="id_recipeingredient_set-0-ingredient">재료</label>
-      <input id="id_recipeingredient_set-0" name="recipeingredient_set-0-ingredient" list="id_recipeingredient_set-0-ingredient">
-      <datalist id="id_recipeingredient_set-0-ingredient">
-        {% for option in options %}
-          <option value="{{ option }}">{{ option }}</option>
-        {% endfor %}
-      </datalist>
-      <label for="id_recipeingredient_set-0-quantity">수량</label>
-      <input type="text" name="recipeingredient_set-0-quantity" maxlength="50" id="id_recipeingredient_set-0-quantity">
+    <div class="ingredient-form hidden">
+      <div class="flex content-center">
+        {{ subform.ingredient }}
+        {{ subform.quantity|as_crispy_field }}
+      </div>
     </div>
     {% endfor %}
-    <button type="button" id="add-ingredient">재료 추가</button>
-    <button type="submit">생성</button>
+    <button type="button" id="add-ingredient" class="text-white bg-black hover:bg-[#003153] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-3 py-1 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">재료 추가</button>
+    <button type="submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-3 py-1 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">레시피 등록</button>
   </form>
 </div>
 {% endblock content %}
 
 {% block script %}
 <script>
-  let ingredientForm = document.querySelectorAll('.ingredient-form')
-  let formContainer = document.querySelector('#form-container')
-  let addIngredient = document.querySelector('#add-ingredient')
-  let totalForms = document.querySelector('#id_recipeingredient_set-TOTAL_FORMS')
-  let formNum = ingredientForm.length - 1
-
-  addIngredient.addEventListener('click', addForm)
-
-  function addForm(e) {
-    e.preventDefault()
-
-    let newForm = ingredientForm[0].cloneNode(true)
-    let formRegex = RegExp(`recipeingredient_set-(\\d){1}-`,'g')
-
-    formNum++
-    newForm.innerHTML = newForm.innerHTML.replace(formRegex, `recipeingredient_set-${formNum}-`)
-    formContainer.insertBefore(newForm, addIngredient)
-    totalForms.setAttribute('value', `${formNum + 1}`)
-  }
-</script>
-
-<script>
   const editorId = document.querySelector('.django-ckeditor-widget')
   editorId.style.display = 'block'
 </script>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 <script src="{% static 'js/recipes/difficulty.js' %}"></script>
+<script src="{% static 'js/recipes/create.js' %}"></script>
 {% endblock script %}

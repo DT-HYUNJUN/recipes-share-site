@@ -14,10 +14,10 @@
   </div>
 
   <div class="relative overflow-x-auto flex flex-col items-center">
-    <table class="w-5/6 text-sm text-left text-gray-500 dark:text-gray-400">
+    <table class=" w-5/6 text-sm text-left text-gray-500 dark:text-gray-400 table-auto">
       <thead class="text-xs text-gray-700 uppercase bg-[#f0fff0] dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="px-6 py-3 text-center">
             글번호
           </th>
           <th scope="col" class="px-6 py-3">
@@ -37,11 +37,13 @@
       <tbody>
         {% for post in posts %}
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
-            <td class="px-6 py-4">
+            <td class="px-6 py-4 text-center ">
               {{ post.pk }}
             </td>
             <td class="px-6 py-4">
-              <a class="hover:underline decoration-1" href="{% url 'communities:detail' post.pk %}">{{ post.title }}</a>
+              <div class="truncate" style="max-width: 400px;">
+                <a class="hover:underline decoration-1" href="{% url 'communities:detail' post.pk %}">{{ post.title }}</a>
+              </div>
             </td>
             <td class="px-6 py-4">
              {{ post.created_at|date:'Y-m-d H:i' }}

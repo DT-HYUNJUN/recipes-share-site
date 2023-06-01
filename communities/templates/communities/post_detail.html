@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="container mx-auto max-w-screen-xl">
-  <h1 class="text-xl">{{ post.title }}</h1>
+  <h1 class=" text-xl my-4 border-r-2 border-2 border-gray-100 p-3 text-[#2E8B57]" >  {{ post.title }}</h1>
   <!-- 본문 -->
   <div class="border p-3 rounded-lg grid grid-cols-12">
     <div class="col-span-1 px-5 mt-2">
@@ -35,7 +35,7 @@
         </div>
       </div>
       <p class="text-md">{{ post.content|linebreaksbr }}</p>
-      <div class="">
+      <div>
         <img class="w-4/5" {% if post.image %} src="{{ post.image.url }}" {% endif %}  alt="">
       </div>
       <form class="like-form mt-10" data-post-id="{{post.pk}}" >

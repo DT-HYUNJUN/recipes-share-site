@@ -54,15 +54,20 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
         formset = RecipeIngredientFormSet(self.request.POST)
         form = RecipeForm(self.request.POST)
 
-        if form.is_valid() and form.is_valid():
+        if form.is_valid():
             recipe = form.save(commit=False)
             recipe.user = self.request.user
             recipe.save()
 
             for subform in formset:
-                ingredient = subform.save(commit=False)
-                ingredient.recipe = recipe
-                ingredient.save()
+                print(subform)
+                if subform.is_valid():
+                    try:
+                        ingredient = subform.save(commit=False)
+                        ingredient.recipe = recipe
+                        ingredient.save()
+                    except:
+                        continue
 
             return redirect('recipes:recipe_detail', recipe_pk=recipe.pk)
         
