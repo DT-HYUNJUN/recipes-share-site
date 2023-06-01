@@ -5,6 +5,9 @@ from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
 from recipes.forms import RecipeForm, RecipeReviewForm, RecipeIngredientFormSet
 from recipes.models import *
+from django.db.models import Count
+from django.http import JsonResponse
+from django.views import View
 
 
 class RecipeListView(ListView):
@@ -120,13 +123,6 @@ class RecipeSearchView(ListView):
     model = Recipe
     template_name = 'recipes/recipe_search.html'
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        keyword = self.request.GET.get('keyword')
-        if keyword:
-            queryset = queryset.filter(title__icontains=keyword)
-        return queryset
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         keyword = self.request.GET.get('keyword')
@@ -146,9 +142,44 @@ class RecipeSearchView(ListView):
 class RecipeNameSearchView(RecipeSearchView):
     template_name = 'recipes/recipe_search_name.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        keyword = self.request.GET.get('keyword')
+        
+        # 제목에 키워드가 포함된 레시피들 쿼리셋
+        title_queryset = self.model.objects.filter(title__icontains=keyword).order_by('-created_at')
+        
+        sort_param = self.request.GET.get('sort')
+        
+        if sort_param == 'created_at':
+            title_queryset = title_queryset.order_by('-created_at')
+        elif sort_param == 'difficulty':
+            title_queryset = title_queryset.order_by('difficulty')
+        elif sort_param == 'time':
+            title_queryset = title_queryset.order_by('time')
+        elif sort_param == 'likes':
+            queryset = queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes')
+
+        context['keyword'] = keyword
+        context['title_recipes'] = title_queryset
+        context['sort_param'] = sort_param
+        return context
+
     
 class RecipeIngredientSearchView(RecipeSearchView):
     template_name = 'recipes/recipe_search_ingredient.html'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        sort_param = self.request.GET.get('sort')
+        
+        if sort_param == 'created_at':
+            queryset = queryset.order_by('-created_at')
+        elif sort_param == 'difficulty':
+            queryset = queryset.order_by('difficulty')
+        elif sort_param == 'time':
+            queryset = queryset.order_by('time')
+
+        return queryset
 
 
 class RecipeFridge(LoginRequiredMixin, ListView):
