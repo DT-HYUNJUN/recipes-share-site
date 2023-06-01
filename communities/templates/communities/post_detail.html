@@ -4,12 +4,11 @@
 {% load static %}
 
 {% block content %}
-<div class="container mx-auto max-w-screen-xl">
-  <h1 class=" text-xl my-4 border-r-2 border-2 border-gray-100 p-3 text-[#2E8B57]" >  {{ post.title }}</h1>
+<div class="container mx-auto max-w-screen-xl my-10">
   <!-- 본문 -->
   <div class="border p-3 rounded-lg grid grid-cols-12">
     <div class="col-span-1 px-5 mt-2">
-      <img class="w-4/5" {% if post.user.profile_image %} src="{{ post.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
+      <img class="w-4/5 rounded-full" {% if post.user.profile_image %} src="{{ post.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
     </div>
     <div class="col-span-11">
       <div class="flex justify-between gap-3 text-sm my-3">
@@ -34,7 +33,8 @@
           </ul>
         </div>
       </div>
-      <p class="text-md">{{ post.content|linebreaksbr }}</p>
+      <h1 class=" text-xl my-4 text-[#2E8B57]" >  {{ post.title }}</h1>
+      <p class="text-md p-3">{{ post.content|linebreaksbr }}</p>
       <div>
         <img class="w-4/5" {% if post.image %} src="{{ post.image.url }}" {% endif %}  alt="">
       </div>
@@ -53,9 +53,9 @@
       </form>
     </div>
   </div>
-
+  {% comment %} action="{% url 'communities:comment_create' post.pk %}" method="POST" {% endcomment %}
   {% if request.user.is_authenticated %}
-    <form id="review-form" action="{% url 'communities:comment_create' post.pk %}" method="POST" class="mt-5" data-pk="{{ post.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'communities:comment_create' post.pk %}">
+    <form id="review-form" class="mt-5" data-pk="{{ post.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'communities:comment_create' post.pk %}">
       {% csrf_token %}
       <div class="border rounded-lg p-5 pb-0">
         <p class="font-bold ms-4">{{ request.user.nickname }}</p>
@@ -68,12 +68,12 @@
   {% endif %}
 
   <section id="reviews">
-    <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 {{ comments.count }}</p>
+    <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 <span id="review-count">{{ comments.count }}</span></p>
     {% for comment in comments %}
-    <div id="review" {% if request.user == review.user %} class="grid grid-cols-12 text-sm py-5 px-3 bg-[#9ACD32]/[0.2]" {% else %} class="grid grid-cols-12 text-sm my-5 px-3" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ comment.pk }}" data-review-pk="{{ comment.pk }}"  data-update-url="{% url 'communities:comment_update' post.pk comment.pk %}" data-delete-url="{% url 'communities:comment_delete' post.pk comment.pk %}">
+    <div id="review" {% if request.user == comment.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b" {% else %} class="grid grid-cols-12 text-sm my-5 px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ comment.pk }}" data-review-pk="{{ comment.pk }}"  data-update-url="{% url 'communities:comment_update' post.pk comment.pk %}" data-delete-url="{% url 'communities:comment_delete' post.pk comment.pk %}">
       <!-- 리뷰 작성자 프로필 사진 -->
       <div class="col-span-1 flex items-start mb-1">
-        <img class="w-10 rounded-full" {% if comment.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
+        <img class="w-10 rounded-full" {% if comment.user.profile_image %} src="{{ comment.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
       </div>
       <!-- 작성자 / 내용 -->
       <div class="col-span-11">
@@ -114,7 +114,6 @@
         <span class="text-gray-500">{{ comment.created_at|date:'Y-m-d H:i' }}</span>
       </div>
     </div>
-    <hr>
     {% endfor %}
   </section>
 </div>

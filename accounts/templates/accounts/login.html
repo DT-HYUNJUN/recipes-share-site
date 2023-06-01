@@ -6,7 +6,7 @@
 {% load static %}
 
 <div class="container mt-5 mx-auto max-w-xs">
-  <h1 class="logo-font text-4xl text-center my-8">LOGIN</h1>
+  <h1 class="logo-font text-4xl text-center my-8">| LOGIN |</h1>
   <form action="{% url 'accounts:login' %}" class="group" method="POST" novalidate >
     {% csrf_token %}
     {% include 'error.html' %}

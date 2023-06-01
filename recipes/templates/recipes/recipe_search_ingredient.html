@@ -97,8 +97,8 @@
                   <div class="p-5 text-center">
                     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{ recipe.title }}</h5>
                     <!--난이도 -->
-                    <div class="flex row-auto justify-center">
-                      <div class="flex items-center gap-2">
+                    <div class="flex flex-col justify-center">
+                      <div class="flex items-center justify-center gap-2">
                         <span>난이도</span>
                         {% if recipe.difficulty == 1 %}
                         <img src="{% static 'img/rating-star.svg' %}" alt="">
@@ -113,8 +113,11 @@
                       </div>
                       <!--조리시간 -->
                       <div class="flex items-center justify-center gap-2">
-                        <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">{{ recipe.time }}</span>
+                        <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">
+                          {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
+                          {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
+                        </span>
                       </div>
                     </div>
                   </div>

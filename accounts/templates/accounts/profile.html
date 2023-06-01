@@ -12,17 +12,17 @@
   <div class='d-flex align-items-center justify-content-between mt-3 mb-2'>
     <div class='flex mt-2 mb-2'>
       <div class="w-1/6">
-        <div class="card" class = "mx-auto">
-          {% if person.profile_image %}
-            <img src="{{ person.profile_image.url }}" class="card-img-top rounded-2 mx-auto mt-4" style = "width: 100px;" alt="image">
-          {% else %}
-            <img src="{% static 'not-found-user.png' %}" class="card-img-top rounded-2 mx-auto mt-4" alt="image">
-          {% endif %}
-          <div class="card-body mal">
-            <p class="card-text">{{ person.nickname }}</p> 
+        <div class="flex justify-center items-center flex-col">
+          <div class="card" class = "mx-auto">
+            {% if person.profile_image %}
+              <img src="{{ person.profile_image.url }}" class="card-img-top rounded-2 mx-auto mt-4" style = "width: 150px;" alt="image">
+            {% else %}
+              <img src="{% static 'not-found-user.png' %}" class="card-img-top rounded-2 mx-auto mt-4" alt="image">
+            {% endif %}
+            <div class="card-body mal">
+              <p class="card-text text-center">{{ person.nickname }}</p>
+            </div>
           </div>
-        </div>
-        <div>
           <div class = "flex">
             <button type="button" class="btn f_list" data-modal-toggle="staticModal1" data-modal-target="#exampleModal1">
               팔로잉 {{ person.followings.all | length }}
@@ -39,14 +39,24 @@
             <form action="{% url 'accounts:follow' person.pk %}" method="post">
               {% csrf_token %}
               {% if user in person.followers.all %}
-              <button type="submit" class='f_btn'>Unfollow <i class="fa-solid fa-user-minus"></i></button>
+              <button type="submit">Unfollow <i class="fa-solid fa-user-minus"></i></button>
               {% else %}
-              <button type="submit" class='f_btn'>Follow <i class="fa-solid fa-user-plus"></i></button>
+              <button type="submit">Follow <i class="fa-solid fa-user-plus"></i></button>
               {% endif %}
             </form>
             {% endif %}
           </div>
         </div>
+        <br>
+        <hr class='m-0 ms-1 me-1'>
+        <a href="{% url 'accounts:profile' person %}?q=bookmark"><p class='p-3 text-center'>북마크</p></a>
+        <hr class='m-0 ms-1 me-1'>
+        <a href="{% url 'accounts:profile' person %}?q=fridge"><p class='p-3 text-center'>냉장고</p></a>
+        <hr class='m-0 ms-1 me-1'>
+        <a href="{% url 'accounts:profile' person %}?q=community"><p class='p-3 text-center'>커뮤니티</p></a>
+        <hr class='m-0 ms-1 me-1'>
+
+
 
         <div id="staticModal1" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
           <div class="relative w-full max-w-2xl max-h-full">
@@ -108,14 +118,7 @@
 
       <div class="w-5/6">
         <div class='info flex flex-col p-0'>
-          <div class='flex'>
-            <a href="{% url 'accounts:profile' person %}?q=bookmark"><p class='p-3'>북마크</p></a>
-            <hr class='m-0 ms-1 me-1'>
-            <a href="{% url 'accounts:profile' person %}?q=fridge"><p class='p-3'>냉장고</p></a>
-            <hr class='m-0 ms-1 me-1'>
-            <a href="{% url 'accounts:profile' person %}?q=community"><p class='p-3'>커뮤니티</p></a>
-            <hr class='m-0 ms-1 me-1'>
-          </div>
+          
           
       
           {% if q == 'bookmark' %}
@@ -130,7 +133,6 @@
         </div>
       </div>
 
-      </div>
     </div>
   </div>
 </div>

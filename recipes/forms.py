@@ -2,7 +2,6 @@ from django import forms
 from .models import *
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (Layout, Field)
-from ckeditor_uploader.fields import RichTextUploadingFormField
 
 
 class DifficultyWidget(forms.widgets.Widget):
@@ -17,12 +16,10 @@ class RecipeForm(forms.ModelForm):
     title = forms.CharField(
         label='요리 이름',
     )
-    # content = RichTextUploadingFormField(
-    #     label='조리법',
-    # )
-    # content = forms.Textarea(
-    #     label='요리 설명',
-    # )
+    content = forms.CharField(
+        label='설명',
+        widget=forms.Textarea(attrs={'rows': 2,}),
+    )
     category = forms.CharField(
         label='카테고리',
     )
@@ -50,4 +47,15 @@ RecipeIngredientFormSet = forms.inlineformset_factory(
     extra=1,
     can_delete=False,
     labels={'ingredient': '', 'quantity': ''},
+)
+
+
+RecipeStepFormset = forms.inlineformset_factory(
+    Recipe,
+    RecipeStep,
+    fields = ('detail',),
+    extra = 1,
+    can_delete=False,
+    labels={'detail': ''},
+    widgets={'detail': forms.Textarea(attrs={'rows': 1,})},
 )
