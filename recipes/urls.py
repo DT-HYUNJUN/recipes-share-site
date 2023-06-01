@@ -20,4 +20,6 @@ urlpatterns = [
     path('<int:recipe_pk>/<int:review_pk>/delete/', RecipeReviewDeleteView.as_view(), name='review_delete'),
     # 냉장고
     path('fridge/', RecipeFridge.as_view(), name='recipe_fridge'),
+    # 도구
+    path('equip/', RecipeEquip.as_view(), name='recipe_equip')
 ]

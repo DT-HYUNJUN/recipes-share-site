@@ -9,14 +9,14 @@
     <!-- 레시피 정보 -->
     <div class="flex-col space-y-4">
       <!-- 사진 -->
-      <div class="mb-4">
+      <div class="mb-4 mt-10">
         {% if recipe.image %}
           <img src="{{ recipe.image.url }}" alt="">
         {% endif %}
       </div>
       <!-- 제목, 북마크-->
       <div class="flex justify-between">
-        <h1 class="text-2xl font-bold">{{ recipe.title }}</h1>
+        <h1 class="text-2xl font-bold my-10">{{ recipe.title }}</h1>
         <button class="text-2xl"><i class="bi bi-bookmark-plus"></i></button>
       </div>
       <!-- 난이도, 소요시간-->
@@ -189,13 +189,13 @@
       <section id="reviews">
         <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 <span id="review-count">{{ reviews.count }}</span></p>
         {% for review in reviews %}
-        <div id="review" {% if request.user == review.user %} class="flex text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b" {% else %} class="flex text-sm gap-3 my-5 px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
+        <div id="review" {% if request.user == review.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b" {% else %} class="grid grid-cols-12 text-sm my-5 px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
           <!-- 리뷰 작성자 프로필 사진 -->
-          <div class="flex items-start gap-3 mb-1">
+          <div class="col-span-1 flex items-start mb-1">
             <img class="w-10 rounded-full" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
           </div>
           <!-- 작성자 / 내용 -->
-          <div class="flex-grow">
+          <div class="col-span-11">
             <div class="flex justify-between">
               <p class="font-bold mb-1">{{ review.user.nickname }}</p>
               {% if request.user == review.user %}
@@ -274,52 +274,86 @@
             <tbody>
               <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Microsoft Surface Pro
+                  1큰술(1T, 1Ts) = 1숟가락
                 </th>
                 <td class="px-6 py-4 text-end">
-                  White
+                  15ml = 3t
+                  {% comment %} <span>(계량스푼이 없는 경우 밥숟가락으로 볼록하게 가득 담으면 1큰술)</span> {% endcomment %}
                 </td>
               </tr>
               <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Apple MacBook Pro 17"
+                  1 작은술(1t,1ts)
                 </th>
                 <td class="px-6 py-4 text-end">
-                  Silver
+                  5ml
                 </td>
               </tr>
               <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Microsoft Surface Pro
+                  1컵(1Cup,1C)
                 </th>
                 <td class="px-6 py-4 text-end">
-                  White
+                  200ml = 16T(한국,중국,일본)
                 </td>
               </tr>
               <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Magic Mouse 2
+                  1종이컵
                 </th>
                 <td class="px-6 py-4 text-end">
-                  Black
+                  180ml
                 </td>
               </tr>
               <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Google Pixel Phone
+                  1oz
                 </th>
                 <td class="px-6 py-4 text-end">
-                  Gray
+                  28.3g
                 </td>
               </tr>
               <tr class="border-b">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Apple Watch 5
+                  1파운드(lb)
                 </th>
                 <td class="px-6 py-4 text-end">
-                  Red
+                 약 0.453 킬로그램(kg)
                 </td>
               </tr>
+              <tr class="border-b bg-gray-50">
+                <th scope="row" class=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  1갤런(gallon)
+                </th>
+                <td class="px-6 py-4 text-end">
+                 약 0.378 리터
+                </td>
+              </tr>
+              <tr class="border-b">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  고기 1근
+                </th>
+                <td class="px-6 py-4 text-end">
+                 600g
+                </td>
+              </tr>
+              <tr class="border-b bg-gray-50">
+                <th scope="row" class= " px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  채소 1근
+                </th>
+                <td class="px-6 py-4 text-end">
+                 400g
+                </td>
+              </tr>
+              <tr class="border-b">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  채소 1봉지
+                </th>
+                <td class="px-6 py-4 text-end">
+                 200g 정도
+                </td>
+              </tr>
+            
             </tbody>
           </table>
         </div>

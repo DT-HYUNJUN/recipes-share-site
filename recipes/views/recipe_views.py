@@ -69,9 +69,11 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
 
 
     def post(self, *args, **kwargs):
+        ingredients = Ingredient.objects.all()
+        formset = RecipeIngredientFormSet(self.request.POST)
+        form = RecipeForm(self.request.POST, self.request.FILES)
         stepforms = RecipeStepFormset(self.request.POST)
         ingredientforms = RecipeIngredientFormSet(self.request.POST)
-        form = RecipeForm(self.request.POST)
 
         if form.is_valid():
             recipe = form.save(commit=False)
@@ -227,3 +229,23 @@ class RecipeFridge(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(RecipeFridge, self).get_context_data()
         return context
+
+
+class RecipeEquip(LoginRequiredMixin, ListView):
+    # model = Equip
+    template_name = 'recipes/equip.html'
+    model = Recipe
+    paginate_by = 12
+    # paginate_orphans = 3
+    
+    def get_context_data(self, **kwargs):
+        context = super(RecipeEquip, self).get_context_data()
+        page = context['page_obj']
+        paginator = page.paginator
+        pagelist = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
+        context['pagelist'] = pagelist
+        return context
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super(RecipeFridge, self).get_context_data()
+    #     return context

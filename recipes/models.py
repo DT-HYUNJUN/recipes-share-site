@@ -69,8 +69,8 @@ class RecipeReview(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-# class Equip(models.Model):
-#     microwave = models.BooleanField(default=False)
-#     stove = models.BooleanField(default=False)
-#     oven = models.BooleanField(default=False)
-#     air_fryer = models.BooleanField(default=False) 태그
+class Equip(models.Model):
+    microwave = models.BooleanField(default=False)
+    stove = models.BooleanField(default=False)
+    oven = models.BooleanField(default=False)
+    air_fryer = models.BooleanField(default=False) # 태그
