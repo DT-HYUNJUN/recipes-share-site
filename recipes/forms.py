@@ -30,7 +30,7 @@ class RecipeForm(forms.ModelForm):
         label='카테고리',
     )
     time = forms.CharField(
-        label='소요 시간',
+        label='소요 시간(분)',
     )
     difficulty = DifficultyField(label='난이도')
 
