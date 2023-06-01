@@ -63,6 +63,7 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
         stepforms = RecipeStepFormset(self.request.POST)
         ingredientforms = RecipeIngredientFormSet(self.request.POST)
         form = RecipeForm(self.request.POST)
+        ingredient_num = int(self.request.POST.get('recipeingredient_set-TOTAL_FORMS'))
 
         if form.is_valid():
             recipe = form.save(commit=False)
@@ -75,15 +76,19 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
                     if step.detail != '':
                         step.recipe = recipe
                         step.save()
+            
+            raw_ingredient = list()
 
-            for subform in ingredientforms:
-                if subform.is_valid():
-                    try:
-                        ingredient = subform.save(commit=False)
-                        ingredient.recipe = recipe
-                        ingredient.save()
-                    except:
-                        continue
+            for i in range(1, ingredient_num):
+                raw_ingredient.append((self.request.POST.get(f'recipeingredient_set-{i}-ingredient'), self.request.POST.get(f'recipeingredient_set-{i}-quantity')))
+            
+            for ingredient, quantity in raw_ingredient:
+                if ingredient.isdigit():
+                    print(1)
+                    RecipeIngredient.objects.create(recipe=recipe, ingredient=Ingredient.objects.get(pk=int(ingredient)), quantity=quantity)
+                else:
+                    temp = Ingredient.objects.create(name=ingredient)
+                    RecipeIngredient.objects.create(recipe=recipe, ingredient=temp, quantity=quantity)
 
             return redirect('recipes:recipe_detail', recipe_pk=recipe.pk)
         
