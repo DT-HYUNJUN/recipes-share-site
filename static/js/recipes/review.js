@@ -205,7 +205,7 @@ reviewSubmit.addEventListener('click', (e) => {
 
       const reviewContent = document.createElement('p');
       reviewContent.setAttribute('id', 'review-content');
-      reviewContent.classList.add('col-span-6', 'flex', 'items-center');
+      reviewContent.classList.add('col-span-6', 'flex', 'items-center', 'mb-2');
       reviewContent.textContent = data.content;
       contentContainer.appendChild(reviewContent);
 
