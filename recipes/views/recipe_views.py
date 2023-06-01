@@ -163,7 +163,7 @@ class RecipeNameSearchView(RecipeSearchView):
         elif sort_param == 'time':
             title_queryset = title_queryset.order_by('time')
         elif sort_param == 'likes':
-            queryset = queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes')
+            title_queryset = title_queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes')
 
         context['keyword'] = keyword
         context['title_recipes'] = title_queryset
@@ -173,18 +173,29 @@ class RecipeNameSearchView(RecipeSearchView):
     
 class RecipeIngredientSearchView(RecipeSearchView):
     template_name = 'recipes/recipe_search_ingredient.html'
-    def get_queryset(self):
-        queryset = super().get_queryset()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        keyword = self.request.GET.get('keyword')
+        
+        # 제목에 키워드가 포함된 레시피들 쿼리셋
+        ingredient_queryset = self.model.objects.filter(ingredients__name__icontains=keyword)
+        
         sort_param = self.request.GET.get('sort')
         
         if sort_param == 'created_at':
-            queryset = queryset.order_by('-created_at')
+            ingredient_queryset = ingredient_queryset.order_by('-created_at')
         elif sort_param == 'difficulty':
-            queryset = queryset.order_by('difficulty')
+            ingredient_queryset = ingredient_queryset.order_by('difficulty')
         elif sort_param == 'time':
-            queryset = queryset.order_by('time')
+            ingredient_queryset = ingredient_queryset.order_by('time')
+        elif sort_param == 'likes':
+            ingredient_queryset = ingredient_queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes')
 
-        return queryset
+        context['keyword'] = keyword
+        context['ingredient_queryset'] = ingredient_queryset
+        context['sort_param'] = sort_param
+        return context
 
 
 class RecipeFridge(LoginRequiredMixin, ListView):

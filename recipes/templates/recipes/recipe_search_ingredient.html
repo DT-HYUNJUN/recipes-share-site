@@ -7,12 +7,24 @@
 <div class="container mx-auto">
   <section class="border-t-4 pt-10 mt-10">
       <div class="flex justify-end md:mx-52">
-        <button id="dropdownOffsetButton" data-dropdown-toggle="dropdownOffset" data-dropdown-offset-distance="-35" data-dropdown-offset-skidding="0" class="text-black bg-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center   type=" button"=" button""=" button" "">최신순
-          <svg class=" w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <button id="dropdownOffsetButton" data-dropdown-toggle="dropdownOffset" data-dropdown-offset-distance="-35" data-dropdown-offset-skidding="0" class="text-black bg-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">
+          {% if sort_param == 'created_at' %}
+            최신순
+          {% elif sort_param == 'liked' %}
+            추천순
+          {% elif sort_param == 'difficulty' %}
+            난이도순
+          {% elif sort_param == 'time' %}
+            소요시간순
+          {% else %}
+            최신순
+          {% endif %}
+            
+          <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
           </svg>
         </button>
-
+  
         <div id="dropdownOffset" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
             <li>

@@ -22,7 +22,7 @@ class Recipe(models.Model):
     image = ProcessedImageField(upload_to='images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    time = models.CharField(max_length=10)  # 소요시간
+    time = models.IntegerField()
     difficulty = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(3)])  # 난이도
     like_recipes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_recipes_users', blank=True)  # 레시피 좋아요
     bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bookmark_users', blank=True)  # 레시피 북마크
