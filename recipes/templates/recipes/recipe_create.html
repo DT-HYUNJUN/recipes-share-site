@@ -18,13 +18,11 @@
       <span class="block text-gray-700 text-sm font-bold mb-2 me-3 leading-relaxed">조리법</span>
     </div>
     {{ stepformset.management_form }}
-    <div class="stepforms">
-      {% for stepform in stepformset %}
-      <div class="step-form">
-        {{ stepform|crispy }}
-      </div>
-      {% endfor %}
+    {% for stepform in stepformset %}
+    <div class="step-form">
+      {{ stepform|crispy }}
     </div>
+    {% endfor %}
     <button type="button" id="add-step" class="text-white bg-black hover:bg-[#003153] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-3 py-1 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">추가</button>
     <span class="block text-gray-700 text-sm font-bold mb-2">재료</span>
     {{ ingredientformset.management_form }}
@@ -37,6 +35,7 @@
     </div>
     {% endfor %}
     <button type="button" id="add-ingredient" class="text-white bg-black hover:bg-[#003153] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-3 py-1 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">재료 추가</button>
+    <hr class="mb-2">
     <button type="submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-3 py-1 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">레시피 등록</button>
   </form>
 </div>
@@ -45,7 +44,9 @@
 {% block script %}
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
+<script>
+  let options = {{ options }}
+</script>
 <script src="{% static 'js/recipes/difficulty.js' %}"></script>
 <script src="{% static 'js/recipes/create.js' %}"></script>
 {% endblock script %}
