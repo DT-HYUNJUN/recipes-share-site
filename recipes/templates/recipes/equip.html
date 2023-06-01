@@ -1,92 +1,43 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block content %}
+  <div class="container mx-auto max-w-screen-xl">
 
-  {% block style %}
-    <style></style>
-
-  {% endblock style %}
-  <div>
-    <!--제목 ( Our recipes )-->
     <div>
-      <h1 class="logo-font text-4xl text-center mt-10">| OUR RECIPES |</h1>
-      <p class="text-center text-base">다양한 레시피를 골라서 요리해보세요 !</p>
+      <h1 class="logo-font text-4xl text-center mt-10">| EQUIPS |</h1>
+      <p class="text-center text-base">조리도구 별 요리를 골라보세요 !</p>
     </div>
 
-    <!--카테고리-->
-    <div class=" text-center mt-10 ">
-      <ul class="grid grid-cols-4  w-[640px] mx-auto " style="margin-bottom: -1px;">
-        <li class="bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">모두보기</a>
-        </li>
-        <li class="hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">메인요리</a>
-        </li>
-        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">밑반찬</a>
-        </li>
-        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">간식</a>
-        </li>
-        <li class=" hover:bg-[#3CB371]  hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">간단요리</a>
-        </li>
-        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57]  p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">채식</a>
-        </li>
-        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">한식</a>
-        </li>
-        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">양식</a>
-        </li>
-        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">일식</a>
-        </li>
-        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">중식</a>
-        </li>
-        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">분식</a>
-        </li>
-        <li class=" hover:bg-[#3CB371] hover:text-white  border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">안주</a>
-        </li>
-        <li class=" hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2" style="margin: 0 -1px -1px 0;">
-          <a href="#">베이킹</a>
-        </li>
-      </ul>
+    <div class="flex gap-5 justify-center mt-10 bg-gray-100 p-5 ">
+      <a href="#">
+        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700">
+          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/microwave.png' %}" alt="">
+          <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white">전자레인지</p>
+        </div>
+      </a>
+      <a href="#">
+        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700">
+          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/oven.png' %}" alt="">
+          <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white">오븐</p>
+        </div>
+      </a>
+      <a href="#">
+        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700">
+          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/airfryer.png' %}" alt="">
+          <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white">에어프라이기</p>
+        </div>
+      </a>
+      <a href="#">
+        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700">
+          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/stove.png' %}" alt="">
+          <p class="hidden absolute top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white">가스레인지</p>
+        </div>
+      </a>
     </div>
 
-    <!-- Dropdown menu -->
     <div class="container mx-auto">
       <section class="border-t-4 pt-10 mt-10">
-        <div class="flex justify-end md:mx-52">
-          <button id="dropdownOffsetButton" data-dropdown-toggle="dropdownOffset" data-dropdown-offset-distance="-35" data-dropdown-offset-skidding="0" class="text-black bg-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center   type=" button"=" button""=" button" "">최신순
-            <svg class=" w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-
-          <div id="dropdownOffset" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">최신순</a>
-              </li>
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천순</a>
-              </li>
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">난이도순</a>
-              </li>
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">조리시간 순</a>
-              </li>
-            </ul>
-          </div>
-        </div>
 
         <div class="flex">
           <div class=" grid grid-cols-2 md:grid-cols-4 gap-4 mx-auto mt-9 ">
@@ -169,4 +120,5 @@
         </ul>
       </nav>
     </div>
-  {% endblock content %}
+  </div>
+{% endblock content %}
