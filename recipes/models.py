@@ -51,7 +51,7 @@ class RecipeStep(models.Model):
 
 
     def __str__(self):
-        return self.recipe
+        return self.recipe.title
 
 
 class RecipeIngredient(models.Model):
