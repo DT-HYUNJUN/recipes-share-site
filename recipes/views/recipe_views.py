@@ -1,15 +1,13 @@
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.paginator import Paginator
+from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
 from recipes.forms import RecipeForm, RecipeReviewForm, RecipeIngredientFormSet, RecipeStepFormset
 from recipes.models import *
-from django.db.models import Count
-from django.http import JsonResponse
-from django.views import View
-from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
 
 
 class RecipeListView(ListView):
@@ -231,10 +229,33 @@ class RecipeIngredientSearchView(RecipeSearchView):
 class RecipeFridge(LoginRequiredMixin, ListView):
     model = Ingredient
     template_name = 'recipes/fridge.html'
-    
+
+
     def get_context_data(self, **kwargs):
-        context = super(RecipeFridge, self).get_context_data()
+        context = super().get_context_data()
+        already = Ingredient.objects.filter(fridge_users=self.request.user)
+        left = Ingredient.objects.exclude(fridge_users=self.request.user)
+        context = {
+            'already': already,
+            'left': left,
+        }
         return context
+
+
+    def post(self, request, *args, **kwargs):
+        jsonObject = json.loads(request.body)
+        target_pk = jsonObject.get('target')
+        target = Ingredient.objects.get(pk=target_pk)
+        user = request.user
+        already = Ingredient.objects.filter(fridge_users=user)
+        try:
+            if target in already:
+                user.fridge.remove(target)
+            else:
+                user.fridge.add(target)
+            return JsonResponse({'msg': 'success!'})
+        except:
+            return JsonResponse({'msg': 'error!'})
 
 
 class RecipeEquip(LoginRequiredMixin, ListView):
