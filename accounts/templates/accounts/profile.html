@@ -56,6 +56,11 @@
         <a href="{% url 'accounts:profile' person %}?q=community"><p class='p-3 text-center'>커뮤니티</p></a>
         <hr class='m-0 ms-1 me-1'>
 
+        <a href="{% url 'accounts:profile' person %}?q=community" class="grid gap-1 grid-cols-2 items-center">
+          <span class="material-symbols-outlined pl-3 text-end">forum</span>
+          <p class="p-3 ps-0 text-start">커뮤니티</p>
+        </a>
+
 
 
         <div id="staticModal1" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">

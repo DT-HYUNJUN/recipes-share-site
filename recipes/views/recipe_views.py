@@ -235,9 +235,11 @@ class RecipeFridge(LoginRequiredMixin, ListView):
         context = super().get_context_data()
         already = Ingredient.objects.filter(fridge_users=self.request.user)
         left = Ingredient.objects.exclude(fridge_users=self.request.user)
+        buttons = [x for x in range(len(already)+1, 10)]
         context = {
             'already': already,
             'left': left,
+            'buttons': buttons,
         }
         return context
 
