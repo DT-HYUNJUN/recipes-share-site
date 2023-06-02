@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container mx-auto max-w-screen-xl">
   <div>
-    <h1 class="logo-font text-4xl text-center mt-3">| Community |</h1>
+    <h1 class="logo-font text-4xl text-center my-10">| Community |</h1>
     <div class="text-end pr-[10%] mb-1">
       <button type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
         <a href="{% url 'communities:create' %}">글 작성</a>
@@ -41,12 +41,12 @@
               {{ post.pk }}
             </td>
             <td class="px-6 py-4">
-              <div class="truncate" style="max-width: 400px;">
+              <div class="truncate w-[400px]">
                 <a class="hover:underline decoration-1" href="{% url 'communities:detail' post.pk %}">{{ post.title }}</a>
               </div>
             </td>
             <td class="px-6 py-4">
-             {{ post.created_at|date:'Y-m-d H:i' }}
+              {{ post.created_at|date:'Y-m-d H:i' }}
             </td>
             <td class="px-6 py-4">
               <a class="hover:underline decoration-1" href="{% url 'accounts:profile' post.user %}">{{ post.user.nickname }}</a>

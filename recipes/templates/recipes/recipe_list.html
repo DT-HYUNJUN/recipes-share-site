@@ -11,8 +11,16 @@
   <div>
     <!--제목 ( Our recipes )-->
     <div>
-      <h1 class="logo-font text-4xl text-center mt-8">| OUR RECIPES |</h1>
+      <h1 class="logo-font text-4xl text-center mt-10">| OUR RECIPES |</h1>
       <p class="text-center text-base">다양한 레시피를 골라서 요리해보세요 !</p>
+    </div>
+    <div class="text-end">
+      <a href="{% url 'recipes:recipe_create' %}">
+        <button type="button" class="text-white bg-[#3CB371] font-medium rounded-lg text px-3 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <img class="w-7 mr-3" src="{% static 'img/icon_pen.svg' %}" alt="">
+          레시피 작성
+        </button>
+      </a>
     </div>
 
     <!--카테고리-->
@@ -95,7 +103,11 @@
                 <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                   <div class="w-72 bg-white">
                     <div class="class">
-                      <img class="object-cover w-72 h-72" {% if recipe.image %} src="{{ recipe.image.url }}" {% else %} src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" {% endif %}alt=""/>
+                      {% if recipe.image %}
+                        <img class="object-cover w-72 h-72" src="{{ recipe.image.url }}" alt="">
+                      {% else %}
+                        <img class="object-cover w-72 h-72 border" src="{% static 'img/no_img.jpeg' %}" alt="">
+                      {% endif %}
                     </div>
                     <div class="p-5 text-center">
                       <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{ recipe.title }}</h5>
@@ -104,14 +116,14 @@
                         <div class="flex items-center justify-center gap-2">
                           <span>난이도</span>
                           {% if recipe.difficulty == 1 %}
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
                           {% elif recipe.difficulty == 2 %}
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
                           {% elif recipe.difficulty == 3 %}
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
+                            <img src="{% static 'img/rating-star.svg' %}" alt="">
                           {% endif %}
                         </div>
                         <!--조리시간 -->
@@ -144,27 +156,26 @@
             </li>
           {% endif %}
 
-
           {% for index in pagelist %}
             {% if index == page_obj.number %}
-                <li>
-                  <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
-                </li>
-              {% else %}
-                <li>
-                  <a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="?page={{ index }}">{{ index }}</a>
-                </li>
+              <li>
+                <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
+              </li>
+            {% else %}
+              <li>
+                <a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="?page={{ index }}">{{ index }}</a>
+              </li>
             {% endif %}
           {% endfor %}
-          
+
           {% if page_obj.has_next %}
-          <li>
-            <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
-          </li>
+            <li>
+              <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
+            </li>
           {% else %}
-          <li>
-            <a class="px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</a>
-          </li>
+            <li>
+              <a class="px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</a>
+            </li>
           {% endif %}
         </ul>
       </nav>

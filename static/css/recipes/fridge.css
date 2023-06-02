@@ -20,7 +20,6 @@ input {
   outline: none;
   border-radius: 5px;
   color: #2e8b57;
-/*   border-bottom: none; */
 }
 datalist {
   position: absolute;

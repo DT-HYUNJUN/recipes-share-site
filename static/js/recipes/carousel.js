@@ -8,27 +8,27 @@ $(document).ready(function () {
     nextArrow: '<button type="button" class="slick-next">></button>',
     autoplay: true,
     autoplaySpeed: 3000, // Set the autoplay time for the recipe-like-slide slider
-    speed: 2500,
+    // speed: 2500,
     pauseOnHover: false,
     pauseOnFocus: false,
 
-    responsive: [ 
+    responsive: [
       {
         breakpoint: 768,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
           rows: 1,
-        }
+        },
       },
       {
         breakpoint: 1280,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-        }
+        },
       },
-    ]
+    ],
   });
   // 날씨순
   $(".recipe-weather-slide").slick({
@@ -39,17 +39,17 @@ $(document).ready(function () {
     nextArrow: '<button type="button" class="slick-next">></button>',
     autoplay: true,
     autoplaySpeed: 5000, // Set the autoplay time for the recipe-slide slider
-    speed: 2000,
+    // speed: 2000,
     pauseOnHover: false,
     pauseOnFocus: false,
 
-    responsive: [ 
+    responsive: [
       {
         breakpoint: 1280,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-        }
+        },
       },
       {
         breakpoint: 768,
@@ -57,12 +57,12 @@ $(document).ready(function () {
           slidesToShow: 2,
           slidesToScroll: 2,
           rows: 1,
-        }
-      }
-    ]
-    });
-    
-    //냉장고
+        },
+      },
+    ],
+  });
+
+  //냉장고
   $(".recipe-fridge-slide").slick({
     infinite: true,
     slidesToShow: 4,
@@ -71,17 +71,17 @@ $(document).ready(function () {
     nextArrow: '<button type="button" class="slick-next">></button>',
     autoplay: true,
     autoplaySpeed: 5000, // Set the autoplay time for the recipe-slide slider
-    speed: 2000,
+    // speed: 2000,
     pauseOnHover: false,
     pauseOnFocus: false,
 
-    responsive: [ 
+    responsive: [
       {
         breakpoint: 1280,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-        }
+        },
       },
       {
         breakpoint: 768,
@@ -89,8 +89,40 @@ $(document).ready(function () {
           slidesToShow: 2,
           slidesToScroll: 2,
           rows: 1,
-        }
-      }
-    ]
+        },
+      },
+    ],
+  });
+
+  // 프로필
+  $(".recipe-profile-slide").slick({
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    prevArrow: '<button type="button" class="slick-prev"><</button>',
+    nextArrow: '<button type="button" class="slick-next">></button>',
+    // autoplay: true,
+    // autoplaySpeed: 5000, // Set the autoplay time for the recipe-slide slider
+    // // speed: 2000,
+    // pauseOnHover: false,
+    // pauseOnFocus: false,
+
+    responsive: [
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          rows: 1,
+        },
+      },
+    ],
   });
 });

@@ -8,9 +8,9 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('recipes', '0001_initial'),
         ('accounts', '0001_initial'),
         ('auth', '0012_alter_user_first_name_max_length'),
+        ('recipes', '0001_initial'),
     ]
 
     operations = [
