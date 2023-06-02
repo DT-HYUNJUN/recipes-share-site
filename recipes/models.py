@@ -23,8 +23,8 @@ class Recipe(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     time = models.IntegerField()
     difficulty = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(3)])  # 난이도
-    like_recipes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_recipes_users', blank=True)  # 레시피 좋아요
-    bookmark = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bookmark_users', blank=True)  # 레시피 북마크
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_recipes', blank=True , through='LikeRecipe')  # 레시피 좋아요
+    bookmark_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bookmark_recipes', blank=True, through='BookmarkRecipe')  # 레시피 북마크
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
 
 
@@ -44,6 +44,19 @@ class Recipe(models.Model):
         return minute
 
 
+class LikeRecipe(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'like_recipe'
+
+class BookmarkRecipe(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'bookmark_recipe'
 
 class RecipeStep(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)

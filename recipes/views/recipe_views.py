@@ -8,6 +8,12 @@ from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
 from recipes.forms import RecipeForm, RecipeReviewForm, RecipeIngredientFormSet, RecipeStepFormset
 from recipes.models import *
+from django.db.models import Count
+from django.http import JsonResponse
+from django.views import View
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 
 class RecipeListView(ListView):
@@ -120,38 +126,53 @@ class RecipeDeleteView(UserPassesTestMixin, DeleteView):
         return self.post(request, *args, **kwargs)
 
 
-class RecipeLikeView(LoginRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
-        recipe_pk = kwargs['recipe_pk']
-        recipe = Recipe.objects.get(pk=recipe_pk)
-        if recipe.like_recipes.filter(pk=request.user.pk).exists():
-            recipe.like_recipes.remove(request.user)
-            like = False
+# class RecipeLikeView(LoginRequiredMixin, View):
+#     def post(self, request, *args, **kwargs):
+#         recipe_pk = kwargs['recipe_pk']
+#         recipe = Recipe.objects.get(pk=recipe_pk)
+#         if recipe.like_recipes.filter(pk=request.user.pk).exists():
+#             recipe.like_recipes.remove(request.user)
+#             like = False
+#         else:
+#             recipe.like_recipes.add(request.user)
+#             like = True
+#         context = {
+#             'like': like,
+#         }
+#         return JsonResponse(context)
+
+class RecipeLikeView(View):
+    def post(self, request, recipe_pk):
+        recipe = get_object_or_404(Recipe, pk=recipe_pk)
+
+        if recipe.like_users.filter(pk=request.user.pk).exists():
+            recipe.like_users.remove(request.user)
+            is_liked = False
         else:
-            recipe.like_recipes.add(request.user)
-            like = True
+            recipe.like_users.add(request.user)
+            is_liked = True
+
         context = {
-            'like': like,
+            'is_liked': is_liked,
         }
         return JsonResponse(context)
 
+class RecipeBookmarkView(View):
+    def post(self, request, recipe_pk):
+        recipe = get_object_or_404(Recipe, pk=recipe_pk)
 
-class RecipeBookmarkView(LoginRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
-        recipe_pk = kwargs['recipe_pk']
-        recipe = Recipe.objects.get(pk=recipe_pk)
-        if recipe.bookmark.filter(pk=request.user.pk).exists():
-            recipe.bookmark.remove(request.user)
-            bookmark = False
+        if recipe.bookmark_users.filter(pk=request.user.pk).exists():
+            recipe.bookmark_users.remove(request.user)
+            is_bookmark = False
         else:
-            recipe.bookmark.add(request.user)
-            bookmark = True
+            recipe.bookmark_users.add(request.user)
+            is_bookmark = True
+
         context = {
-            'bookmark': bookmark,
+            'is_bookmark': is_bookmark,
         }
         return JsonResponse(context)
     
-
 class RecipeSearchView(ListView):
     model = Recipe
     template_name = 'recipes/recipe_search.html'
