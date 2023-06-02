@@ -12,6 +12,8 @@ let formContainer = document.querySelector('#form-container')
 let stepForm = document.querySelectorAll('.step-form')
 let addStep = document.querySelector('#add-step')
 let totalSteps = document.querySelector('#id_recipestep_set-TOTAL_FORMS')
+const ingredientSection = document.getElementById('ingredients-section')
+const stepSection = document.getElementById('steps-section')
 let stepNum = stepForm.length - 1
 
 // base form
@@ -32,7 +34,8 @@ function addDetail(e) {
   stepNum++
   newForm.innerHTML = newForm.innerHTML.replace(formRegex, `recipestep_set-${stepNum}-`)
   newForm.innerHTML = newForm.innerHTML.replace()
-  formContainer.insertBefore(newForm, ingredientLabel)
+  // formContainer.insertBefore(newForm, ingredientLabel)
+  stepSection.insertBefore(newForm, line)
   totalSteps.setAttribute('value', `${stepNum + 1}`)
 }
 
@@ -48,7 +51,9 @@ function addForm(e) {
   formNum++
   newForm.innerHTML = newForm.innerHTML.replace(formRegex, `recipeingredient_set-${formNum}-`)
   newForm.innerHTML = newForm.innerHTML.replace()
-  formContainer.insertBefore(newForm, line)
+  // ingredientLabel.insertBefore(newForm, line)
+  ingredientSection.insertBefore(newForm, line)
+  // formContainer.insertBefore(newForm, line)
   totalForms.setAttribute('value', `${formNum + 1}`)
 
   $(function() {

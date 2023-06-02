@@ -67,12 +67,13 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
 
 
     def post(self, *args, **kwargs):
-        ingredients = Ingredient.objects.all()
-        formset = RecipeIngredientFormSet(self.request.POST)
+        # ingredients = Ingredient.objects.all()
+        # formset = RecipeIngredientFormSet(self.request.POST)
+        
         form = RecipeForm(self.request.POST, self.request.FILES)
         stepforms = RecipeStepFormset(self.request.POST)
         ingredientforms = RecipeIngredientFormSet(self.request.POST)
-        form = RecipeForm(self.request.POST)
+        # form = RecipeForm(self.request.POST)
         ingredient_num = int(self.request.POST.get('recipeingredient_set-TOTAL_FORMS'))
 
         if form.is_valid():
@@ -94,7 +95,6 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
             
             for ingredient, quantity in raw_ingredient:
                 if ingredient.isdigit():
-                    print(1)
                     RecipeIngredient.objects.create(recipe=recipe, ingredient=Ingredient.objects.get(pk=int(ingredient)), quantity=quantity)
                 else:
                     temp = Ingredient.objects.create(name=ingredient)

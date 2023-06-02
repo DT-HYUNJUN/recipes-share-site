@@ -9,7 +9,7 @@
     <!-- 레시피 정보 -->
     <div class="flex-col space-y-4">
       <!-- 사진 -->
-      <div class="mb-4 mt-10">
+      <div class="mb-4 mt-10 flex justify-center">
         {% if recipe.image %}
           <img src="{{ recipe.image.url }}" alt="">
         {% endif %}
@@ -55,8 +55,8 @@
 
     <!-- 재료 -->
     <div>
-      <div class="flex justify-between items-center">
-        <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57]">재료</p>
+      <div class="flex justify-between items-center border-b border-b-[#2e8b57]">
+        <p class="text-xl font-bold mt-3">재료</p>
         <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-lg" type="button">
           <i class="bi bi-info-circle"></i>
         </button>
@@ -94,96 +94,28 @@
     <!-- 레시피 순서-->
     <div>
       <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57]">레시피</p>
-      <div>
+      <div class="p-5">
         <!-- 레시피 순서 content -->
+        <div class="grid grid-cols-12 gap-3">
+          <div class="col-span-1 w-8 h-8 bg-[#2e8b57] text-white text-center rounded-[70px] text-xl">1</div>
+          <p class="col-span-11">오이지용 오이는 가늘고 작은것이 좋아요 오이는 흐르는 물에 상처가 나지않게 깨끗이 씻어 소쿠리에 건져 물기 제거합니다</p>
+        </div>
       </div>
     </div>
 
     <div class="mt-10 ">
-      {% comment %} {% for review in reviews %}
-        <div class="flex items-center justify-between">
-          <div>
-            <span>{{ review.user }}</span>
-            <input type="text" class="reviewContent{{ review.pk }} border-0" value="{{ review.content }}" readonly>
-          </div>
-          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="" type="button"><i class="bi bi-three-dots-vertical"></i></button>
-          <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-              <li class="reviewUpdate{{ review.pk }}">
-                <button onClick="reviewUpdateFunc({{ review.pk }})" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</button>
-              </li>
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
-              </li>
-            </ul>
-          </div>
-          <div class="reviewUpdate{{ review.pk }}">
-            <button type="button" onClick="reviewUpdateFunc({{ review.pk }})">수정</button>
-          </div>
-          <div class="reviewSubmit{{ review.pk }}" style="display: none;">
-            <input type="button" value="submit" onClick="reviewSubmitFunc({{ review.pk }})">
-            <input type="button" value="cancel" onClick="reviewUpdateCancel({{ review.pk }})">
-          </div>
-        </div>
-        <hr>
-      {% endfor %} {% endcomment %}
-      {% comment %} <div id="clone">
-        <p>작성자</p>
-        <div>
-          <p>내용</p>
-        </div>
-      </div> {% endcomment %}
-
-      {% comment %} <div class="absolute invisible">
-        <section id="reviews">
-          <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 {{ reviews.count }}</p>
-          <div id="review" {% if request.user == review.user %} class="flex text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2]" {% else %} class="flex text-sm gap-3 my-5 px-3" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}">
-            <!-- 리뷰 작성자 프로필 사진 -->
-            <div class="flex items-start gap-3 mb-1">
-              <img class="w-10 rounded-full" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
-            </div>
-            <!-- 작성자 / 내용 -->
-            <div class="flex-grow">
-              <div class="flex justify-between">
-                <p class="font-bold mb-1">{{ review.user.nickname }}</p>
-                {% if request.user == review.user %}
-                <div>
-                  <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ review.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
-                  <div id="dropdown-{{ review.pk }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                      <li>
-                        <a id="edit-btn" class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">수정</a>
-                      </li>
-                      <li>
-                        <a id="delete-btn" class="block m-0 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer">삭제</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                {% endif %}
-              </div>
-              <div id="review" class="mb-2" data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}">
-                <p id="review-content" class="col-span-6 flex items-center">{{ review.content|linebreaksbr }}</p>
-                <div id="comment-textarea" class="hidden col-span-6 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-                  <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
-                    <label for="comment" class="sr-only">Your comment</label>
-                    <textarea id="review-update-field" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400">{{ review.content|linebreaksbr }}</textarea>
-                  </div>
-                  <div class="flex items-cente gap-3 px-3 py-2 border-t dark:border-gray-600">
-                    <button id="submit-btn" type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-[#2E8B57] rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-[#3CB371]">
-                        수정
-                    </button>
-                    <button id="cancel-btn" class="text-gray-500">취소</button>
-                  </div>
-                </div>
-                <!-- 드롭다운 버튼 -->
-              </div>
-              <span class="text-gray-500">{{ review.created_at|date:'Y-m-d H:i' }}</span>
+      {% if request.user.is_authenticated %}
+        <form id="review-form" class="mt-5" data-pk="{{ recipe.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'recipes:review_create' recipe.pk %}">
+          {% csrf_token %}
+          <div class="border rounded-lg p-5 pb-0">
+            <p class="font-bold ms-4">{{ request.user.nickname }}</p>
+            {{ review_form.content|as_crispy_field }}
+            <div class="flex justify-end">
+              <button type="submit" id="review_create_submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">작성</button>
             </div>
           </div>
-          <hr>
-        </section>
-      </div> {% endcomment %}
+        </form>
+      {% endif %}
 
       <!-- 이게 진짜 댓글 -->
       <section id="reviews">
@@ -236,18 +168,7 @@
         {% endfor %}
       </section>
 
-      {% if request.user.is_authenticated %}
-        <form id="review-form" class="mt-5" data-pk="{{ recipe.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'recipes:review_create' recipe.pk %}">
-          {% csrf_token %}
-          <div class="border rounded-lg p-5 pb-0">
-            <p class="font-bold ms-4">{{ request.user.nickname }}</p>
-            {{ review_form.content|as_crispy_field }}
-            <div class="flex justify-end">
-              <button type="submit" id="review_create_submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">작성</button>
-            </div>
-          </div>
-        </form>
-      {% endif %}
+      
     </div>
   </section>
 </div>
@@ -365,59 +286,5 @@
     </div>
   </div>
 </div>
-
-{% comment %} <script>
-  const reviewUpdateFunc = (pk) => {
-    let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
-    let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
-    let reviewContent = document.querySelector(`.reviewContent${pk}`)
-
-    reviewUpdate.style.display = 'none'
-    reviewSubmit.style.display = 'inline-block'
-    reviewSubmit.style.display = 'inline-block'
-    
-    reviewContent.readOnly = false
-  }
-
-  const reviewSubmitFunc = (pk) => {
-    let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
-    let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
-    let reviewContent = document.querySelector(`.reviewContent${pk}`)
-
-    let param = {
-      'pk': pk,
-      'content': reviewContent.value
-    }
-
-    $.ajax({
-      url: '{% url 'recipes:review_update' %}',
-      type: 'POST',
-      headers: {
-        'X-CSRFTOKEN': '{{ csrf_token }}'
-      },
-      data: JSON.stringify(param),
-      success:function(data) {
-        reviewContent.value = data.content
-        reviewContent.readOnly = true
-        reviewSubmit.style.display = 'none'
-        reviewUpdate.style.display = 'inline-block'
-      },
-      error: function() {
-        alert('오류!')
-      }
-    })
-  }
-
-  const reviewUpdateCancel = (pk) => {
-    let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
-    let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
-    let reviewContent = document.querySelector(`.reviewContent${pk}`)
-
-    reviewUpdate.style.display = 'inline-block'
-    reviewSubmit.style.display = 'none'
-    reviewContent.readOnly = true
-  }
-</script> {% endcomment %}
-
 <script src="{% static 'js/recipes/review.js' %}"></script>
 {% endblock content %}

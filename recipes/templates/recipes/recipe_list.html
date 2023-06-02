@@ -14,6 +14,14 @@
       <h1 class="logo-font text-4xl text-center mt-10">| OUR RECIPES |</h1>
       <p class="text-center text-base">다양한 레시피를 골라서 요리해보세요 !</p>
     </div>
+    <div class="text-end">
+      <a href="{% url 'recipes:recipe_create' %}">
+        <button type="button" class="text-white bg-[#3CB371] font-medium rounded-lg text px-3 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <img class="w-7 mr-3" src="{% static 'img/icon_pen.svg' %}" alt="">
+          레시피 작성
+        </button>
+      </a>
+    </div>
 
     <!--카테고리-->
     <div class=" text-center mt-10 ">
