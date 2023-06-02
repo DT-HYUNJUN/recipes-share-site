@@ -17,8 +17,36 @@
       <!-- 제목, 북마크-->
       <div class="flex justify-between">
         <h1 class="text-2xl font-bold">{{ recipe.title }}</h1>
-        <button class="text-2xl"><i class="bi bi-bookmark-plus"></i></button>
+        <div class="flex">
+          <form id="likes_form" class="me-2" data-recipe-id="{{ recipe.pk }}">
+            {% csrf_token %}
+            {% if request.user.is_authenticated %}
+              <button id="likes_btn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-2 px-4 rounded">
+                <i class="bi bi-heart{% if request.user in recipe.like_users.all %}-fill{% endif %} text-danger"></i>
+              </button>
+            {% else %}
+              <button class="border border-red-500 text-red-500 py-2 px-4 rounded cursor-not-allowed opacity-50" disabled>
+                <i class="bi bi-heart"></i>
+              </button>
+            {% endif %}
+          </form>
+
+          <form id="bookmark_form" class="me-2" data-recipe-id="{{ recipe.pk }}">
+            {% csrf_token %}
+            {% if request.user.is_authenticated %}
+              <button id="bookmark_btn" class="border border-black text-black-500 hover:bg-black-500 hover:text-white py-2 px-4 rounded">
+                <i class="bi bi-bookmark{% if request.user in recipe.bookmark_users.all %}-fill{% endif %} text-danger"></i>
+              </button>
+            {% else %}
+              <button class="border border-black text-black-500 py-2 px-4 rounded cursor-not-allowed opacity-50" disabled>
+                <i class="bi bi-bookmark"></i>
+              </button>
+            {% endif %}
+          </form>
+        </div>
+        
       </div>
+      
       <!-- 난이도, 소요시간-->
       <div class="flex justify-between items-center">
         <div class="flex items-center gap-10">
@@ -385,5 +413,55 @@
   }
 </script> {% endcomment %}
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{% static 'js/recipes/review.js' %}"></script>
+<script>
+  const likesForm = document.querySelector('#likes_form')
+  const likeFormCsrfToken = likesForm.querySelector('[name=csrfmiddlewaretoken]').value;
+  likesForm.addEventListener('submit', function (event) {
+    event.preventDefault()
+    const recipeId = event.target.dataset.recipeId
+
+    axios({
+      method : 'post',
+      url: `/recipes/${recipeId}/like/`,
+      headers: {'X-CSRFToken': likeFormCsrfToken},
+    })
+    .then((response) => {
+      const isLiked = response.data.is_liked
+      const likeIcon = document.querySelector('#likes_btn > i')
+      if (isLiked === true) {
+        likeIcon.classList.remove('bi-heart')
+        likeIcon.classList.add('bi-heart-fill')
+      } else {
+        likeIcon.classList.add('bi-heart')
+        likeIcon.classList.remove('bi-heart-fill')      
+      }
+    })
+  })
+
+  const bookmarkForm = document.querySelector('#bookmark_form')
+  const bookmarkFormCsrfToken = bookmarkForm.querySelector('[name=csrfmiddlewaretoken]').value;
+  bookmarkForm.addEventListener('submit', function (event) {
+    event.preventDefault()
+    const recipeId = event.target.dataset.recipeId
+
+    axios({
+      method : 'post',
+      url: `/recipes/${recipeId}/bookmark/`,
+      headers: {'X-CSRFToken': bookmarkFormCsrfToken},
+    })
+    .then((response) => {
+      const isbookmark = response.data.is_bookmark
+      const bookmarkIcon = document.querySelector('#bookmark_btn > i')
+      if (isbookmark === true) {
+        bookmarkIcon.classList.remove('bi-bookmark')
+        bookmarkIcon.classList.add('bi-bookmark-fill')
+      } else {
+        bookmarkIcon.classList.add('bi-bookmark')
+        bookmarkIcon.classList.remove('bi-bookmark-fill')      
+      }
+    })
+  })
+</script>
 {% endblock content %}
