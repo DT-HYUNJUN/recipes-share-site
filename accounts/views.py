@@ -1,9 +1,11 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from communities.models import Post
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthenticationForm, PasswordChangeForm
 # Create your views here.
@@ -110,8 +112,16 @@ def follow(request, user_pk):
 def profile(request, username):
     User = get_user_model()
     person = User.objects.get(username=username)
+    posts = Post.objects.filter(user=person).order_by('-pk')
+    
+    page = request.GET.get('page', '1')
+    per_page = 5
+    paginator = Paginator(posts, per_page)
+    page_obj = paginator.get_page(page)
+    
     q = request.GET.get('q')
     context = {
+        'posts': page_obj,
         'q': q,
         'person': person,
     }

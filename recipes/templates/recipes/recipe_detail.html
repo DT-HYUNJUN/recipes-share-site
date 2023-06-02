@@ -75,13 +75,13 @@
               </tr>
             </thead>
             <tbody>
-              {% for ingredient in ingredients %}
+              {% for ingredient in recipe.recipeingredient_set.all %}
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 17"
+                    {{ ingredient.ingredient }}
                   </th>
                   <td class="px-6 py-4 text-end">
-                    Silver
+                    {{ ingredient.quantity }}
                   </td>
                 </tr>
               {% endfor %}
@@ -96,10 +96,12 @@
       <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57]">레시피</p>
       <div class="p-5">
         <!-- 레시피 순서 content -->
-        <div class="grid grid-cols-12 gap-3">
-          <div class="col-span-1 w-8 h-8 bg-[#2e8b57] text-white text-center rounded-[70px] text-xl">1</div>
-          <p class="col-span-11">오이지용 오이는 가늘고 작은것이 좋아요 오이는 흐르는 물에 상처가 나지않게 깨끗이 씻어 소쿠리에 건져 물기 제거합니다</p>
+        {% for step in recipe.recipestep_set.all %}
+        <div class="grid grid-cols-12 gap-3 mb-3">
+          <div class="col-span-1 w-8 h-8 bg-[#2e8b57] text-white text-center rounded-[70px] text-xl">{{ forloop.counter }}</div>
+          <p class="col-span-11">{{ step.detail|linebreaksbr }}</p>
         </div>
+        {% endfor %}
       </div>
     </div>
 
