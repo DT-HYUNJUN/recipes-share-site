@@ -114,6 +114,8 @@ def profile(request, username):
     person = User.objects.get(username=username)
     posts = Post.objects.filter(user=person).order_by('-pk')
     
+    
+    
     page = request.GET.get('page', '1')
     per_page = 5
     paginator = Paginator(posts, per_page)
