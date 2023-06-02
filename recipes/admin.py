@@ -7,12 +7,17 @@ class RecipeIngredientInline(admin.TabularInline):
     extra = 1
 
 
+class RecipeStepInline(admin.TabularInline):
+    model = RecipeStep
+    extra = 1
+
+
 class IngredientAdmin(admin.ModelAdmin):
     inlines = (RecipeIngredientInline,)
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    inlines = (RecipeIngredientInline,)
+    inlines = (RecipeIngredientInline, RecipeStepInline)
 
 
 admin.site.register(Ingredient, IngredientAdmin)
