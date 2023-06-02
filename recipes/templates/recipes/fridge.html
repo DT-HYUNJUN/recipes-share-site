@@ -84,7 +84,7 @@
       <fieldset class="absolute top-[2rem] right-[12rem] w-[425px] h-[605px] bg-white text-center pt-8">
         <label for="browser" class="logo-font text-xl">- 냉장고 재료를 선택하세요. -</label>
         <p class="text-red-500 text-sm">이미 냉장고에 있는 재료는 추가 불가능합니다.</p>
-        <input class="mt-8" autocomplete="off" role="combobox" list="" id="input" name="browsers" placeholder="재료를 검색하세요 !">
+        {% comment %} <input class="mt-8" autocomplete="off" role="combobox" list="" id="input" name="browsers" placeholder="재료를 검색하세요 !">
         <datalist id="browsers" role="listbox">
           <option value="파">파</option>
           <option value="당근">당근</option>
@@ -96,7 +96,16 @@
           <option value="오렌지">오렌지</option>
           <option value="자몽">자몽</option>
           <option value="아보카도">아보카도</option>
-        </datalist>
+        </datalist> {% endcomment %}
+        <form action="{% url 'recipes:recipe_fridge' %}" method="POST">
+          {% csrf_token %}
+          <input class="mt-8" autocomplete="off" role="combobox" list="" id="input" name="browsers" placeholder="재료를 검색하세요 !">
+          <datalist id="browsers" role="listbox">
+            {% for ingredient in left %}
+              <option value="{{ ingredient }}">{{ ingredient.name }}</option>
+            {% endfor %}
+          </datalist>
+        </form>
       </fieldset>
     </div>
     <section class="my-60">
@@ -207,6 +216,10 @@
     </section>
   </div>
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.js"></script>
+  <script>
+    let already = {{ already }}
+    let left = {{ left }}
+  </script>
   <script src="{% static 'js/recipes/carousel.js' %}"></script>
   <script src="{% static 'js/recipes/fridge.js' %}"></script>
 {% endblock content %}
