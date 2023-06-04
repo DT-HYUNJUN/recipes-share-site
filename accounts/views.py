@@ -5,7 +5,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from communities.models import Post
+from communities.models import Post, Comment
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthenticationForm, PasswordChangeForm
 # Create your views here.
@@ -112,18 +112,25 @@ def follow(request, user_pk):
 def profile(request, username):
     User = get_user_model()
     person = User.objects.get(username=username)
-    posts = Post.objects.filter(user=person).order_by('-pk')
+    post_list = Post.objects.filter(user=person).order_by('-pk')
+    comment_list = Comment.objects.filter(user=person).order_by('-pk')
     
-    
-    
-    page = request.GET.get('page', '1')
-    per_page = 5
-    paginator = Paginator(posts, per_page)
-    page_obj = paginator.get_page(page)
+    paginator_post = Paginator(post_list, 5)
+    post_page = request.GET.get('post_page')
     
     q = request.GET.get('q')
+    posts = paginator_post.get_page(post_page)
+    
+    paginator_comment = Paginator(comment_list, 5)
+    comment_page = request.GET.get('comment_page')
+    
+    comments = paginator_comment.get_page(comment_page)
+    
+    posts.q = q
+    comments.q = q
     context = {
-        'posts': page_obj,
+        'posts': posts,
+        'comments': comments,
         'q': q,
         'person': person,
     }
