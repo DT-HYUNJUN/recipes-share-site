@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
 from recipes.forms import RecipeForm, RecipeReviewForm, RecipeIngredientFormSet, RecipeStepFormset
 from recipes.models import *
+from accounts.models import *
 from django.db.models import Count
 from django.http import JsonResponse
 from django.views import View
@@ -267,15 +268,21 @@ class RecipeFridge(LoginRequiredMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         jsonObject = json.loads(request.body)
-        target_pk = jsonObject.get('target')
-        target = Ingredient.objects.get(name=target_pk)
+        target_name = jsonObject.get('target')
+        ingredient = Ingredient.objects.get(name=target_name)
+        print(f'ingredient는 {ingredient}')
+        target = UserIngredient.objects.filter(ingredient=ingredient)
+        print(target)
         user = request.user
-        already = Ingredient.objects.filter(fridge_users=user)
+        # already = Ingredient.objects.filter(fridge_users=user)
+        already = UserIngredient.objects.filter(user=user)
         print(already)
         try:
             if target in already:
+                print('true')
                 user.fridge.remove(target)
             else:
+                print('false')
                 user.fridge.add(target)
             return JsonResponse({'msg': 'success!'})
         except:

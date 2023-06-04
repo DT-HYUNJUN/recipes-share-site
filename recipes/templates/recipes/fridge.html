@@ -57,7 +57,7 @@
         </datalist> {% endcomment %}
         <form id="fridge-form" data-url="{% url 'recipes:recipe_fridge' %}">
           {% csrf_token %}
-          <input class="mt-8" autocomplete="off" role="combobox" list="" id="input" name="browsers" placeholder="재료를 검색하세요 !">
+          <input class="mt-8 read-only:bg-gray-300" autocomplete="off" role="combobox" list="" id="input" name="browsers" placeholder="재료를 검색하세요 !">
           <datalist id="browsers" role="listbox">
             {% for ingredient in left %}
               <option id="{{ ingredient.name }}" value="{{ ingredient.name }}">{{ ingredient.name }}</option>
