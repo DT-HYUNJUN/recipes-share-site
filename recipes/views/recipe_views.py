@@ -270,20 +270,14 @@ class RecipeFridge(LoginRequiredMixin, ListView):
         jsonObject = json.loads(request.body)
         target_name = jsonObject.get('target')
         ingredient = Ingredient.objects.get(name=target_name)
-        print(f'ingredient는 {ingredient}')
-        target = UserIngredient.objects.filter(ingredient=ingredient)
-        print(target)
         user = request.user
-        # already = Ingredient.objects.filter(fridge_users=user)
-        already = UserIngredient.objects.filter(user=user)
-        print(already)
+        target = UserIngredient.objects.filter(ingredient=ingredient, user=user)
+
         try:
-            if target in already:
-                print('true')
-                user.fridge.remove(target)
+            if target:
+                target.delete()
             else:
-                print('false')
-                user.fridge.add(target)
+                UserIngredient.objects.create(ingredient=ingredient, user=user)
             return JsonResponse({'msg': 'success!'})
         except:
             return JsonResponse({'msg': 'error!'})
