@@ -65,7 +65,6 @@ const datalist = document.getElementById('browsers')
 const ingredients = datalist.querySelectorAll('option')
 const ingrdDeleteBtn = document.getElementById('ingrd-delete')
 const ingrdCancelBtn = document.getElementById('ingrd-cancel')
-// const ingrdXBtn = document.getElementById('ingrd-x')
 const emptyButton = []
 let ingrdButton = []
 const deletedBtnList = []
@@ -107,6 +106,9 @@ const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 // 재료 추가
 input.addEventListener('keyup', function(e) {
+  ingredients.forEach(ingredient => {
+    ingredientNames.push(ingredient.value)
+  })
   let start = 0
   if (e.keyCode == 13) {
     for (let i = 0; i < buttonList.length; i++) {
@@ -148,9 +150,6 @@ input.addEventListener('keyup', function(e) {
         console.log('에러 발생~')
       }      
     }
-    else {
-      i += 1
-    }
   }
 })
 
@@ -163,13 +162,14 @@ input.addEventListener('keyup', function(e) {
 
 // 재료 삭제
 ingrdDeleteBtn.addEventListener('click', () => {
+  input.readOnly=true
   ingrdButton = []
   buttonList.forEach(button => {
     if (button.textContent !== '+') {
       ingrdButton.push(button)
     }
   });
-  console.log(ingrdButton)
+  // console.log(ingrdButton)
   ingrdDeleteBtn.classList.add('hidden')
   ingrdCancelBtn.classList.remove('hidden')
   ingrdButton.forEach(button => {
@@ -194,8 +194,9 @@ ingrdDeleteBtn.addEventListener('click', () => {
           const tooltipId = button.dataset.tooltipTarget
           const tooltip = document.getElementById(tooltipId)
           getDeletedBtnBack(button.textContent)
-          tooltip.textContent = ''
-          button.textContent = '+'
+          myIngredients.pop(button.textContent)
+          // tooltip.textContent = '+'
+          // button.textContent = '+'
           rearrange(button.id)
         },
         error: function () {
@@ -207,6 +208,7 @@ ingrdDeleteBtn.addEventListener('click', () => {
 })
 
 ingrdCancelBtn.addEventListener('click', () => {
+  input.readOnly=false
   ingrdCancelBtn.classList.add('hidden')
   ingrdDeleteBtn.classList.remove('hidden')
   ingrdButton.forEach(button => {
@@ -231,16 +233,24 @@ const rearrange = (id) => {
     buttonList[idStart + i - 1].textContent = temp[i]
     toolTipList[idStart + i - 1].textContent = temp[i]
     if (i === temp.length-1) {
-      console.log('last')
-      console.log(buttonList[i + idStart -1].classList.remove('brightness-50'))
+      // console.log('last')
+      // console.log(buttonList[i + idStart -1].classList.remove('brightness-50'))
+      buttonList[i + idStart -1].classList.remove('brightness-50')
     }
   }
 }
 
 const getDeletedBtnBack = (value) => {
-  const ingrdBtnBack = document.createElement('option')
-  ingrdBtnBack.setAttribute('id', value)
-  ingrdBtnBack.setAttribute('value', value)
-  ingrdBtnBack.textContent = value
-  datalist.appendChild(ingrdBtnBack)
+  if (value !== '+') {
+    const ingrdBtnBack = document.createElement('option')
+    // console.log(`getDeletedBtnBack: ${value}`)
+    ingrdBtnBack.setAttribute('id', value)
+    ingrdBtnBack.setAttribute('value', value)
+    ingrdBtnBack.textContent = value
+    datalist.appendChild(ingrdBtnBack)
+  }
+}
+
+if (input.value === '') {
+  datalist.style.display = 'hidden'
 }
