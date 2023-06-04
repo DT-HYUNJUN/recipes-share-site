@@ -3,6 +3,7 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
 from django.views.generic import CreateView, DeleteView, UpdateView
+from django.core.exceptions import PermissionDenied
 from communities.models import *
 from communities.forms import *
 from django.shortcuts import get_object_or_404, redirect

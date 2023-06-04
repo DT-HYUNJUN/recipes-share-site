@@ -4,14 +4,17 @@ input.onfocus = function () {
   browsers.style.display = 'block';
   input.style.borderRadius = "5px 5px 0 0";  
 };
-for (let option of browsers.options) {
-  option.onclick = function () {
-    input.value = option.value;
-    browsers.style.display = 'none';
-    input.style.borderRadius = "5px";
-    input.focus()
+
+setInterval(() => {
+  for (let option of browsers.options) {
+    option.onclick = function () {
+      input.value = option.value;
+      browsers.style.display = 'none';
+      input.style.borderRadius = "5px";
+      input.focus()
+    }
   }
-};
+}, 1)
 
 input.oninput = function() {
   currentFocus = -1;
@@ -60,15 +63,36 @@ const fridgeList = document.getElementById('fridge-list')
 const buttonList = fridgeList.querySelectorAll('button')
 const datalist = document.getElementById('browsers')
 const ingredients = datalist.querySelectorAll('option')
+const ingrdDeleteBtn = document.getElementById('ingrd-delete')
+const ingrdCancelBtn = document.getElementById('ingrd-cancel')
+// const ingrdXBtn = document.getElementById('ingrd-x')
 const emptyButton = []
+let ingrdButton = []
+const deletedBtnList = []
+const toolTipList = []
+
+
+// ingredients.forEach(ingredient => {
+//   console.log(ingredient)
+//   ingredient.addEventListener('click', () => {
+//     input.value = ingredient.value
+//     input.focus()
+//   })
+// })
 
 buttonList.forEach(button => {
-  if (button.textContent === '+') {
-    emptyButton.push(button)
-  }
+  const tooltipId = button.dataset.tooltipTarget
+  const tooltip = document.getElementById(tooltipId)
+  toolTipList.push(tooltip)
 });
 
-console.log(emptyButton)
+// buttonList.forEach(button => {
+//   if (button.textContent === '+') {
+//     emptyButton.push(button)
+//   }
+// });
+
+// console.log(emptyButton)
 
 const ingredientNames = []
 const myIngredients = []
@@ -80,15 +104,23 @@ ingredients.forEach(ingredient => {
 const fridgeForm = document.getElementById('fridge-form')
 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-i = 1
+
+// 재료 추가
 input.addEventListener('keyup', function(e) {
+  let start = 0
   if (e.keyCode == 13) {
-    const value = e.target.value
-    if (buttonList[i].textContent === '+') {
-      if (ingredientNames.includes(value) && myIngredients.includes(value) != true ) {
+    for (let i = 0; i < buttonList.length; i++) {
+      if (buttonList[i].textContent === '+') {
+        start = i
+        break
+      }
+    }
+    console.log(start)
+    const value = input.value
+    if (buttonList[start].textContent === '+') {
+      if (ingredientNames.includes(value) && myIngredients.includes(value) != true) {
         let param = {
-          // target에 ingredient pk가 들어가야 함
-          target: input.value,
+          target: value,
         };
         $.ajax({
           url: fridgeForm.dataset.url,
@@ -99,13 +131,14 @@ input.addEventListener('keyup', function(e) {
           data: JSON.stringify(param),
           success: function (data) {
             console.log(data)
-            const toolTip = document.getElementById(`ingredient-${i}`)
+            const toolTip = document.getElementById(`ingredient-${start+1}`)
             toolTip.textContent = value
-            buttonList[i].textContent = value
+            buttonList[start].textContent = value
             myIngredients.push(value)
-            // datalist.removeChild(buttonList[i])
+            const toDeleteBtn = document.getElementById(value)
+            deletedBtnList.push(toDeleteBtn.textContent)
+            toDeleteBtn.remove()
             input.value = ""
-            i += 1
           },
           error: function () {
             alert("오류!");
@@ -115,5 +148,99 @@ input.addEventListener('keyup', function(e) {
         console.log('에러 발생~')
       }      
     }
+    else {
+      i += 1
+    }
   }
 })
+
+
+// buttonList.forEach(button => {
+//   if (button.textContent !== '+') {
+//     ingrdButton.push(button)
+//   }
+// });
+
+// 재료 삭제
+ingrdDeleteBtn.addEventListener('click', () => {
+  ingrdButton = []
+  buttonList.forEach(button => {
+    if (button.textContent !== '+') {
+      ingrdButton.push(button)
+    }
+  });
+  console.log(ingrdButton)
+  ingrdDeleteBtn.classList.add('hidden')
+  ingrdCancelBtn.classList.remove('hidden')
+  ingrdButton.forEach(button => {
+    button.classList.add('brightness-50')
+    button.addEventListener('click', () => {
+      // console.log(button.textContent)
+      // console.log(button.id)
+      // rearrange(button.id)
+      let param = {
+        target: button.textContent,
+      };
+      $.ajax({
+        url: fridgeForm.dataset.url,
+        type: "POST",
+        headers: {
+          "X-CSRFTOKEN": csrftoken,
+        },
+        data: JSON.stringify(param),
+        success: function (data) {
+          console.log(data)
+          // const toolTip = document.getElementById(`ingredient-${start}`)
+          const tooltipId = button.dataset.tooltipTarget
+          const tooltip = document.getElementById(tooltipId)
+          getDeletedBtnBack(button.textContent)
+          tooltip.textContent = ''
+          button.textContent = '+'
+          rearrange(button.id)
+        },
+        error: function () {
+          alert("오류!");
+        },
+      });
+    })
+  })
+})
+
+ingrdCancelBtn.addEventListener('click', () => {
+  ingrdCancelBtn.classList.add('hidden')
+  ingrdDeleteBtn.classList.remove('hidden')
+  ingrdButton.forEach(button => {
+    button.classList.remove('brightness-50')
+  });
+})
+
+const rearrange = (id) => {
+  const temp = []
+  const idStart = parseInt(id)
+  for (let i = idStart + 1; i < 10; i++) {
+    if (buttonList[i-1].textContent !== '+') {
+      temp.push(buttonList[i-1].textContent)
+    }
+  }
+  temp.push('+')
+  for (let i = 0; i < temp.length; i++) {
+    // console.log(temp[i])
+    // console.log(buttonList[i].textContent)
+    // console.log(buttonList[idStart + i-1].textContent)
+    // console.log(temp[i])
+    buttonList[idStart + i - 1].textContent = temp[i]
+    toolTipList[idStart + i - 1].textContent = temp[i]
+    if (i === temp.length-1) {
+      console.log('last')
+      console.log(buttonList[i + idStart -1].classList.remove('brightness-50'))
+    }
+  }
+}
+
+const getDeletedBtnBack = (value) => {
+  const ingrdBtnBack = document.createElement('option')
+  ingrdBtnBack.setAttribute('id', value)
+  ingrdBtnBack.setAttribute('value', value)
+  ingrdBtnBack.textContent = value
+  datalist.appendChild(ingrdBtnBack)
+}

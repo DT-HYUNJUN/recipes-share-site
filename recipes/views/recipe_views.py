@@ -268,9 +268,10 @@ class RecipeFridge(LoginRequiredMixin, ListView):
     def post(self, request, *args, **kwargs):
         jsonObject = json.loads(request.body)
         target_pk = jsonObject.get('target')
-        target = Ingredient.objects.get(pk=target_pk)
+        target = Ingredient.objects.get(name=target_pk)
         user = request.user
         already = Ingredient.objects.filter(fridge_users=user)
+        print(already)
         try:
             if target in already:
                 user.fridge.remove(target)

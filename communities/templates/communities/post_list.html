@@ -42,7 +42,7 @@
             </td>
             <td class="px-6 py-4">
               <div class="truncate w-[400px]">
-                <a class="hover:underline decoration-1" href="{% url 'communities:detail' post.pk %}">{{ post.title }}</a>
+                <a class="hover:underline decoration-1" href="{% url 'communities:detail' post.pk %}">{{ post.title }} <span class="text-[#2e8b57] ms-1">[{{ post.posts.all.count }}]</span></a>
               </div>
             </td>
             <td class="px-6 py-4">
@@ -75,9 +75,9 @@
     <!--페이지 네이션-->
     <nav aria-label="Page navigation example" class="flex justify-center my-14">
       <ul class="inline-flex -space-x-px">
-        {% if page_obj.has_previous %}
+        {% if posts.has_previous %}
           <li>
-            <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</a>
+            <a href="?q=community/?page={{ posts.previous_page_number }}" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</a>
           </li>
         {% else %}
           <li>
@@ -85,22 +85,21 @@
           </li>
         {% endif %}
 
-
-        {% for index in pagelist %}
-          {% if index == page_obj.number %}
+        {% for index in posts.paginator.page_range %}
+          {% if index == posts.number %}
               <li>
                 <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
               </li>
             {% else %}
               <li>
-                <a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="?page={{ index }}">{{ index }}</a>
+                <a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="?q=community/?page={{ index }}">{{ index }}</a>
               </li>
           {% endif %}
         {% endfor %}
         
-        {% if page_obj.has_next %}
+        {% if posts.has_next %}
         <li>
-          <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
+          <a href="?q=community/?page={{ posts.next_page_number }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
         </li>
         {% else %}
         <li>
