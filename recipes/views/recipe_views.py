@@ -48,10 +48,14 @@ class RecipeDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        prev_recipes = Recipe.objects.filter(pk__lt=self.object.pk).order_by('-pk')[:2]
+        next_recipes = Recipe.objects.filter(pk__gt=self.object.pk).order_by('pk')[:2]
+        adj_recipes = list(prev_recipes) + list(next_recipes)
         recipe = Recipe.objects.get(pk=self.object.pk)
         reviews = recipe.recipes.all()
         context['reviews'] = reviews
         context['review_form'] = RecipeReviewForm()
+        context['adj_recipes'] = adj_recipes
         return context
 
 
