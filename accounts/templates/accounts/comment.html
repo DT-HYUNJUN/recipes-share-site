@@ -1,0 +1,80 @@
+<div class="container mx-auto max-w-screen-xl">
+  <!-- 내가 쓴 댓글 테이블 -->
+  <h1 class="text-lg logo-font my-3 mx-3">내가 쓴 댓글</h1>
+  <div class="relative overflow-x-auto flex flex-col items-center">
+    <table class=" w-5/6 text-sm text-left text-gray-500 dark:text-gray-400 table-auto ">
+      <thead class="text-xs text-gray-700 uppercase bg-[#f0fff0] dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-center">
+            글번호
+          </th>
+          <th scope="col" class="px-6 py-3">
+            제목
+          </th>
+          <th scope="col" class="px-6 py-3">
+            작성시간
+          </th>
+          <th scope="col" class="px-6 py-3">
+            작성자
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for comment in comments %}
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
+            <td class="px-6 py-4 text-center ">
+              {{ comment.pk }}
+            </td>
+            <td class="px-6 py-4">
+              <div class="truncate w-[400px]">
+                <a href="{% url 'communities:detail' comment.post.pk %}" class="hover:underline decoration-1">{{ comment.content }}<br>
+                  <span class="text-gray-400">{{ comment.post.title }}</span><span class="text-[#2e8b57] ms-1">[{{ comment.post.posts.all.count }}]</span></a>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              {{ comment.created_at|date:'Y-m-d H:i' }}
+            </td>
+            <td class="px-6 py-4">
+              <a class="hover:underline decoration-1" href="{% url 'accounts:profile' comment.user %}">{{ comment.user.nickname }}</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <nav aria-label="Page navigation example" class="flex justify-center my-14">
+    <ul class="inline-flex -space-x-px">
+      {% if comments.has_previous %}
+        <li>
+          <a href="?comment_page={{ comments.previous_page_number }}&q={{ comments.q }}" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</a>
+        </li>
+      {% else %}
+        <li>
+          <a class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">이전</a>
+        </li>
+      {% endif %}
+
+      {% for index in comments.paginator.page_range %}
+        {% if index == comments.number %}
+          <li>
+            <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
+          </li>
+        {% else %}
+          <li>
+            <a href="?comment_page={{ index }}&q={{ comments.q }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ index }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if comments.has_next %}
+        <li>
+          <a href="?comment_page={{ comments.next_page_number }}&q={{ comments.q }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
+        </li>
+      {% else %}
+        <li>
+          <a class="px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</a>
+        </li>
+      {% endif %}
+    </ul>
+
+  </div>
