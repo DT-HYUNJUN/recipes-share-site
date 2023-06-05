@@ -1,19 +1,19 @@
 import json
+from typing import Any, Dict
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
 from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
-from recipes.forms import RecipeForm, RecipeReviewForm, RecipeIngredientFormSet, RecipeStepFormset
+from django.views.generic import DeleteView, DetailView, ListView, TemplateView, UpdateView, View
+from recipes.forms import *
 from recipes.models import *
 from accounts.models import *
 from django.db.models import Count
 from django.http import JsonResponse
 from django.views import View
 from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
 
@@ -63,7 +63,7 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
         ingredients = Ingredient.objects.all()
         options = [ingredient for ingredient in ingredients]
         ingredientformset = RecipeIngredientFormSet(queryset=RecipeIngredient.objects.none())
-        stepformset = RecipeStepFormset(queryset=RecipeStep.objects.none())
+        stepformset = RecipeStepFormSet(queryset=RecipeStep.objects.none())
         form = RecipeForm()
         return self.render_to_response({
             'form': form,
@@ -74,13 +74,9 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
 
 
     def post(self, *args, **kwargs):
-        # ingredients = Ingredient.objects.all()
-        # formset = RecipeIngredientFormSet(self.request.POST)
-        
         form = RecipeForm(self.request.POST, self.request.FILES)
-        stepforms = RecipeStepFormset(self.request.POST)
+        stepforms = RecipeStepFormSet(self.request.POST)
         ingredientforms = RecipeIngredientFormSet(self.request.POST)
-        # form = RecipeForm(self.request.POST)
         ingredient_num = int(self.request.POST.get('recipeingredient_set-TOTAL_FORMS'))
 
         if form.is_valid():
@@ -110,6 +106,96 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
             return redirect('recipes:recipe_detail', recipe_pk=recipe.pk)
         
         return self.render_to_response({'form': form, 'ingredientforms': ingredientforms, 'stepforms': stepforms,})
+
+
+class RecipeUpdateView(UserPassesTestMixin, UpdateView):
+    template_name = 'recipes/recipe_update.html'
+    pk_url_kwarg = 'recipe_pk'
+
+
+    def test_func(self):
+        keys = self.request.path.split('/')
+        recipe = Recipe.objects.get(pk=int(keys[2]))
+        isAuthor = self.request.user == recipe.user
+        isAdmin = self.request.user.is_superuser or self.request.user.is_staff
+        return isAuthor or isAdmin
+
+
+    def get(self, *args, **kwargs):
+        recipe = Recipe.objects.get(pk=kwargs['recipe_pk'])
+        temp = RecipeIngredient.objects.filter(recipe=recipe)
+        ingredients = Ingredient.objects.exclude(recipeingredient__in=temp)
+        options = [ingredient for ingredient in ingredients]
+        ingredientupdateformset = RecipeIngredientUpdateFormSet(instance=recipe, prefix='ingredient-update')
+        ingredientformset = RecipeIngredientFormSet()
+        stepupdateformset = RecipeStepUpdateFormSet(instance=recipe, prefix='step-update')
+        stepformset = RecipeStepFormSet()
+        form = RecipeUpdateForm(instance=recipe)
+        return self.render_to_response({
+            'form': form,
+            'ingredientupdateformset': ingredientupdateformset,
+            'ingredientformset': ingredientformset,
+            'stepupdateformset': stepupdateformset,
+            'stepformset': stepformset,
+            'options': options,
+            'recipe': recipe,
+        })
+
+
+    def post(self, *args, **kwargs):
+        recipe = Recipe.objects.get(pk=kwargs['recipe_pk'])
+        form = RecipeForm(self.request.POST, self.request.FILES, instance=recipe)
+        stepforms = RecipeStepFormSet(self.request.POST)
+        stepupdateforms = RecipeStepUpdateFormSet(self.request.POST, prefix='step-update')
+        ingredientforms = RecipeIngredientFormSet(self.request.POST)
+        ingredientupdateforms = RecipeIngredientUpdateFormSet(self.request.POST, prefix='ingredient-update')
+        ingredient_num = int(self.request.POST.get('recipeingredient_set-TOTAL_FORMS'))
+        step_num = int(self.request.POST.get('step-update-TOTAL_FORMS'))
+
+        if form.is_valid():
+            recipe = form.save(commit=False)
+            recipe.user = self.request.user
+            recipe.save()
+
+            for subform in stepupdateforms:
+                if subform.is_valid():
+                    step = subform.save(commit=False)
+                    if step.detail != '':
+                        step.save()
+                    else:
+                        step.remove()
+
+            for subform in stepforms:
+                if subform.is_valid():
+                    step = subform.save(commit=False)
+                    if step.detail != '':
+                        step.recipe = recipe
+                        step.save()
+
+            for subform in ingredientupdateforms:
+                if subform.is_valid():
+                    subform.save()
+
+            raw_ingredient = list()
+
+            for i in range(1, ingredient_num):
+                raw_ingredient.append((self.request.POST.get(f'recipeingredient_set-{i}-ingredient'), self.request.POST.get(f'recipeingredient_set-{i}-quantity')))
+            
+            for ingredient, quantity in raw_ingredient:
+                if ingredient.isdigit():
+                    RecipeIngredient.objects.create(recipe=recipe, ingredient=Ingredient.objects.get(pk=int(ingredient)), quantity=quantity)
+                else:
+                    temp = Ingredient.objects.create(name=ingredient)
+                    RecipeIngredient.objects.create(recipe=recipe, ingredient=temp, quantity=quantity)
+            
+            for i in range(step_num):
+                if self.request.POST.get(f'step-update-{i}-DELETE') == 'on':
+                    target = RecipeStep.objects.get(pk=self.request.POST.get(f'step-update-{i}-id'))
+                    target.delete()
+
+            return redirect('recipes:recipe_detail', recipe.pk)
+
+        return self.render_to_response({'form': form, 'ingredientupdateforms': ingredientupdateforms, 'stepupdateforms': stepupdateforms, 'ingredientforms': ingredientforms, 'stepforms': stepforms,})
 
 
 class RecipeDeleteView(UserPassesTestMixin, DeleteView):
@@ -158,6 +244,7 @@ class RecipeLikeView(View):
         }
         return JsonResponse(context)
 
+
 class RecipeBookmarkView(View):
     def post(self, request, recipe_pk):
         recipe = get_object_or_404(Recipe, pk=recipe_pk)
@@ -173,7 +260,8 @@ class RecipeBookmarkView(View):
             'is_bookmark': is_bookmark,
         }
         return JsonResponse(context)
-    
+
+
 class RecipeSearchView(ListView):
     model = Recipe
     template_name = 'recipes/recipe_search.html'

@@ -1,6 +1,6 @@
-const difficultyForm = document.querySelector('#difficulty')
+const difficultyForm = document.querySelector('#id_difficulty')
 const difficultyInput = document.querySelector('#difficulty-input')
-console.log(difficultyInput)
+console.log(difficultyForm)
 const stars = difficultyForm.querySelectorAll('svg')
 
 // const starFill = (id) => {
