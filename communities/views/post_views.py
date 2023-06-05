@@ -44,12 +44,16 @@ class PostDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        prev_posts = Post.objects.filter(pk__lt=self.object.pk).order_by('-pk')[:2]
+        next_posts = Post.objects.filter(pk__gt=self.object.pk).order_by('pk')[:2]
+        adj_posts = list(prev_posts) + list(next_posts)
         # context['posts'] = Post.objects.all()
         # context['comments'] = Comment.objects.all()
         post = Post.objects.get(pk=self.object.pk)
         comments = post.posts.all()
         context['comments'] = comments
         context['comment_form'] = CommentForm()
+        context['adj_posts'] = adj_posts
 
         return context
     
@@ -118,17 +122,31 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class PostLikeView(LoginRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
-        post_pk = kwargs['post_pk']
-        post = Post.objects.get(pk=post_pk)
+    # def post(self, request, *args, **kwargs):
+    #     post_pk = kwargs['post_pk']
+    #     post = Post.objects.get(pk=post_pk)
+    #     if post.like_posts.filter(pk=request.user.pk).exists():
+    #         post.like_posts.remove(request.user)
+    #         like = False
+    #     else:
+    #         post.like_posts.add(request.user)
+    #         like = True
+    #     context = {
+    #         'like': like,
+    #     }
+    #     return JsonResponse(context)
+    def post(self, request, post_pk):
+        post = get_object_or_404(Post, pk=post_pk)
+
         if post.like_posts.filter(pk=request.user.pk).exists():
             post.like_posts.remove(request.user)
-            like = False
+            is_liked = False
         else:
             post.like_posts.add(request.user)
-            like = True
+            is_liked = True
+
         context = {
-            'like': like,
+            'is_liked': is_liked,
         }
         return JsonResponse(context)
     

@@ -9,7 +9,74 @@
     <!-- 레시피 정보 -->
     <div class="flex-col space-y-4">
       <!-- 사진 -->
-      <div class="mb-4 mt-10 flex justify-center">
+      <div class="mt-10 flex justify-between items-center">
+        <!-- 목록 -->
+        <div class="hover:bg-gray-100 p-1.5 rounded-lg">
+          <a id="adj-list-btn" href="#" class="pt-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- 수정/삭제 -->
+        <div>
+          <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
+            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
+          </button>
+
+          <!-- Dropdown menu -->
+          <div id="dropdownDots" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700 dark:divide-gray-600">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 인접 게시물 목록 -->
+      <div id="adj-list" class="hidden gap-3">
+        {% for recipe in adj_recipes %}
+          <div class="w-1/4 bg-green-100">
+            <a href="{% url 'recipes:recipe_detail' recipe.pk %}">
+              <div class="text-center">
+                <img class="object-cover border w-[216px] h-[183px]" {% if recipe.image %} src="{{ recipe.image.url }}" {% else %} src="{% static 'img/no_img.jpeg' %}" {% endif %} alt="">
+                <h1 class="text-lg font-bold">{{ recipe.title }}</h1>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+
+        {% comment %} <div class="w-1/4 bg-green-100">
+          <a href="">
+            <div class="text-center">
+              <img class="object-cover border" src="{% static 'img/no_img.jpeg' %}" alt="">
+              <h1>title</h1>
+            </div> 
+          </a>
+        </div>
+        
+        <div class="w-1/4 bg-green-100">
+          <div class="text-center">
+            <img class="object-cover border" src="{% static 'img/no_img.jpeg' %}" alt="">
+            <h1>title</h1>
+          </div> 
+        </div>
+        
+        <div class="w-1/4 bg-green-100">
+          <div class="text-center">
+            <img class="object-cover border" src="{% static 'img/no_img.jpeg' %}" alt="">
+            <h1>title</h1>
+          </div>
+        </div> {% endcomment %}
+      </div>
+
+      <div class="mb-4 flex justify-center">
         {% if recipe.image %}
           <img src="{{ recipe.image.url }}" alt="">
         {% endif %}
@@ -29,12 +96,13 @@
                 <i class="bi bi-heart"></i>
               </button>
             {% endif %}
+            <span id="recipe-like-count">{{ recipe.like_users.all.count }}</span>
           </form>
 
           <form id="bookmark_form" class="me-2" data-recipe-id="{{ recipe.pk }}">
             {% csrf_token %}
             {% if request.user.is_authenticated %}
-              <button id="bookmark_btn" class="border border-black text-black-500 hover:bg-black-500 hover:text-white py-2 px-4 rounded">
+              <button id="bookmark_btn" class="border border-black text-black-500 hover:bg-black hover:text-white py-2 px-4 rounded">
                 <i class="bi bi-bookmark{% if request.user in recipe.bookmark_users.all %}-fill{% endif %} text-danger"></i>
               </button>
             {% else %}
@@ -44,7 +112,6 @@
             {% endif %}
           </form>
         </div>
-        
       </div>
       
       <!-- 난이도, 소요시간-->
@@ -125,9 +192,9 @@
       <div class="p-5">
         <!-- 레시피 순서 content -->
         {% for step in recipe.recipestep_set.all %}
-        <div class="grid grid-cols-12 gap-3 mb-3">
-          <div class="col-span-1 w-8 h-8 bg-[#2e8b57] text-white text-center rounded-[70px] text-xl">{{ forloop.counter }}</div>
-          <p class="col-span-11">{{ step.detail|linebreaksbr }}</p>
+        <div class="grid grid-cols-2 lg:grid-cols-12 gap-3 mb-3">
+          <div class="lg:col-span-1 w-8 h-8 bg-[#2e8b57] text-white text-center rounded-[70px] text-xl">{{ forloop.counter }}</div>
+          <p class="lg:col-span-11">{{ step.detail|linebreaksbr }}</p>
         </div>
         {% endfor %}
       </div>
@@ -151,7 +218,7 @@
       <section id="reviews">
         <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 <span id="review-count">{{ reviews.count }}</span></p>
         {% for review in reviews %}
-        <div id="review" {% if request.user == review.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b" {% else %} class="grid grid-cols-12 text-sm my-5 px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
+        <div id="review" {% if request.user == review.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b" {% else %} class="grid grid-cols-12 text-sm mt-3  px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
           <!-- 리뷰 작성자 프로필 사진 -->
           <div class="col-span-1 flex items-start mb-1">
             <img class="w-10 rounded-full" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
@@ -192,13 +259,11 @@
               </div>
               <!-- 드롭다운 버튼 -->
             </div>
-            <span class="text-gray-500">{{ review.created_at|date:'Y-m-d H:i' }}</span>
+            <p class="text-gray-500 mb-3">{{ review.created_at|date:'Y-m-d H:i' }}</p>
           </div>
         </div>
         {% endfor %}
       </section>
-
-      
     </div>
   </section>
 </div>
@@ -316,65 +381,13 @@
     </div>
   </div>
 </div>
-
-{% comment %} <script>
-  const reviewUpdateFunc = (pk) => {
-    let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
-    let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
-    let reviewContent = document.querySelector(`.reviewContent${pk}`)
-
-    reviewUpdate.style.display = 'none'
-    reviewSubmit.style.display = 'inline-block'
-    reviewSubmit.style.display = 'inline-block'
-    
-    reviewContent.readOnly = false
-  }
-
-  const reviewSubmitFunc = (pk) => {
-    let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
-    let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
-    let reviewContent = document.querySelector(`.reviewContent${pk}`)
-
-    let param = {
-      'pk': pk,
-      'content': reviewContent.value
-    }
-
-    $.ajax({
-      url: '{% url 'recipes:review_update' %}',
-      type: 'POST',
-      headers: {
-        'X-CSRFTOKEN': '{{ csrf_token }}'
-      },
-      data: JSON.stringify(param),
-      success:function(data) {
-        reviewContent.value = data.content
-        reviewContent.readOnly = true
-        reviewSubmit.style.display = 'none'
-        reviewUpdate.style.display = 'inline-block'
-      },
-      error: function() {
-        alert('오류!')
-      }
-    })
-  }
-
-  const reviewUpdateCancel = (pk) => {
-    let reviewUpdate = document.querySelector(`.reviewUpdate${pk}`)
-    let reviewSubmit = document.querySelector(`.reviewSubmit${pk}`)
-    let reviewContent = document.querySelector(`.reviewContent${pk}`)
-
-    reviewUpdate.style.display = 'inline-block'
-    reviewSubmit.style.display = 'none'
-    reviewContent.readOnly = true
-  }
-</script> {% endcomment %}
-
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{% static 'js/recipes/review.js' %}"></script>
+<script src="{% static 'js/recipes/adj-list.js' %}"></script>
 <script>
   const likesForm = document.querySelector('#likes_form')
   const likeFormCsrfToken = likesForm.querySelector('[name=csrfmiddlewaretoken]').value;
+  let recipeLikeCount = document.querySelector('#recipe-like-count')
   likesForm.addEventListener('submit', function (event) {
     event.preventDefault()
     const recipeId = event.target.dataset.recipeId
@@ -390,9 +403,11 @@
       if (isLiked === true) {
         likeIcon.classList.remove('bi-heart')
         likeIcon.classList.add('bi-heart-fill')
+        recipeLikeCount.textContent = parseInt(recipeLikeCount.textContent) + 1
       } else {
         likeIcon.classList.add('bi-heart')
-        likeIcon.classList.remove('bi-heart-fill')      
+        likeIcon.classList.remove('bi-heart-fill')
+        recipeLikeCount.textContent = parseInt(recipeLikeCount.textContent) - 1
       }
     })
   })
@@ -416,7 +431,7 @@
         bookmarkIcon.classList.add('bi-bookmark-fill')
       } else {
         bookmarkIcon.classList.add('bi-bookmark')
-        bookmarkIcon.classList.remove('bi-bookmark-fill')      
+        bookmarkIcon.classList.remove('bi-bookmark-fill')
       }
     })
   })
