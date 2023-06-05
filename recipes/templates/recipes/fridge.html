@@ -17,14 +17,14 @@
       <img class="w-3/4" src="{% static 'img/fridge.jpg' %}" alt="">
       <div id="fridge-list" class="grid grid-cols-3 gap-x-14 gap-y-20 absolute top-[6.5rem] left-[14.5rem]">
         {% for my_ingrd in already %}
-          <button id="{{ forloop.counter }}" data-tooltip-target="ingredient-{{ forloop.counter }}" type="button" class="relative truncate rounded-full text-white text bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium py-2.5 text-center w-20 h-20">{{ my_ingrd }}</button>
+          <button id="{{ forloop.counter }}" data-tooltip-target="ingredient-{{ forloop.counter }}" type="button" class="truncate rounded-full text-white text bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium py-2.5 text-center w-20 h-20">{{ my_ingrd }}</button>
           <div id="ingredient-{{ forloop.counter }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
             {{ my_ingrd }}
             <div class="tooltip-arrow" data-popper-arrow="data-popper-arrow"></div>
           </div>
         {% endfor %}
         {% for button in buttons %}
-          <button id="{{ button }}" data-tooltip-target="ingredient-{{ button }}" type="button" class="truncate rounded-full text-white text bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium px-5 py-2.5 text-center w-20 h-20">+</button>
+          <button id="{{ button }}" data-tooltip-target="ingredient-{{ button }}" type="button" class="truncate rounded-full text-white text bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium py-2.5 text-center w-20 h-20">+</button>
           <div id="ingredient-{{ button }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
             +
             <div class="tooltip-arrow" data-popper-arrow="data-popper-arrow"></div>
