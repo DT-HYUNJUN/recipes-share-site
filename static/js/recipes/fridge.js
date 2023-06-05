@@ -93,8 +93,8 @@ buttonList.forEach(button => {
 
 // console.log(emptyButton)
 
-const ingredientNames = []
-const myIngredients = []
+let ingredientNames = []
+let myIngredients = []
 
 ingredients.forEach(ingredient => {
   ingredientNames.push(ingredient.value)
@@ -106,11 +106,11 @@ const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
 // 재료 추가
 input.addEventListener('keyup', function(e) {
-  ingredients.forEach(ingredient => {
-    ingredientNames.push(ingredient.value)
-  })
   let start = 0
-  if (e.keyCode == 13) {
+  if (e.keyCode === 13) {
+    ingredients.forEach(ingredient => {
+      ingredientNames.push(ingredient.value)
+    })
     for (let i = 0; i < buttonList.length; i++) {
       if (buttonList[i].textContent === '+') {
         start = i
@@ -120,6 +120,8 @@ input.addEventListener('keyup', function(e) {
     console.log(start)
     const value = input.value
     if (buttonList[start].textContent === '+') {
+      console.log(ingredientNames.includes(value))
+      console.log(myIngredients.includes(value) != true)
       if (ingredientNames.includes(value) && myIngredients.includes(value) != true) {
         let param = {
           target: value,
@@ -168,8 +170,8 @@ ingrdDeleteBtn.addEventListener('click', () => {
     if (button.textContent !== '+') {
       ingrdButton.push(button)
     }
-  });
-  // console.log(ingrdButton)
+  })
+  console.log(ingrdButton)
   ingrdDeleteBtn.classList.add('hidden')
   ingrdCancelBtn.classList.remove('hidden')
   ingrdButton.forEach(button => {
@@ -194,7 +196,11 @@ ingrdDeleteBtn.addEventListener('click', () => {
           const tooltipId = button.dataset.tooltipTarget
           const tooltip = document.getElementById(tooltipId)
           getDeletedBtnBack(button.textContent)
-          myIngredients.pop(button.textContent)
+          // myIngredients.pop(button.textContent)
+          myIngredients = myIngredients.filter(function(item) {
+            return item !== button.textContent
+          })
+          ingredientNames.push(button.textContent)
           // tooltip.textContent = '+'
           // button.textContent = '+'
           rearrange(button.id)
@@ -223,6 +229,7 @@ const rearrange = (id) => {
     if (buttonList[i-1].textContent !== '+') {
       temp.push(buttonList[i-1].textContent)
     }
+    console.log(temp)
   }
   temp.push('+')
   for (let i = 0; i < temp.length; i++) {
