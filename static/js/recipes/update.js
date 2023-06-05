@@ -1,3 +1,28 @@
+// ingredient existed
+let updateForms = document.querySelectorAll('.ingredient-update-form')
+
+updateForms.forEach(form => {
+  $(function() {
+    $(form.querySelector('select')).select2({
+      width: '60%'
+    })
+  })
+  let quantity = form.querySelector('.textinput')
+  quantity.classList.add('py-0.5')
+  quantity.parentNode.classList.add('grow')
+})
+
+// step existed
+let stepForms = document.querySelectorAll('.step-update-form')
+
+stepForms.forEach(form => {
+  form.classList.add('flex', 'gap-2')
+  form.querySelector('label').classList.remove('mb-2')
+  form.querySelector('label').classList.add('mb-1')
+  form.childNodes[1].classList.add('grow')
+  form.childNodes[5].classList.add('flex', 'flex-col', 'items-center')
+})
+
 // variables
 let title = document.querySelector('#div_id_title')
 let image = document.querySelector('#div_id_image')
@@ -49,21 +74,18 @@ function addForm(e) {
   formNum++
   newForm.innerHTML = newForm.innerHTML.replace(formRegex, `recipeingredient_set-${formNum}-`)
   newForm.innerHTML = newForm.innerHTML.replace()
-  // ingredientLabel.insertBefore(newForm, line)
   ingredientSection.insertBefore(newForm, line)
-  // formContainer.insertBefore(newForm, line)
   totalForms.setAttribute('value', `${formNum + 1}`)
 
   $(function() {
     $(newForm.querySelector('select')).select2({
-      tags: true
+      tags: true,
+      width: '60%'
     })
   })
 
   newForm.classList.remove('hidden')
-  let options = newForm.querySelector('.select2-container')
   let quantity = newForm.querySelector('.textinput')
-  options.style.width = '60%'
   quantity.classList.add('py-0.5')
   quantity.parentNode.classList.add('grow')
 }

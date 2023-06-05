@@ -38,6 +38,34 @@ class RecipeForm(forms.ModelForm):
         fields = ('title', 'content', 'category', 'time', 'difficulty', 'image',)
 
 
+class RecipeUpdateForm(forms.ModelForm):
+    title = forms.CharField(
+        label='요리 이름',
+    )
+    content = forms.CharField(
+        label='설명',
+        widget=forms.Textarea(attrs={'rows': 2,}),
+    )
+    category = forms.CharField(
+        label='카테고리',
+    )
+    time = forms.CharField(
+        label='소요 시간(분)',
+    )
+    difficulty = DifficultyField(label='난이도')
+    image = forms.ImageField(
+        label='사진',
+        widget=forms.ClearableFileInput(
+            attrs={'class': 'border border-inherit', 'can_delete': False},
+        ),
+    )
+
+
+    class Meta:
+        model = Recipe
+        fields = ('title', 'content', 'category', 'time', 'difficulty', 'image',)
+
+
 class RecipeReviewForm(forms.ModelForm):
     class Meta:
         model = RecipeReview
@@ -54,12 +82,33 @@ RecipeIngredientFormSet = forms.inlineformset_factory(
 )
 
 
-RecipeStepFormset = forms.inlineformset_factory(
+RecipeIngredientUpdateFormSet = forms.inlineformset_factory(
+    Recipe,
+    RecipeIngredient,
+    fields=('ingredient', 'quantity',),
+    extra=0,
+    can_delete=True,
+    labels={'ingredient': '', 'quantity': ''},
+)
+
+
+RecipeStepFormSet = forms.inlineformset_factory(
     Recipe,
     RecipeStep,
-    fields = ('detail',),
+    fields=('detail',),
     extra = 1,
     can_delete=False,
+    labels={'detail': ''},
+    widgets={'detail': forms.Textarea(attrs={'rows': 1,})},
+)
+
+
+RecipeStepUpdateFormSet = forms.inlineformset_factory(
+    Recipe,
+    RecipeStep,
+    fields=('detail',),
+    extra=0,
+    can_delete=True,
     labels={'detail': ''},
     widgets={'detail': forms.Textarea(attrs={'rows': 1,})},
 )
