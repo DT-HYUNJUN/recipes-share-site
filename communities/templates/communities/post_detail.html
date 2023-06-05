@@ -12,8 +12,10 @@
     </div>
     <div class="col-span-11">
       <div class="flex justify-between gap-3 text-sm my-3">
-        <div class="flex gap-3 text-sm my-3">
-          <p>{{ post.user.nickname }}</p>|<p class="text-gray-600">{{ post.created_at }}</p>
+        <div class="flex gap-3 text-sm my-3 items-center">
+          {% comment %} <p>{{ post.user.nickname }}</p>|<p class="text-gray-600">{{ post.created_at }}</p> {% endcomment %}
+          <a class="flex" href="{% url 'accounts:profile' post.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline">{{ post.user.nickname }}</p></a>
+          |<p class="text-gray-600">{{ post.created_at }}</p>
         </div>
 
         {% if request.user == post.user %}
@@ -78,7 +80,8 @@
       <!-- 작성자 / 내용 -->
       <div class="col-span-11">
         <div class="flex justify-between">
-          <p class="font-bold mb-1">{{ comment.user.nickname }}</p>
+          {% comment %} <p class="font-bold mb-1">{{ comment.user.nickname }}</p> {% endcomment %}
+          <a class=" hover:text-blue-800 hover:underline" href="{% url 'accounts:profile' comment.user %}"> <p class="font-bold mb-1">{{ comment.user.nickname }}</p></a>
           {% if request.user == comment.user %}
           <div>
             <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ comment.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
@@ -109,7 +112,7 @@
               <button id="cancel-btn" class="text-gray-500">취소</button>
             </div>
           </div>
-          <!-- 드롭다운 버튼 -->
+          <!-- 댓글 작성 날 -->
         </div>
         <span class="text-gray-500">{{ comment.created_at|date:'Y-m-d H:i' }}</span>
       </div>
