@@ -4,7 +4,7 @@
 {% load static %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/recipes/create.css' %}">
+<link rel="stylesheet" href="{% static 'css/recipes/recipe.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 {% endblock style %}
 
@@ -19,7 +19,24 @@
         {{ form.content|as_crispy_field }}
       
         <div class="flex gap-5">
-          {{ form.category|as_crispy_field }}
+          <div class="flex flex-col">
+            <label for="category" class="block text-gray-700 text-sm font-bold mb-2">{{ form.category.label|safe }}<span class="asteriskField">*</span></label>
+            <select name="category" id="id_category">
+              <option value="" disabled>카테고리 선택</option>
+              <option value="메인요리" {% if recipe.category == '메인요리' %}selected{% endif %}>메인요리</option>
+              <option value="밑반찬" {% if recipe.category == '밑반찬' %}selected{% endif %}>밑반찬</option>
+              <option value="간식" {% if recipe.category == '간식' %}selected{% endif %}>간식</option>
+              <option value="간단요리" {% if recipe.category == '간단요리' %}selected{% endif %}>간단요리</option>
+              <option value="채식" {% if recipe.category == '채식' %}selected{% endif %}>채식</option>
+              <option value="한식" {% if recipe.category == '한식' %}selected{% endif %}>한식</option>
+              <option value="양식" {% if recipe.category == '양식' %}selected{% endif %}>양식</option>
+              <option value="일식" {% if recipe.category == '일식' %}selected{% endif %}>일식</option>
+              <option value="중식" {% if recipe.category == '중식' %}selected{% endif %}>중식</option>
+              <option value="분식" {% if recipe.category == '분식' %}selected{% endif %}>분식</option>
+              <option value="안주" {% if recipe.category == '안주' %}selected{% endif %}>안주</option>
+              <option value="베이킹" {% if recipe.category == '베이킹' %}selected{% endif %}>베이킹</option>
+            </select>
+          </div>
           {{ form.time|as_crispy_field }}
           {{ form.difficulty|as_crispy_field }}
         </div>
@@ -33,7 +50,7 @@
         <span class="block text-gray-700 text-sm font-bold mb-2 me-3 leading-loose">조리법</span>
         {% comment %} <button type="button" id="add-step" class="border border-[#3CB371] hover:bg-[#003153] focus:ring-1 focus:ring-black font-medium text-sm px-2 py-1 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">단계 추가</button> {% endcomment %}
         <button type="button" id="add-step" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
-          <span class="relative px-3 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          <span class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
              단계 추가
           </span>
         </button>
@@ -50,7 +67,7 @@
         {{ stepformset.management_form }}
 
         {% for stepform in stepformset %}
-        <div class="step-form">
+        <div class="step-form hidden">
           {{ stepform|crispy }}
         </div>
         {% endfor %}
@@ -61,7 +78,7 @@
         <span class="block text-gray-700 text-sm font-bold leading-loose mb-2">재료</span>
         {% comment %} <button type="button" id="add-ingredient" class="border border-[#3CB371] hover:bg-[#003153] focus:ring-1 focus:ring-black font-medium text-sm px-2 py-1 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">추가</button> {% endcomment %}
         <button type="button" id="add-ingredient" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
-          <span class="relative px-3 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+          <span class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
             추가
           </span>
         </button>
