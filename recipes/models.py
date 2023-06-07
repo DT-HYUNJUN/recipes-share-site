@@ -22,7 +22,7 @@ class Recipe(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     time = models.IntegerField()
-    difficulty = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(3)])  # 난이도
+    difficulty = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])  # 난이도
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_recipes', blank=True , through='LikeRecipe')  # 레시피 좋아요
     bookmark_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bookmark_recipes', blank=True, through='BookmarkRecipe')  # 레시피 북마크
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')

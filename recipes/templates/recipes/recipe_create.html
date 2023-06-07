@@ -10,6 +10,7 @@
 
 {% block content %}
 <div class="container mx-auto max-w-screen-xl">
+  <h1 class="logo-font text-4xl text-center my-10">| 레시피 작성 |</h1>
   <form id="form-container" class="mt-4" action="{% url 'recipes:recipe_create' %}" method="POST" enctype="multipart/form-data">
     <div class="border p-5 rounded-lg">
       {% csrf_token %}

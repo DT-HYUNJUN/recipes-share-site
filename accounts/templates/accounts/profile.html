@@ -12,7 +12,7 @@
   <div class="container mx-auto max-w-screen-xl my-10">
     <div class='d-flex align-items-center justify-content-between mt-3 mb-2 mr'>
       <div class='flex mt-2 mb-2'>
-        <div class="w-1/6">
+        <div class="w-1/6 pr-10">
           <div class="flex justify-center items-center flex-col">
             <!-- 프로필 이미지 -->
             <div class="mx-auto">
@@ -143,21 +143,14 @@
           </div>
           <br>
             <hr class='m-0 ms-1 me-1'>
-            <a href="{% url 'accounts:profile' person %}?q=bookmark" class="flex justify-center items-center">
+            <a href="{% url 'accounts:profile' person %}?q=bookmark" class="flex justify-items-start">
               <img class="w-10 h-10" src="{% static 'img/icon_bookmark.svg' %}" alt="">
               <p class='py-3 text-center'>북마크</p>
             </a>
 
             <hr class='m-0 ms-1 me-1'>
 
-            <a href="{% url 'accounts:profile' person %}?q=fridge" class="flex justify-center items-center">
-              <img class="w-9 h-9" src="{% static 'img/icon_fridge.svg' %}" alt="">
-              <p class='py-3 text-center'>냉장고</p>
-            </a>
-
-            <hr class='m-0 ms-1 me-1'>
-
-            <a href="{% url 'accounts:profile' person %}?q=community" class="flex justify-center items-center">
+            <a href="{% url 'accounts:profile' person %}?q=community" class="flex justify-center items-center pr-2">
               <span class="material-symbols-outlined pr-2">rate_review</span>
               <p class="py-3 text-center">내가 쓴 글 보기</p>
             </a>
@@ -176,8 +169,6 @@
           <div class='info flex flex-col p-0'>
             {% if q == 'bookmark' %}
               {% include 'accounts/bookmark.html' %}
-            {% elif q == 'fridge'%}
-              {% include 'accounts/fridge.html' %}
             {% elif q == 'community'%}
               {% include 'accounts/community.html' %}
             {% elif q == 'comment'%}

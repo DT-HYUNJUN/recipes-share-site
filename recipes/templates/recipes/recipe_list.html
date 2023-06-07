@@ -96,10 +96,10 @@
                 <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                   <div class="w-72 bg-white">
                     <div class="class">
-                      {% if recipe.image %}
+                      {% if recipe.image.url|slice:':14' == '/media/images/' %}
                         <img class="object-cover w-72 h-72" src="{{ recipe.image.url }}" alt="">
                       {% else %}
-                        <img class="object-cover w-72 h-72 border" src="{% static 'img/no_img.jpeg' %}" alt="">
+                        <img class="object-cover w-72 h-72 border" src="{{ recipe.image }}" alt="">
                       {% endif %}
                     </div>
                     <div class="p-5 text-center">
