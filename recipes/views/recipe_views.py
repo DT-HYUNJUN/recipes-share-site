@@ -148,11 +148,13 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
 
     def post(self, *args, **kwargs):
         recipe = Recipe.objects.get(pk=kwargs['recipe_pk'])
+        ingredients = RecipeIngredient.objects.filter(recipe=recipe).order_by('pk')
         form = RecipeForm(self.request.POST, self.request.FILES, instance=recipe)
         stepforms = RecipeStepFormSet(self.request.POST)
         stepupdateforms = RecipeStepUpdateFormSet(self.request.POST, prefix='step-update')
         ingredientforms = RecipeIngredientFormSet(self.request.POST)
         ingredientupdateforms = RecipeIngredientUpdateFormSet(self.request.POST, prefix='ingredient-update')
+        update_ingredient_num = int(self.request.POST.get('ingredient-update-TOTAL_FORMS'))
         ingredient_num = int(self.request.POST.get('recipeingredient_set-TOTAL_FORMS'))
         step_num = int(self.request.POST.get('step-update-TOTAL_FORMS'))
 
@@ -176,9 +178,19 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
                         step.recipe = recipe
                         step.save()
 
-            for subform in ingredientupdateforms:
-                if subform.is_valid():
-                    subform.save()
+            targets = list()
+
+            for i in range(update_ingredient_num):
+                ingredient_pk = self.request.POST.get(f'ingredient-update-{i}-ingredient')
+                if ingredient_pk:
+                    ingredient = Ingredient.objects.get(pk=ingredient_pk)
+                    quantity = self.request.POST.get(f'ingredient-update-{i}-quantity')
+                    RecipeIngredient(pk=ingredients[i].pk, recipe=recipe, ingredient=ingredient, quantity=quantity).save()
+                else:
+                    targets.append(ingredients[i].pk)
+            
+            for target in targets:
+                RecipeIngredient.objects.get(pk=target).delete()
 
             raw_ingredient = list()
 
