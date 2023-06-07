@@ -1,6 +1,7 @@
 const likesForm = document.querySelector('#like-form')
 let likePostCount = document.querySelector('#like-post-count')
 const likeFormCsrfToken = likesForm.querySelector('[name=csrfmiddlewaretoken]').value;
+
 likesForm.addEventListener('submit', function (event) {
   event.preventDefault()
   const postId = event.target.dataset.postId

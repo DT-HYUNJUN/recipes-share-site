@@ -4,7 +4,15 @@
 {% load static %}
 
 {% block content %}
+
 <div class="container mx-auto max-w-screen-xl">
+  <div id="toast-simple" class="absolute z-10 hidden items-center w-fit p-4 space-x-4 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 shadow-lg shadow-green-500/5 divide-x divide-gray-200 rounded-lg dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+    </svg>
+    <div class="pl-4 text-sm font-normal">링크가 복사되었습니다.</div>
+  </div>
+
   <section class="px-52">
     <!-- 레시피 정보 -->
     <div class="flex-col space-y-4">
@@ -42,38 +50,39 @@
       <!-- 인접 게시물 목록 -->
       <div id="adj-list" class="hidden gap-3">
         {% for recipe in adj_recipes %}
-          <div class="w-1/4 bg-green-100">
-            <a href="{% url 'recipes:recipe_detail' recipe.pk %}">
+          <div class="relative w-1/4">
+            <a class="hover:brightness-50 peer" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="text-center">
                 <img class="object-cover border w-[216px] h-[183px]" {% if recipe.image %} src="{{ recipe.image.url }}" {% else %} src="{% static 'img/no_img.jpeg' %}" {% endif %} alt="">
                 <h1 class="text-lg font-bold">{{ recipe.title }}</h1>
               </div>
             </a>
+            {% comment %} <p class=" text-xl font-semibold  peer-hover:block  w-full text-center">전자레인지</p> {% endcomment %}
+            <div class="hidden absolute peer-hover:flex flex-col justify-center top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 text-white w-full">
+              <div class="flex items-center justify-center gap-2">
+                <span>난이도</span>
+                {% if recipe.difficulty == 1 %}
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                {% elif recipe.difficulty == 2 %}
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                {% elif recipe.difficulty == 3 %}
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                {% endif %}
+              </div>
+              <!--조리시간 -->
+              <div class="flex items-center justify-center gap-2">
+                <img class="w-7 brightness-200" src="{% static 'img/cooking-time-white.png' %}" alt="조리시간">
+                <span class="font-normal text-white dark:text-gray-400">
+                  {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
+                  {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
+                </span>
+              </div>
+            </div>
           </div>
         {% endfor %}
-
-        {% comment %} <div class="w-1/4 bg-green-100">
-          <a href="">
-            <div class="text-center">
-              <img class="object-cover border" src="{% static 'img/no_img.jpeg' %}" alt="">
-              <h1>title</h1>
-            </div> 
-          </a>
-        </div>
-        
-        <div class="w-1/4 bg-green-100">
-          <div class="text-center">
-            <img class="object-cover border" src="{% static 'img/no_img.jpeg' %}" alt="">
-            <h1>title</h1>
-          </div> 
-        </div>
-        
-        <div class="w-1/4 bg-green-100">
-          <div class="text-center">
-            <img class="object-cover border" src="{% static 'img/no_img.jpeg' %}" alt="">
-            <h1>title</h1>
-          </div>
-        </div> {% endcomment %}
       </div>
 
       <div class="mb-4 flex justify-center">
@@ -146,6 +155,32 @@
       </div>
       <hr>
       <p class="text-gray-600">{{ recipe.content|safe }}</p>
+    </div>
+    <div class="flex justify-end items-center gap-2">
+      <button id="dropdownTopButton" data-dropdown-toggle="dropdownTop" data-dropdown-placement="top" class="" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+        </svg>
+      </button>
+      <!-- Dropdown menu -->
+      <div id="dropdownTop" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-fit dark:bg-gray-700">
+        <ul class="flex gap-3 items-center p-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownTopButton">
+          <button id="btnKakao" class="w-9" onclick="shareKakao()" data-title="{{ recipe.title }}" data-content="{{ recipe.content }}" data-image="{{ recipe.image.url }}" data-link="{% url 'recipes:recipe_detail' recipe.pk %}">
+            <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카카오톡 공유 보내기 버튼"/>
+          </button>
+          <button onclick="copyLink()" class="bg-green-100 w-9 h-9 flex justify-center items-center rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+            </svg>
+          </button>
+        </ul>
+      </div>
+      
+      {% comment %} <a id="btnKakao" href="javascript:shareKakao();" class="w-7" data-title="{{ recipe.title }}" data-content="{{ recipe.content }}" data-image="{{ recipe.image.url }}" data-link="{% url 'recipes:recipe_detail' recipe.pk %}">
+        <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카카오톡 공유 보내기 버튼"/>
+      </a> {% endcomment %}
+      
+      
     </div>
 
     <!-- 재료 -->
@@ -369,7 +404,6 @@
                  200g 정도
                 </td>
               </tr>
-            
             </tbody>
           </table>
         </div>
@@ -384,6 +418,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{% static 'js/recipes/review.js' %}"></script>
 <script src="{% static 'js/recipes/adj-list.js' %}"></script>
+<script src="{% static 'js/recipes/kakao-share.js' %}"></script>
 <script>
   const likesForm = document.querySelector('#likes_form')
   const likeFormCsrfToken = likesForm.querySelector('[name=csrfmiddlewaretoken]').value;

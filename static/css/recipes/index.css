@@ -56,7 +56,7 @@
 }
 
 .half-bg-likes::before {
-  background: linear-gradient(rgb(255, 255, 255) 40%, rgb(245, 244, 240) 30%);
+  background: linear-gradient(rgb(255, 255, 255) 40%, rgb(240, 253, 244) 30%);
   content: "";
   position: absolute;
   display: block;
@@ -68,7 +68,7 @@
 }
 
 .half-bg-weather::before {
-  background: linear-gradient(rgb(245, 244, 240) 40%, rgb(255, 255, 255) 30%);
+  background: linear-gradient(rgb(240, 253, 244) 40%, rgb(255, 255, 255) 30%);
   content: "";
   position: absolute;
   display: block;

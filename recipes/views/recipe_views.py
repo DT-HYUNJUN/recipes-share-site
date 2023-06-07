@@ -340,7 +340,7 @@ class RecipeIngredientSearchView(RecipeSearchView):
         return context
 
 
-class RecipeFridge(LoginRequiredMixin, ListView):
+class RecipeFridge(ListView):
     model = Ingredient
     template_name = 'recipes/fridge.html'
 
