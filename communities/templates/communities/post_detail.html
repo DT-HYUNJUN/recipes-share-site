@@ -139,7 +139,7 @@
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-auto">
         <thead class="text-xs text-gray-700 uppercase bg-[#f0fff0] dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-6 py-3 text-center">
+            <th scope="col" class=" py-3 text-center">
               글번호
             </th>
             <th scope="col" class="px-6 py-3 w-[700px]">
@@ -151,7 +151,7 @@
             <th scope="col" class="px-6 py-3">
               작성자
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="text-center py-3">
               좋아요
             </th>
           </tr>
@@ -165,7 +165,9 @@
               <td class="px-6 py-4">
                 <div class="truncate w-[800px]">
                   <a class="hover:underline decoration-1" href="{% url 'communities:detail' post.pk %}">
-                    {{ post.title }} <span class="text-[#2e8b57] ms-1">[{{ post.posts.all.count }}]</span>
+                    {{ post.title }}
+                  </a>
+                  <span class="text-[#2e8b57] ms-1">[{{ post.posts.all.count }}]</span>
                     {% if post.image %}
                       <span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline-block">
@@ -173,7 +175,6 @@
                         </svg>
                       </span>
                     {% endif %}
-                  </a>
                 </div>
               </td>
               <td class="px-6 py-4">
