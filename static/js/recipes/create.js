@@ -13,12 +13,19 @@ let addStep = document.querySelector('#add-step')
 let totalSteps = document.querySelector('#id_recipestep_set-TOTAL_FORMS')
 const ingredientSection = document.getElementById('ingredients-section')
 const stepSection = document.getElementById('steps-section')
+const category = document.getElementById('id_category')
+const time = document.getElementById('id_time')
 let stepNum = stepForm.length - 1
 
 // base form
 title.classList.add('grow')
 image.classList.add('grow')
 image.querySelector('input').classList.add('w-full')
+time.classList.add('py-0.5')
+
+$(function() {
+  $(category).select2()
+})
 
 // step
 addStep.addEventListener('click', addDetail)
