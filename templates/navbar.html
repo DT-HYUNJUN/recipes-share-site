@@ -64,10 +64,10 @@
           <div id="dropdownInformation" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
               <li>
-                <a href="{% url 'accounts:login' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">LOGIN</a>
+                <a href="{% url 'accounts:login' %}" class="font-bold block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">LOGIN</a>
               </li>
               <li>
-                <a href="{% url 'accounts:signup' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">JOIN</a>
+                <a href="{% url 'accounts:signup' %}" class="font-bold block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">JOIN</a>
               </li>
             </ul>
           </div>
@@ -86,14 +86,14 @@
         
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
               <li>
-                <a href="{% url 'accounts:profile' request.user %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ">My Profile</a>
+                <a href="{% url 'accounts:profile' request.user %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-bold ">My Profile</a>
               </li>
               <li>
-                <a href="{% url 'accounts:update' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                <a href="{% url 'accounts:update' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white font-bold">Settings</a>
               </li>
             </ul>
             <div class="py-2">
-              <a data-modal-target="popup-modal" data-modal-toggle="popup-modal" href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+              <a data-modal-target="popup-modal" data-modal-toggle="popup-modal" href="{% url 'accounts:logout' %}" class=" font-bold block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
             </div>
           </div>
         {% endif %}

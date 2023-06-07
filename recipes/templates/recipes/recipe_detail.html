@@ -28,6 +28,7 @@
         </div>
 
         <!-- 수정/삭제 -->
+        {% if request.user == recipe.user %}
         <div>
           <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
@@ -37,7 +38,7 @@
           <div id="dropdownDots" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700 dark:divide-gray-600">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</a>
+                <a href="{% url 'recipes:recipe_update' recipe.pk %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</a>
               </li>
               <li>
                 <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
@@ -45,7 +46,9 @@
             </ul>
           </div>
         </div>
+        {% endif %}
       </div>
+      
 
       <!-- 인접 게시물 목록 -->
       <div id="adj-list" class="hidden gap-3">
@@ -86,27 +89,31 @@
       </div>
 
       <div class="mb-4 flex justify-center">
-        {% if recipe.image %}
+        {% if recipe.image.url|slice:':14' == '/media/images/' %}
           <img src="{{ recipe.image.url }}" alt="">
+        {% else %}
+          <img src="{{ recipe.image }}" alt="">
         {% endif %}
       </div>
       <!-- 제목, 북마크-->
       <div class="flex justify-between">
         <h1 class="text-2xl font-bold">{{ recipe.title }}</h1>
-        <div class="flex">
-          <form id="likes_form" class="me-2" data-recipe-id="{{ recipe.pk }}">
-            {% csrf_token %}
-            {% if request.user.is_authenticated %}
-              <button id="likes_btn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-2 px-4 rounded">
-                <i class="bi bi-heart{% if request.user in recipe.like_users.all %}-fill{% endif %} text-danger"></i>
-              </button>
-            {% else %}
-              <button class="border border-red-500 text-red-500 py-2 px-4 rounded cursor-not-allowed opacity-50" disabled>
-                <i class="bi bi-heart"></i>
-              </button>
-            {% endif %}
-            <span id="recipe-like-count">{{ recipe.like_users.all.count }}</span>
-          </form>
+        <div class="flex gap-3">
+          <div class="text-center">
+            <form id="likes_form" class="" data-recipe-id="{{ recipe.pk }}">
+              {% csrf_token %}
+              {% if request.user.is_authenticated %}
+                <button id="likes_btn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-2 px-4 rounded">
+                  <i class="bi bi-heart{% if request.user in recipe.like_users.all %}-fill{% endif %} text-danger"></i>
+                </button>
+              {% else %}
+                <button class="border border-red-500 text-red-500 py-2 px-4 rounded cursor-not-allowed opacity-50" disabled>
+                  <i class="bi bi-heart"></i>
+                </button>
+              {% endif %}
+            </form>
+            <span class="" id="recipe-like-count">{{ recipe.like_users.all.count }}</span>
+          </div>
 
           <form id="bookmark_form" class="me-2" data-recipe-id="{{ recipe.pk }}">
             {% csrf_token %}
@@ -122,6 +129,7 @@
           </form>
         </div>
       </div>
+      
       
       <!-- 난이도, 소요시간-->
       <div class="flex justify-between items-center">

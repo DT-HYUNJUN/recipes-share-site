@@ -14,13 +14,13 @@
 {% with id=widget.attrs.id %}
   <div id="{{ id }}" class="flex items-center gap-2 mt-4 {% if widget.attrs.class %}{{ widget.attrs.class }}{% endif %}">
     {% if widget.value is None %}
-      {% for i in "x"|ljust:"3" %}
+      {% for i in "x"|ljust:"5" %}
         <svg width="24" height="24" viewbox="0 0 44 44" fill="#eee" class="fill-star cursor-pointer" id="star-{{ forloop.counter }}">
           <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
         </svg>
       {% endfor %}
     {% else %}
-      {% for i in "x"|ljust:"3" %}
+      {% for i in "x"|ljust:"5" %}
         <svg width="24" height="24" viewbox="0 0 44 44" fill="{% if i >= widget.value %}#ffdd63{% else %}#eee{% endif %}" class="fill-star cursor-pointer" id="star-{{ forloop.counter }}">
           <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
         </svg>

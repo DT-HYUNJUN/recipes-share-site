@@ -40,7 +40,7 @@
   border-radius: 50%;
   position: absolute;
   z-index: 10;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   width: 1.5rem;
   height: 1.5rem;
@@ -54,7 +54,7 @@
 .slick-next {
   right: -45px;
 }
-
+/* 
 .half-bg-likes::before {
   background: linear-gradient(rgb(255, 255, 255) 40%, rgb(240, 253, 244) 30%);
   content: "";
@@ -65,9 +65,9 @@
   width: 100%;
   height: 940px;
   z-index: -1;
-}
+} */
 
-.half-bg-weather::before {
+/* .half-bg-weather::before {
   background: linear-gradient(rgb(240, 253, 244) 40%, rgb(255, 255, 255) 30%);
   content: "";
   position: absolute;
@@ -77,7 +77,7 @@
   width: 100%;
   height: 700px;
   z-index: -1;
-}
+} */
 
 .recipe-wrapper {
   width: 296px;
