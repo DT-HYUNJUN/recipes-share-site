@@ -24,7 +24,9 @@ image.querySelector('input').classList.add('w-full')
 time.classList.add('py-0.5')
 
 $(function() {
-  $(category).select2()
+  $(category).select2({
+    containerCssClass: 'error'
+  })
 })
 
 // step

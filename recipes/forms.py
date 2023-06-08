@@ -13,23 +13,38 @@ class DifficultyField(forms.CharField):
 class RecipeForm(forms.ModelForm):
     title = forms.CharField(
         label='요리 이름',
+        widget=forms.TextInput(attrs={
+            'pattern': '.{1,}',
+            'required': 'true',
+            'class': 'invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer'
+        })
     )
     content = forms.CharField(
         label='설명',
-        widget=forms.Textarea(attrs={'rows': 2,}),
+        widget=forms.Textarea(attrs={
+            'rows': 2,
+            'pattern': '.{1,}',
+            'required': 'true',
+            'class': 'invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer'
+        }),
     )
     category = forms.CharField(
         label='카테고리',
     )
     time = forms.CharField(
         label='소요 시간(분)',
+        widget=forms.TextInput(attrs={
+            'pattern': '^[0-9]*$',
+            'required': 'true',
+            'class': 'invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer'
+        })
     )
     difficulty = DifficultyField(label='난이도')
     image = forms.ImageField(
         label='사진',
-        widget=forms.FileInput(
-            attrs={'class': 'border border-inherit'}
-        )
+        widget=forms.FileInput(attrs={
+            'class': 'border border-inherit'
+        })
     )
 
 
@@ -41,23 +56,39 @@ class RecipeForm(forms.ModelForm):
 class RecipeUpdateForm(forms.ModelForm):
     title = forms.CharField(
         label='요리 이름',
+        widget=forms.TextInput(attrs={
+            'pattern': '.{1,}',
+            'required': 'true',
+            'class': 'invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer'
+        })
     )
     content = forms.CharField(
         label='설명',
-        widget=forms.Textarea(attrs={'rows': 2,}),
+        widget=forms.Textarea(attrs={
+            'rows': 2,
+            'pattern': '.{1,}',
+            'required': 'true',
+            'class': 'invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer'
+        }),
     )
     category = forms.CharField(
         label='카테고리',
     )
     time = forms.CharField(
         label='소요 시간(분)',
+        widget=forms.TextInput(attrs={
+            'pattern': '^[0-9]*$',
+            'required': 'true',
+            'class': 'invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500 peer'
+        })
     )
     difficulty = DifficultyField(label='난이도')
     image = forms.ImageField(
         label='사진',
-        widget=forms.ClearableFileInput(
-            attrs={'class': 'border border-inherit', 'can_delete': False},
-        ),
+        widget=forms.ClearableFileInput(attrs={
+            'class': 'border border-inherit',
+            'can_delete': False
+        }),
     )
 
 
