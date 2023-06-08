@@ -3,5 +3,5 @@ const adjList = document.querySelector('#adj-list')
 
 adjListBtn.addEventListener('click', () => {
   adjList.classList.toggle('hidden')
-  adjList.classList.toggle('flex')
+  adjList.classList.toggle('grid')
 })
