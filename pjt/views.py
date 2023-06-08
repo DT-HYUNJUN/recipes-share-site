@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from recipes.models import Recipe
 from django.db.models import Count
+from accounts.models import User
+import datetime
 import random
 
 def index(request):
@@ -21,6 +23,11 @@ def index(request):
     recipes1 = Recipe.objects.all()[:4]
     recipes2 = Recipe.objects.all()[4:8]
     recipes3 = Recipe.objects.all()[8:12]
+
+    today = datetime.date.today()
+    users_with_birthday = User.objects.filter(birthdate__day=today.day, birthdate__month=today.month)
+    is_birthday = 1 if users_with_birthday.exists() else 0
+
     context = {
         'recipes': recipes,
         'recipes1': recipes1,
@@ -31,5 +38,6 @@ def index(request):
         'like_recipe2': like_recipe2,
         'like_recipe3': like_recipe3,
         'like_recipe4': like_recipe4,
+        'is_birthday' : is_birthday,
     }
     return render(request, 'index.html', context)
