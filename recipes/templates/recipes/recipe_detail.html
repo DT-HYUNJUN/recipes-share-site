@@ -4,7 +4,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container mx-auto max-w-screen-xl">
+<div class="md:container md:mx-auto md:max-w-screen-xl">
   <div id="toast-simple" class="absolute z-10 hidden items-center w-fit p-4 space-x-4 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 shadow-lg shadow-green-500/5 divide-x divide-gray-200 rounded-lg dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
       <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
@@ -47,7 +47,6 @@
         </div>
         {% endif %}
       </div>
-      
 
       <!-- 인접 게시물 목록 -->
       <div id="adj-list" class="hidden gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
@@ -96,6 +95,16 @@
             </div>
           </div>
         {% endfor %}
+      </div>
+
+      <div class="mt-2 flex items-center  gap-3">
+        <a href="{% url 'accounts:profile' recipe.user %}">
+          <img class="w-16 rounded-full" {% if recipe.user.profile_image %} src="{{ recipe.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
+        </a>
+        <div class="flex gap-3 text-sm my-3 items-center">
+          <a class="flex" href="{% url 'accounts:profile' recipe.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline">{{ recipe.user.nickname }}</p></a>
+          |<p class="text-gray-600">{{ recipe.created_at }}</p>
+        </div>
       </div>
 
       <div class="mb-4 flex justify-center">
