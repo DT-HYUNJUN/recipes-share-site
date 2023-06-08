@@ -371,8 +371,11 @@ class RecipeFridge(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        already = Ingredient.objects.filter(fridge_users=self.request.user)
-        left = Ingredient.objects.exclude(fridge_users=self.request.user)
+        already = []
+        left = []
+        if self.request.user.is_authenticated:
+            already = Ingredient.objects.filter(fridge_users=self.request.user)
+            left = Ingredient.objects.exclude(fridge_users=self.request.user)
         buttons = [x for x in range(len(already)+1, 10)]
         context = {
             'already': already,
@@ -399,7 +402,7 @@ class RecipeFridge(ListView):
             return JsonResponse({'msg': 'error!'})
 
 
-class RecipeEquip(LoginRequiredMixin, ListView):
+class RecipeEquip(ListView):
     # model = Equip
     template_name = 'recipes/equip.html'
     model = Recipe
