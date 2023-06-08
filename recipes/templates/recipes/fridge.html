@@ -66,6 +66,87 @@
         </form>
       </fieldset>
     </div>
+
+
+    {% comment %} {% for ingredient in recipe.recipeingredient_set.all %}
+    {{ ingredient.ingredient }}
+ {% endcomment %}
+
+
+    <!-- 냉장고 레시피-->
+    {% if user_ingredients_names|length != 0 %}
+      <section class="half-bg-weather p-8 border shadow-lg bg-white rounded-lg">
+        <div>
+          <div class="mb-6">
+            <h1 class="logo-font text-4xl text-center mb-3">나의 냉장고로 만들 수 있는 요리 BEST <span><b>{{total_recipes|length}}건</b></span></h1>
+          </div>
+          <div class="recipe-weather-slide">
+            {% for recipe in total_recipes %}
+            <div class="">
+            
+              <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
+                <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                  <div class="w-72 overflow-hidden">
+                    <img class="object-cover w-72 h-[400px] hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                  </div>
+                  <div class="p-5 text-center">
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate text-center">{{ recipe.content }}</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+    {% endif %}
+    
+
+    <!--냉장고 재료 별 만들 수 있는 요리-->
+    {% for i in user_ingredients_names %}
+
+      <section class="half-bg-weather p-8 border shadow-lg bg-white rounded-lg">
+        <div>
+          <div class="mb-6">
+            <h1 class="logo-font text-4xl text-center mb-3"> {{i}} 로 만들 수 있는 요리 </h1>
+          </div>
+          <div class="recipe-weather-slide">
+              {% for recipe in total_recipes %}
+                {% for recipe_ingredient in recipe.recipeingredient_set.all %}
+                  {% if recipe_ingredient.ingredient.name == i %}
+                    <div class="">
+                      <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
+                        <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
+                          <div class="w-72 overflow-hidden">
+                            <img class="object-cover w-72 h-[400px] hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                          </div>
+                          <div class="p-5 text-center">
+                            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate text-center">{{ recipe.content }}</p>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                  {% endif %}
+                  {% empty %}
+           
+                {% endfor %} 
+              {% endfor %} 
+
+
+          </div>
+        </div>
+      </section>
+     
+    {% endfor %}
+
+    
+
+    
+
+{% comment %} 
     <section class="my-60">
       <div>
         <div class="mb-6">
@@ -172,7 +253,7 @@
         </div>
       </div>
     </section>
-  </div>
+  </div> {% endcomment %}
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.js"></script>
   <script>
     {% comment %} let already = {{ already }}

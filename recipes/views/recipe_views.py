@@ -356,18 +356,37 @@ class RecipeFridge(ListView):
     model = Ingredient
     template_name = 'recipes/fridge.html'
 
+    def get_queryset(self):
+        user_ingredients = UserIngredient.objects.filter(user=self.request.user)
+        user_ingredient_names = user_ingredients.values_list('ingredient__name', flat=True)
+        
+        queryset = Recipe.objects.annotate(ingredient_count=Count('ingredients'))
+        total_recipes = Recipe.objects.filter(ingredients__name__in=user_ingredient_names)
+        total_recipes = total_recipes.distinct()
+    
+        return total_recipes
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         already = Ingredient.objects.filter(fridge_users=self.request.user)
         left = Ingredient.objects.exclude(fridge_users=self.request.user)
         buttons = [x for x in range(len(already)+1, 10)]
-        context = {
+        user_ingredients = UserIngredient.objects.filter(user=self.request.user)
+        user_ingredient_names = user_ingredients.values_list('ingredient__name', flat=True)
+        total_recipes = self.get_queryset()  
+   
+        
+        context.update({
             'already': already,
             'left': left,
             'buttons': buttons,
-        }
+            'user_ingredients': user_ingredients, 
+            'user_ingredients_names': user_ingredient_names,
+            'total_recipes': total_recipes,
+            
+        })
         return context
+
 
 
     def post(self, request, *args, **kwargs):
