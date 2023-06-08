@@ -167,33 +167,33 @@
         <ul class="inline-flex -space-x-px">
           {% if page_obj.has_previous %}
             <li>
-              <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</a>
+              <button name="page" value="{{ page_obj.previous_page_number }}" class="page px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</button>
             </li>
           {% else %}
             <li>
-              <a class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">이전</a>
+              <button class="page px-3 py-2 ml-0 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">이전</button>
             </li>
           {% endif %}
 
           {% for index in pagelist %}
             {% if index == page_obj.number %}
               <li>
-                <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
+                <button name="page" value="{{index}}" class="page px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</button>
               </li>
             {% else %}
               <li>
-                <a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="?page={{ index }}">{{ index }}</a>
+                <button name="page" value="{{index}}" class="page px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ index }}</button>
               </li>
             {% endif %}
           {% endfor %}
 
           {% if page_obj.has_next %}
             <li>
-              <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
+              <button name="page" value="{{ page_obj.next_page_number }}" class="page px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</button>
             </li>
           {% else %}
             <li>
-              <a class="px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</a>
+              <button class="page px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</button>
             </li>
           {% endif %}
         </ul>
@@ -204,7 +204,6 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const filteringButtons = document.querySelectorAll('.filtering');
-    
         filteringButtons.forEach((btn) => {
           const btnName = btn.getAttribute('name');
           const btnValue = btn.getAttribute('value');
@@ -214,25 +213,28 @@
             if (btnValue === '모두보기') {
               const newUrl = Url.replace(new RegExp(`[?&]${btnName}=[^&]+`), '');
               const newUrlWithoutSort = newUrl.replace(/[?&]sort=[^&]+/g, '');
-              window.location.href = newUrlWithoutSort;
+              const newUrlWithoutPage = newUrlWithoutSort.replace(/[?&]page=[^&]+/g, '');
+              window.location.href = newUrlWithoutPage;
             } else if (Url.includes(`?${btnName}=${btnValue}`)) {
               const newUrl = Url.replace(`?${btnName}=${btnValue}`, '');
               const newUrlWithoutSort = newUrl.replace(/[?&]sort=[^&]+/g, '');
-              window.location.href = newUrlWithoutSort;
+              const newUrlWithoutPage = newUrlWithoutSort.replace(/[?&]page=[^&]+/g, '');
+              window.location.href = newUrlWithoutPage;
             } else if (Url.includes(`?${btnName}=`)) {
               const newUrl = Url.replace(new RegExp(`\\?${btnName}=[^&]+`), `?${btnName}=${btnValue}`);
               const newUrlWithoutSort = newUrl.replace(/[?&]sort=[^&]+/g, '');
-              window.location.href = newUrlWithoutSort;
+              const newUrlWithoutPage = newUrlWithoutSort.replace(/[?&]page=[^&]+/g, '');
+              window.location.href = newUrlWithoutPage;
             } else {
               const newUrl = `${Url}?${btnName}=${btnValue}`;
               const newUrlWithoutSort = newUrl.replace(/[?&]sort=[^&]+/g, '');
-              window.location.href = newUrlWithoutSort;
+              const newUrlWithoutPage = newUrlWithoutSort.replace(/[?&]page=[^&]+/g, '');
+              window.location.href = newUrlWithoutPage;
             }
           });
         });
     
         const sortingButtons = document.querySelectorAll('.sorting');
-    
         sortingButtons.forEach((btn) => {
           const btnName = btn.getAttribute('name');
           const btnValue = btn.getAttribute('value');
@@ -242,9 +244,45 @@
             if (Url.includes(`?filter=`)) {
               if (Url.includes(`&${btnName}=${btnValue}`)) {
                 const newUrl = Url.replace(`&${btnName}=${btnValue}`, '');
-                window.location.href = newUrl;
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
               } else if (Url.includes(`&${btnName}=`)) {
                 const newUrl = Url.replace(new RegExp(`&${btnName}=[^&]+`), `&${btnName}=${btnValue}`);
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              } else {
+                const newUrl = `${Url}&${btnName}=${btnValue}`;
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              }
+            }
+            else {
+              if (Url.includes(`?${btnName}=${btnValue}`)) {
+                const newUrl = Url.replace(`?${btnName}=${btnValue}`, '');
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              } else if (Url.includes(`?${btnName}=`)) {
+                const newUrl = Url.replace(new RegExp(`\\?${btnName}=[^&]+`), `?${btnName}=${btnValue}`);
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              } else {
+                const newUrl = `${Url}?${btnName}=${btnValue}`;
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              }
+            }
+          });
+        });
+
+        const pageButtons = document.querySelectorAll('.page');
+        pageButtons.forEach((btn) => {
+          const btnName = btn.getAttribute('name');
+          const btnValue = btn.getAttribute('value');
+          btn.addEventListener('click', () => {
+            const Url = window.location.href;
+            if (Url.includes(`?filter=`) || Url.includes(`?sort=`)) {
+              if (Url.includes(`&${btnName}=`)) {
+                const newUrl = Url.replace(new RegExp(`\\&${btnName}=[^&]+`), `&${btnName}=${btnValue}`);
                 window.location.href = newUrl;
               } else {
                 const newUrl = `${Url}&${btnName}=${btnValue}`;
@@ -252,10 +290,7 @@
               }
             }
             else {
-              if (Url.includes(`?${btnName}=${btnValue}`)) {
-                const newUrl = Url.replace(`?${btnName}=${btnValue}`, '');
-                window.location.href = newUrl;
-              } else if (Url.includes(`?${btnName}=`)) {
+              if (Url.includes(`?${btnName}=`)) {
                 const newUrl = Url.replace(new RegExp(`\\?${btnName}=[^&]+`), `?${btnName}=${btnValue}`);
                 window.location.href = newUrl;
               } else {
