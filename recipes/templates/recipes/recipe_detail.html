@@ -56,8 +56,9 @@
           <div class="relative w-1/4">
             <a class="hover:brightness-50 peer" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="text-center">
-                <img class="object-cover border w-[216px] h-[183px]" {% if recipe.image %} src="{{ recipe.image.url }}" {% else %} src="{% static 'img/no_img.jpeg' %}" {% endif %} alt="">
-                <h1 class="text-lg font-bold">{{ recipe.title }}</h1>
+                <img class="object-cover border w-[216px] h-[183px]" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                {% comment %} <img class="object-cover border w-[216px] h-[183px]" {% if recipe.image %} src="{{ recipe.image.url }}" {% else %} src="{% static 'img/no_img.jpeg' %}" {% endif %} alt=""> {% endcomment %}
+                <h1 class="text-lg font-bold line-clamp-1">{{ recipe.title }}</h1>
               </div>
             </a>
             {% comment %} <p class=" text-xl font-semibold  peer-hover:block  w-full text-center">전자레인지</p> {% endcomment %}
@@ -70,6 +71,17 @@
                   <img src="{% static 'img/rating-star.svg' %}" alt="">
                   <img src="{% static 'img/rating-star.svg' %}" alt="">
                 {% elif recipe.difficulty == 3 %}
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                {% elif recipe.difficulty == 4 %}
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                {% elif recipe.difficulty == 5 %}
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
+                  <img src="{% static 'img/rating-star.svg' %}" alt="">
                   <img src="{% static 'img/rating-star.svg' %}" alt="">
                   <img src="{% static 'img/rating-star.svg' %}" alt="">
                   <img src="{% static 'img/rating-star.svg' %}" alt="">
@@ -89,11 +101,7 @@
       </div>
 
       <div class="mb-4 flex justify-center">
-        {% if recipe.image.url|slice:':14' == '/media/images/' %}
-          <img src="{{ recipe.image.url }}" alt="">
-        {% else %}
-          <img src="{{ recipe.image }}" alt="">
-        {% endif %}
+        <img {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
       </div>
       <!-- 제목, 북마크-->
       <div class="flex justify-between">
@@ -138,14 +146,25 @@
             <span>난이도</span>
             {% if recipe.difficulty == 1 %}
             <img src="{% static 'img/rating-star.svg' %}" alt="">
-            {% elif recipe.difficulty == 2 %}
+          {% elif recipe.difficulty == 2 %}
             <img src="{% static 'img/rating-star.svg' %}" alt="">
             <img src="{% static 'img/rating-star.svg' %}" alt="">
-            {% elif recipe.difficulty == 3 %}
+          {% elif recipe.difficulty == 3 %}
             <img src="{% static 'img/rating-star.svg' %}" alt="">
             <img src="{% static 'img/rating-star.svg' %}" alt="">
             <img src="{% static 'img/rating-star.svg' %}" alt="">
-            {% endif %}
+          {% elif recipe.difficulty == 4 %}
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+          {% elif recipe.difficulty == 5 %}
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img src="{% static 'img/rating-star.svg' %}" alt="">
+          {% endif %}
           </div>
           <div class="flex items-center gap-2">
             <div class="text-xs">
@@ -173,7 +192,7 @@
       <!-- Dropdown menu -->
       <div id="dropdownTop" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-fit dark:bg-gray-700">
         <ul class="flex gap-3 items-center p-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownTopButton">
-          <button id="btnKakao" class="w-9" onclick="shareKakao()" data-title="{{ recipe.title }}" data-content="{{ recipe.content }}" data-image="{{ recipe.image.url }}" data-link="{% url 'recipes:recipe_detail' recipe.pk %}">
+          <button id="btnKakao" class="w-9" onclick="shareKakao()" data-title="{{ recipe.title }}" data-content="{{ recipe.content }}" data-image="{% static 'img/logo_square.png' %}" data-link="{% url 'recipes:recipe_detail' recipe.pk %}" data-base-link="{% url 'index' %}">
             <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카카오톡 공유 보내기 버튼"/>
           </button>
           <button onclick="copyLink()" class="bg-green-100 w-9 h-9 flex justify-center items-center rounded-lg">

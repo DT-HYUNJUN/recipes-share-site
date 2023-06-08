@@ -24,7 +24,7 @@
   border-radius: 50%;
   position: absolute;
   z-index: 10;
-  top: 50%;
+  top: 36%;
   transform: translateY(-50%);
   width: 1.5rem;
   height: 1.5rem;
@@ -40,7 +40,7 @@
   border-radius: 50%;
   position: absolute;
   z-index: 10;
-  top: 45%;
+  top: 36%;
   transform: translateY(-50%);
   width: 1.5rem;
   height: 1.5rem;

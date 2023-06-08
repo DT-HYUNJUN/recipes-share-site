@@ -18,24 +18,24 @@
       <div class="flex gap-3 justify-center">
         <div class="overflow-hidden">
           <a class="relative" href="{% url 'recipes:recipe_detail' like_recipe1.pk %}">
-            <img class="w-[588px] h-[588px] object-cover hover:scale-125 transition ease-in-out" src="{{ like_recipe1.image.url }}" alt="">
+            <img class="w-[588px] h-[588px] object-cover hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe1.image.url }}" {% else %} src="{{ like_recipe1.image }}" {% endif %} alt="">
             <p class="absolute bottom-6 left-6 text-lg bg-black/50 font-bold px-2 text-white">{{ like_recipe1.title }}</p>
           </a>
         </div>
         <div>
           <div class="mb-3 overflow-hidden">
             <a class="relative" href="{% url 'recipes:recipe_detail' like_recipe2.pk %}">
-              <img class="w-[588px] h-[288px] object-cover hover:scale-125 transition ease-in-out" src="{{ like_recipe2.image.url }}" alt="">
+              <img class="w-[588px] h-[288px] object-cover hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe2.image.url }}" {% else %} src="{{ like_recipe2.image }}" {% endif %} alt="">
               <p class="absolute bottom-6 left-6 text-lg bg-black/50 font-bold px-2 text-white">{{ like_recipe2.title }}</p>
             </a>
           </div>
           <div class="flex gap-3">
             <a class="relative" href="{% url 'recipes:recipe_detail' like_recipe3.pk %}">
-              <img class="w-[288px] h-[288px] object-cover hover:brightness-50 peer" src="{{ like_recipe3.image.url }}" alt="">
+              <img class="w-[288px] h-[288px] object-cover hover:brightness-50 peer" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe3.image.url }}" {% else %} src="{{ like_recipe3.image }}" {% endif %} alt="">
               <p class="hidden absolute text-lg top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 peer-hover:block text-white">{{ like_recipe3.title }}</p>
             </a>
             <a class="relative" href="{% url 'recipes:recipe_detail' like_recipe4.pk %}">
-              <img class="w-[288px] h-[288px] object-cover hover:brightness-50 peer" src="{{ like_recipe4.image.url }}" alt="">
+              <img class="w-[288px] h-[288px] object-cover hover:brightness-50 peer" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe4.image.url }}" {% else %} src="{{ like_recipe4.image }}" {% endif %} alt="">
               <p class="hidden absolute text-lg top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 peer-hover:block text-white">{{ like_recipe4.title }}</p>
             </a>
           </div>
@@ -55,7 +55,7 @@
             <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
                 <div class="w-72 overflow-hidden">
-                  <img class="object-cover w-72 h-[400px] hover:scale-125 transition ease-in-out" src="{{recipe.image.url}}" alt=""/>
+                  <img class="object-cover w-72 h-[400px] hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                 </div>
                 <div class="p-5 text-center">
                   <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
@@ -81,11 +81,7 @@
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                 <div class="w-72 bg-white">
                   <div class="class overflow-hidden">
-                    {% if recipe.image %}
-                      <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" src="{{ recipe.image.url }}" alt="">
-                    {% else %}
-                      <img class="object-cover w-72 h-72 border hover:scale-125 transition ease-in-out" src="{% static 'img/no_img.jpeg' %}" alt="">
-                    {% endif %}
+                    <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                   </div>
                   <div class="p-5 text-center">
                     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
@@ -100,6 +96,17 @@
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 3 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 4 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 5 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
@@ -127,11 +134,7 @@
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                 <div class="w-72 bg-white">
                   <div class="overflow-hidden">
-                    {% if recipe.image %}
-                      <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" src="{{ recipe.image.url }}" alt="">
-                    {% else %}
-                      <img class="object-cover w-72 h-72 border hover:scale-125 transition ease-in-out" src="{% static 'img/no_img.jpeg' %}" alt="">
-                    {% endif %}
+                    <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                   </div>
                   <div class="p-5 text-center">
                     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
@@ -146,6 +149,17 @@
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 3 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 4 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 5 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
@@ -173,11 +187,7 @@
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                 <div class="w-72 bg-white">
                   <div class="overflow-hidden">
-                    {% if recipe.image %}
-                      <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" src="{{ recipe.image.url }}" alt="">
-                    {% else %}
-                      <img class="object-cover w-72 h-72 border hover:scale-125 transition ease-in-out" src="{% static 'img/no_img.jpeg' %}" alt="">
-                    {% endif %}
+                    <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                   </div>
                   <div class="p-5 text-center">
                     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
@@ -192,6 +202,17 @@
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 3 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 4 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 5 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
                           <img src="{% static 'img/rating-star.svg' %}" alt="">
@@ -224,6 +245,5 @@
 
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.js"></script>
   <script src="{% static 'js/recipes/carousel.js' %}"></script>
-
   <script src="{% static 'js/recipes/index-more.js' %}"></script>
 {% endblock content %}

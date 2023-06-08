@@ -115,6 +115,9 @@ def profile(request, username):
     post_list = Post.objects.filter(user=person).order_by('-pk')
     comment_list = Comment.objects.filter(user=person).order_by('-pk')
     
+    like_recipes = person.like_recipes.all()
+    bookmark_recipes = person.bookmark_recipes.all()
+    
     paginator_post = Paginator(post_list, 5)
     post_page = request.GET.get('post_page')
     
@@ -133,5 +136,7 @@ def profile(request, username):
         'comments': comments,
         'q': q,
         'person': person,
+        'like_recipes': like_recipes,
+        'bookmark_recipes': bookmark_recipes,
     }
     return render(request, 'accounts/profile.html', context)

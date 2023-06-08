@@ -5,36 +5,46 @@
 
 {% block content %}
 <div class="container mx-auto">
-  <section class="border-t-4 pt-10 mt-10">
+  <section class="pt-10 mt-10">
     <div>
-      <h2>
+      <h2 class="font-bold">
         '{{ keyword }}' 이/가 포함된 레시피 검색결과입니다.
       </h2>
       <div class="flex">
-
         <div class=" grid grid-cols-2 md:grid-cols-4 gap-4 mx-auto mt-9 ">
           {% for recipe in title_recipes|slice:":4" %}
             <div>
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                 <div class="w-72 bg-white">
                   <div class="class">
-                    <img class="object-cover w-72 h-72" {% if recipe.image %} src="{{ recipe.image.url }}" {% else %} src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" {% endif %}alt=""/>
+                    <img class="object-cover w-72 h-72" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                   </div>
                   <div class="p-5 text-center">
-                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{ recipe.title }}</h5>
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-whit line-clamp-1">{{ recipe.title }}</h5>
                     <!--난이도 -->
                     <div class="flex flex-col justify-center">
                       <div class="flex items-center justify-center gap-2">
                         <span>난이도</span>
                         {% if recipe.difficulty == 1 %}
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 2 %}
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 3 %}
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 4 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 5 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
                         {% endif %}
                       </div>
                       <!--조리시간 -->
@@ -56,14 +66,14 @@
     </div>
     <div class="grid grid-cols-12">
       <div class="col-start-12 col-span-2">
-        <p><a href="{% url 'recipes:recipe_search_name' %}?keyword={{ keyword }}">더보기</a></p>
+        <p class="text-[#2e8b57]"><a href="{% url 'recipes:recipe_search_name' %}?keyword={{ keyword }}">더보기</a></p>
       </div>
     </div>
   </section>
 
   <section class="border-t-4 pt-10 mt-10">
     <div>
-      <h2>
+      <h2 class="font-bold">
         '{{ keyword }}' 이/가 재료에 포함된 레시피 검색결과입니다.
       </h2>
       <div class="flex">
@@ -74,29 +84,42 @@
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                 <div class="w-72 bg-white">
                   <div class="class">
-                    <img class="object-cover w-72 h-72" {% if recipe.image %} src="{{ recipe.image.url }}" {% else %} src="https://src.hidoc.co.kr/image/lib/2020/11/9/1604911318873_0.jpg" {% endif %}alt=""/>
-                  </div>
+                    <img class="object-cover w-72 h-72" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">                  </div>
                   <div class="p-5 text-center">
-                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{ recipe.title }}</h5>
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
                     <!--난이도 -->
-                    <div class="flex row-auto justify-center">
-                      <div class="flex items-center gap-2">
+                    <div class="flex flex-col justify-center">
+                      <div class="flex items-center justify-center gap-2">
                         <span>난이도</span>
                         {% if recipe.difficulty == 1 %}
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 2 %}
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 3 %}
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 4 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 5 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
                         {% endif %}
                       </div>
                       <!--조리시간 -->
                       <div class="flex items-center justify-center gap-2">
-                        <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">{{ recipe.time }}</span>
+                        <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">
+                          {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
+                          {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -109,11 +132,9 @@
     </div>
     <div class="grid grid-cols-12">
       <div class="col-start-12 col-span-2">
-        <p><a href="{% url 'recipes:recipe_search_ingredient' %}?keyword={{ keyword }}">더보기</a></p>
+        <p class="text-[#2e8b57]"><a href="{% url 'recipes:recipe_search_ingredient' %}?keyword={{ keyword }}">더보기</a></p>
       </div>
     </div>
-  
   </section>
-
 </div>
 {% endblock content%}
