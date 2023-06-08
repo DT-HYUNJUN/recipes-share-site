@@ -13,7 +13,8 @@ class CustomUserCreationForm(UserCreationForm):
             'last_name',
             'password1',
             'password2',
-            'profile_image'
+            'profile_image',
+            'birthdate'
         )
 
 class CustomUserChangeForm(UserChangeForm):

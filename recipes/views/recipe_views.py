@@ -1,9 +1,8 @@
 import json
-from typing import Any, Dict
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
 from django.db.models import Count
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView, UpdateView, View
@@ -24,11 +23,22 @@ class RecipeListView(ListView):
 
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = dict()
         category = self.request.GET.get('filter')
         queryset = self.get_queryset()
+        sort_param = self.request.GET.get('sort')
         if category:
             queryset = queryset.filter(category=category)
+        
+        if sort_param == 'created_at':
+            queryset = queryset.order_by('-created_at')
+        elif sort_param == 'difficulty':
+            queryset = queryset.order_by('difficulty')
+        elif sort_param == 'time':
+            queryset = queryset.order_by('time')
+        elif sort_param == 'likes':
+            queryset = queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes')
+    
         paginator = Paginator(queryset, self.paginate_by)
         page_number = self.request.GET.get('page')
         page = paginator.get_page(page_number)
@@ -36,8 +46,10 @@ class RecipeListView(ListView):
         context['pagelist'] = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
         return context
 
+
     def get_queryset(self):
         return super().get_queryset()
+
 
 
 class RecipeDetailView(DetailView):
@@ -47,15 +59,19 @@ class RecipeDetailView(DetailView):
 
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        prev_recipes = Recipe.objects.filter(pk__lt=self.object.pk).order_by('-pk')[:2]
-        next_recipes = Recipe.objects.filter(pk__gt=self.object.pk).order_by('pk')[:2]
+        context = super().get_context_data()
+        recipe = context['recipe']
+        prev_recipes = Recipe.objects.filter(pk__lt=recipe.pk).order_by('-pk')[:2]
+        next_recipes = Recipe.objects.filter(pk__gt=recipe.pk).order_by('pk')[:2]
         adj_recipes = list(prev_recipes) + list(next_recipes)
-        recipe = Recipe.objects.get(pk=self.object.pk)
-        reviews = recipe.recipes.all()
+        ingredients = RecipeIngredient.objects.select_related('ingredient').filter(recipe=recipe)
+        steps = RecipeStep.objects.filter(recipe=recipe)
+        reviews = recipe.recipes.prefetch_related('user').all()
         context['reviews'] = reviews
         context['review_form'] = RecipeReviewForm()
         context['adj_recipes'] = adj_recipes
+        context['ingredients'] = ingredients
+        context['steps'] = steps
         return context
 
 
@@ -368,8 +384,11 @@ class RecipeFridge(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        already = Ingredient.objects.filter(fridge_users=self.request.user)
-        left = Ingredient.objects.exclude(fridge_users=self.request.user)
+        already = []
+        left = []
+        if self.request.user.is_authenticated:
+            already = Ingredient.objects.filter(fridge_users=self.request.user)
+            left = Ingredient.objects.exclude(fridge_users=self.request.user)
         buttons = [x for x in range(len(already)+1, 10)]
         user_ingredients = UserIngredient.objects.filter(user=self.request.user)
         user_ingredient_names = user_ingredients.values_list('ingredient__name', flat=True)
@@ -406,7 +425,7 @@ class RecipeFridge(ListView):
             return JsonResponse({'msg': 'error!'})
 
 
-class RecipeEquip(LoginRequiredMixin, ListView):
+class RecipeEquip(ListView):
     # model = Equip
     template_name = 'recipes/equip.html'
     model = Recipe

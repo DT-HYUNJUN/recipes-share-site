@@ -18,6 +18,6 @@
         <path d="M22 33.444L9.83 42.327c-.784.572-1.842-.196-1.539-1.118l4.687-14.32L.769 18.06c-.787-.569-.383-1.812.588-1.81l15.067.033 4.624-14.34c.298-.924 1.606-.924 1.904 0l4.624 14.34 15.067-.033c.971-.002 1.375 1.241.588 1.81l-12.209 8.829 4.688 14.32c.302.922-.756 1.69-1.54 1.118L22 33.444z"></path>
       </svg>
     {% endfor %}
-    <input type="text" name="difficulty" id="difficulty-input" {% if widget.value %}value={{ widget.value }}{% endif %} hidden>
+    <input type="text" name="difficulty" id="difficulty-input" {% if widget.value %}value={{ widget.value }}{% endif %} pattern="^[1-5]$" required hidden>
   </div>
 {% endwith %}

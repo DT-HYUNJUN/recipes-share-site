@@ -55,15 +55,26 @@
                         <div class="flex items-center justify-center gap-2">
                           <span>난이도</span>
                           {% if recipe.difficulty == 1 %}
-                            <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          {% elif recipe.difficulty == 2 %}
-                            <img src="{% static 'img/rating-star.svg' %}" alt="">
-                            <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          {% elif recipe.difficulty == 3 %}
-                            <img src="{% static 'img/rating-star.svg' %}" alt="">
-                            <img src="{% static 'img/rating-star.svg' %}" alt="">
-                            <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          {% endif %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 2 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 3 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 4 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% elif recipe.difficulty == 5 %}
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        {% endif %}
                         </div>
                         <!--조리시간 -->
                         {% comment %} <div class="flex items-center justify-center gap-2">

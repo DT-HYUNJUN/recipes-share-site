@@ -6,8 +6,8 @@
 <div class="container mx-auto max-w-screen-xl">
   <div>
     <h1 class="logo-font text-4xl text-center my-10">| Community |</h1>
-    <div class="text-end pr-[10%] mb-1">
-      <button type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+    <div class="text-end pr-[1%] mb-1">
+      <button type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 md:mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
         <a href="{% url 'communities:create' %}">글 작성</a>
       </button>
     </div>
@@ -17,19 +17,19 @@
     <table class=" w-5/6 text-sm text-left text-gray-500 dark:text-gray-400 table-auto min-w-full">
       <thead class="text-xs text-gray-700 uppercase bg-[#f0fff0] dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" class="px-6 py-3 text-center">
+          <th scope="col" class="md:px-6 px-3 md:py-3">
             글번호
           </th>
           <th scope="col" class="px-6 py-3">
             제목
           </th>
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="md:px-6 px-4 md:py-3">
             작성시간
           </th>
           <th scope="col" class="px-6 py-3">
             작성자
           </th>
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="md:px-6 px-3 md:py-3">
             좋아요
           </th>
         </tr>

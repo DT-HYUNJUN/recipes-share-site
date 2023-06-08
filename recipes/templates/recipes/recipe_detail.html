@@ -4,8 +4,7 @@
 {% load static %}
 
 {% block content %}
-
-<div class="container mx-auto max-w-screen-xl">
+<div class="md:container md:mx-auto md:max-w-screen-xl">
   <div id="toast-simple" class="absolute z-10 hidden items-center w-fit p-4 space-x-4 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 shadow-lg shadow-green-500/5 divide-x divide-gray-200 rounded-lg dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
       <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
@@ -28,7 +27,7 @@
         </div>
 
         <!-- 수정/삭제 -->
-        {% if request.user == recipe.user %}
+        {% if request.user == recipe_user or request.user.is_superuser %}
         <div>
           <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
@@ -48,20 +47,18 @@
         </div>
         {% endif %}
       </div>
-      
 
       <!-- 인접 게시물 목록 -->
-      <div id="adj-list" class="hidden gap-3">
+      <div id="adj-list" class="hidden gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
         {% for recipe in adj_recipes %}
-          <div class="relative w-1/4">
+          <div class="relative w-full">
             <a class="hover:brightness-50 peer" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="text-center">
                 <img class="object-cover border w-[216px] h-[183px]" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
-                {% comment %} <img class="object-cover border w-[216px] h-[183px]" {% if recipe.image %} src="{{ recipe.image.url }}" {% else %} src="{% static 'img/no_img.jpeg' %}" {% endif %} alt=""> {% endcomment %}
                 <h1 class="text-lg font-bold line-clamp-1">{{ recipe.title }}</h1>
               </div>
             </a>
-            {% comment %} <p class=" text-xl font-semibold  peer-hover:block  w-full text-center">전자레인지</p> {% endcomment %}
+            
             <div class="hidden absolute peer-hover:flex flex-col justify-center top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 text-white w-full">
               <div class="flex items-center justify-center gap-2">
                 <span>난이도</span>
@@ -98,6 +95,16 @@
             </div>
           </div>
         {% endfor %}
+      </div>
+
+      <div class="mt-2 flex items-center  gap-3">
+        <a href="{% url 'accounts:profile' recipe.user %}">
+          <img class="w-16 rounded-full" {% if recipe.user.profile_image %} src="{{ recipe.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
+        </a>
+        <div class="flex gap-3 text-sm my-3 items-center">
+          <a class="flex" href="{% url 'accounts:profile' recipe.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline">{{ recipe.user.nickname }}</p></a>
+          |<p class="text-gray-600">{{ recipe.created_at }}</p>
+        </div>
       </div>
 
       <div class="mb-4 flex justify-center">
@@ -181,35 +188,28 @@
         </div>
       </div>
       <hr>
-      <p class="text-gray-600">{{ recipe.content|safe }}</p>
-    </div>
-    <div class="flex justify-end items-center gap-2">
-      <button id="dropdownTopButton" data-dropdown-toggle="dropdownTop" data-dropdown-placement="top" class="" type="button">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
-        </svg>
-      </button>
-      <!-- Dropdown menu -->
-      <div id="dropdownTop" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-fit dark:bg-gray-700">
-        <ul class="flex gap-3 items-center p-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownTopButton">
-          <button id="btnKakao" class="w-9" onclick="shareKakao()" data-title="{{ recipe.title }}" data-content="{{ recipe.content }}" data-image="{% static 'img/logo_square.png' %}" data-link="{% url 'recipes:recipe_detail' recipe.pk %}" data-base-link="{% url 'index' %}">
-            <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카카오톡 공유 보내기 버튼"/>
-          </button>
-          <button onclick="copyLink()" class="bg-green-100 w-9 h-9 flex justify-center items-center rounded-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
-            </svg>
-          </button>
-        </ul>
+      <div>
+        <!-- Dropdown menu -->
+        <button id="dropdownTopButton" data-dropdown-toggle="dropdownTop" data-dropdown-placement="top" class="float-right" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2E8B57" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
+          </svg>
+        </button>
+        <div id="dropdownTop" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-fit dark:bg-gray-700">
+          <ul class="flex gap-3 items-center p-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownTopButton">
+            <button id="btnKakao" class="w-9" onclick="shareKakao()" data-title="{{ recipe.title }}" data-content="{{ recipe.content }}" data-link="{% url 'recipes:recipe_detail' recipe.pk %}" data-base-link="{% url 'index' %}" data-like-count="{{ recipe.like_users.all.count }}" data-comment-count="{{ reviews.count }}">
+              <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카카오톡 공유 보내기 버튼"/>
+            </button>
+            <button onclick="copyLink()" class="bg-green-100 w-9 h-9 flex justify-center items-center rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+              </svg>
+            </button>
+          </ul>
+        </div>
+        <p class="text-gray-600">{{ recipe.content|safe }}</p>
       </div>
-      
-      {% comment %} <a id="btnKakao" href="javascript:shareKakao();" class="w-7" data-title="{{ recipe.title }}" data-content="{{ recipe.content }}" data-image="{{ recipe.image.url }}" data-link="{% url 'recipes:recipe_detail' recipe.pk %}">
-        <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카카오톡 공유 보내기 버튼"/>
-      </a> {% endcomment %}
-      
-      
     </div>
-
     <!-- 재료 -->
     <div>
       <div class="flex justify-between items-center border-b border-b-[#2e8b57]">
@@ -232,7 +232,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for ingredient in recipe.recipeingredient_set.all %}
+              {% for ingredient in ingredients %}
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ ingredient.ingredient }}
