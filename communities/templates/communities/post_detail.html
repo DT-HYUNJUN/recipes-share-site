@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load crispy_forms_tags %}
 {% load tailwind_filters %}
 {% load static %}
@@ -15,7 +16,6 @@
     <div class="col-span-11">
       <div class="flex justify-between gap-3 text-sm my-3">
         <div class="flex gap-3 text-sm my-3 items-center">
-          {% comment %} <p>{{ post.user.nickname }}</p>|<p class="text-gray-600">{{ post.created_at }}</p> {% endcomment %}
           <a class="flex" href="{% url 'accounts:profile' post.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline">{{ post.user.nickname }}</p></a>
           |<p class="text-gray-600">{{ post.created_at }}</p>
         </div>
@@ -42,19 +42,6 @@
       <div>
         <img class="w-4/5" {% if post.image %} src="{{ post.image.url }}" {% endif %}  alt="">
       </div>
-      {% comment %} <form id="like-form" class="mt-10" data-post-id="{{post.pk}}">
-        {% csrf_token %}
-        {% if request.user in post.like_posts.all %}
-          <button title="{{post.like_posts.all|length}}" type="submit" value="좋아요 취소" id="like-btn">
-            <i class="bi bi-heart-fill" id="like-heart"></i>
-          </button>
-        {% else %}
-          <button title="{{post.like_posts.all|length}}" type="submit" svalue="좋아요" id="like-btn">
-            <i class="bi bi-heart" id="like-heart"></i>
-          </button>
-        {% endif %}
-        <span id="post-like-count">{{ post.like_posts.all|length }}</span>
-      </form> {% endcomment %}
       <form id="like-form" class="my-7" data-post-id="{{ post.pk }}">
         {% csrf_token %}
         {% if request.user.is_authenticated %}
@@ -88,7 +75,7 @@
     <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 <span id="review-count">{{ comments.count }}</span></p>
     {% for comment in comments %}
     <div id="review" {% if request.user == comment.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b" {% else %} class="grid grid-cols-12 text-sm mt-3 px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ comment.pk }}" data-review-pk="{{ comment.pk }}"  data-update-url="{% url 'communities:comment_update' post.pk comment.pk %}" data-delete-url="{% url 'communities:comment_delete' post.pk comment.pk %}">
-      <!-- 리뷰 작성자 프로필 사진 -->
+      <!-- 댓글 작성자 프로필 사진 -->
       <div class="col-span-1 flex items-start mb-1">
         <img class="w-10 rounded-full" {% if comment.user.profile_image %} src="{{ comment.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
       </div>
@@ -220,79 +207,4 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{% static 'js/communities/review.js' %}"></script>
 <script src="{% static 'js/communities/like.js' %}"></script>
-
-<!--좋아요 비동기-->
-<script>
-</script>
-
-<!--댓글 입력 비동기-->
-{% comment %} <script>
-  const form = document.querySelector('#comment-form')
-  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-  form.addEventListener('submit', function(event) {
-    event.preventDefault()
-
-    const postId = event.target.dataset.postId
-    axios({
-      method : 'post',
-      url :  `communities/${postId}/create`,
-      headers : {'X-CSRFToken': csrftoken2,}
-    })
-  })
-</script> {% endcomment %}
-
-{% comment %} <script>
-  const commentSection = document.querySelector('#comments')
-  const comments = document.querySelectorAll('#comment')
-
-  const commentForm = document.querySelector('#comment-form')
-  const commentField = document.querySelector('#id_content')
-  commentField.setAttribute('rows', '2')
-  commentField.setAttribute('placeholder', '여기에 댓글을 작성해보세요!')
-  commentField.classList.add ('border-0')
-  commentField.classList.add ('focus:ring-0')
-  commentField.classList.add ('resize-none')
-
-  const commentSubmit = commentForm.querySelector('#rcomment_create_submit')
-  commentSubmit.addEventListener('click', (e) => {
-    e.preventDefault()
-    let param = {
-      'pk': commentForm.dataset.pk,
-      'content': reviewField.value
-    }
-    $.ajax({
-      url: reviewForm.dataset.url,
-      type: 'POST',
-      headers: {
-        'X-CSRFTOKEN': reviewForm.dataset.csrftoken
-      },
-      data: JSON.stringify(param),
-      success:function(data) {
-      },
-      error: function() {
-        alert('오류!')
-      }
-    })
-  })
-
-
-
-    form.addEventListener('submit', function(event) {
-      event.preventDefault()
-
-      const postId = event.target.dataset.postId
-      axios({
-        method: 'post',
-        url: `http://127.0.0.1:8000/communities/${postId}/create/`,
-        headers: {'X-CSRFToken': csrftoken}
-      })
-      .then((response) => {
-        const successUrl = response.data.success_url
-        window.location.href = successUrl
-      })
-      .catch((error) => {
-        console.log(error.response)
-      })
-    })
-</script> {% endcomment %}
 {% endblock script %}

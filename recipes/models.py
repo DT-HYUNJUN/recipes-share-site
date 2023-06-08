@@ -14,7 +14,7 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=100)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='recipe_written')
     content = models.TextField(max_length=1000, blank=True, null=True)
     category = models.CharField(max_length=10)
@@ -81,8 +81,8 @@ class RecipeReview(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-# class Equip(models.Model):
-#     microwave = models.BooleanField(default=False)
-#     stove = models.BooleanField(default=False)
-#     oven = models.BooleanField(default=False)
-#     air_fryer = models.BooleanField(default=False) # 태그
+class Equip(models.Model):
+    microwave = models.BooleanField(default=False)
+    stove = models.BooleanField(default=False)
+    oven = models.BooleanField(default=False)
+    air_fryer = models.BooleanField(default=False) # 태그

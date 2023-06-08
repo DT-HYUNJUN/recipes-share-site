@@ -2,6 +2,8 @@ const kakaoBtn = document.getElementById('btnKakao')
 const title = kakaoBtn.dataset.title
 const content = kakaoBtn.dataset.content
 const baseLink = 'http://127.0.0.1:8000'
+// const baseLink = kakaoBtn.dataset.baseLink
+console.log(baseLink)
 const link = kakaoBtn.dataset.link
 const image = kakaoBtn.dataset.image
 const toastSimple = document.getElementById('toast-simple')
@@ -17,7 +19,7 @@ function shareKakao() {
     content: {
       title: title, // 보여질 제목
       description: content, // 보여질 설명
-      imageUrl: 'https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg', // 콘텐츠 URL
+      imageUrl: baseLink + image, // 콘텐츠 URL
       link: {
          mobileWebUrl: baseLink + link,
          webUrl: baseLink + link
