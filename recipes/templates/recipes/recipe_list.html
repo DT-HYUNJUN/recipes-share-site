@@ -62,27 +62,41 @@
     <div class="container mx-auto">
       <section class="border-t-4 pt-10 mt-10">
         <div class="flex justify-end md:mx-52">
-          <button id="dropdownOffsetButton" data-dropdown-toggle="dropdownOffset" data-dropdown-offset-distance="-35" data-dropdown-offset-skidding="0" class="text-black bg-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center   type=" button"=" button""=" button" "">최신순
-            <svg class=" w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-
-          <div id="dropdownOffset" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">최신순</a>
-              </li>
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천순</a>
-              </li>
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">난이도순</a>
-              </li>
-              <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">조리시간 순</a>
-              </li>
-            </ul>
+          <div class="flex justify-center">
+            <button id="dropdownOffsetButton" data-dropdown-toggle="dropdownOffset" data-dropdown-offset-distance="-35" data-dropdown-offset-skidding="0" class="text-black bg-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">
+              {% if sort_param == 'created_at' %}
+                최신순
+              {% elif sort_param == 'liked' %}
+                추천순
+              {% elif sort_param == 'difficulty' %}
+                난이도순
+              {% elif sort_param == 'time' %}
+                소요시간순
+              {% else %}
+                최신순
+              {% endif %}
+                
+              <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+      
+            <div id="dropdownOffset" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                <li>
+                  <button name="sort" value="created_at" class="sorting block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">최신순</button>
+                </li>
+                <li>
+                  <button name="sort" value="liked" class="sorting block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천순</button>
+                </li>
+                <li>
+                  <button name="sort" value="difficulty" class="sorting block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">난이도순</button>
+                </li>
+                <li>
+                  <button name="sort" value="time" class="sorting block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">소요시간순</button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -187,29 +201,70 @@
     </div>
 
 
-<script>
-  const buttons = document.querySelectorAll('.filtering');
-
-  buttons.forEach((btn) => {
-    const btnName = btn.getAttribute('name');
-    const btnValue = btn.getAttribute('value');
-    btn.addEventListener('click', () => {
-      const Url = window.location.href;
-      
-      if (btnValue === '모두보기') {
-        const newUrl = Url.replace(new RegExp(`[?&]${btnName}=[^&]+&?`), '');
-        window.location.href = newUrl;
-      } else if (Url.includes(`?${btnName}=${btnValue}`)) {
-        const newUrl = Url.replace(`?${btnName}=${btnValue}`, '');
-        window.location.href = newUrl;
-      } else if (Url.includes(`?${btnName}=`)) {
-        const newUrl = Url.replace(new RegExp(`\\?${btnName}=[^&]+`), `?${btnName}=${btnValue}`);
-        window.location.href = newUrl;
-      } else {
-        const newUrl = `${Url}?${btnName}=${btnValue}`;
-        window.location.href = newUrl;
-      }
-    });
-  });
-</script>
-  {% endblock content %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const filteringButtons = document.querySelectorAll('.filtering');
+    
+        filteringButtons.forEach((btn) => {
+          const btnName = btn.getAttribute('name');
+          const btnValue = btn.getAttribute('value');
+          btn.addEventListener('click', () => {
+            const Url = window.location.href;
+    
+            if (btnValue === '모두보기') {
+              const newUrl = Url.replace(new RegExp(`[?&]${btnName}=[^&]+`), '');
+              const newUrlWithoutSort = newUrl.replace(/[?&]sort=[^&]+/g, '');
+              window.location.href = newUrlWithoutSort;
+            } else if (Url.includes(`?${btnName}=${btnValue}`)) {
+              const newUrl = Url.replace(`?${btnName}=${btnValue}`, '');
+              const newUrlWithoutSort = newUrl.replace(/[?&]sort=[^&]+/g, '');
+              window.location.href = newUrlWithoutSort;
+            } else if (Url.includes(`?${btnName}=`)) {
+              const newUrl = Url.replace(new RegExp(`\\?${btnName}=[^&]+`), `?${btnName}=${btnValue}`);
+              const newUrlWithoutSort = newUrl.replace(/[?&]sort=[^&]+/g, '');
+              window.location.href = newUrlWithoutSort;
+            } else {
+              const newUrl = `${Url}?${btnName}=${btnValue}`;
+              const newUrlWithoutSort = newUrl.replace(/[?&]sort=[^&]+/g, '');
+              window.location.href = newUrlWithoutSort;
+            }
+          });
+        });
+    
+        const sortingButtons = document.querySelectorAll('.sorting');
+    
+        sortingButtons.forEach((btn) => {
+          const btnName = btn.getAttribute('name');
+          const btnValue = btn.getAttribute('value');
+          btn.addEventListener('click', () => {
+            const Url = window.location.href;
+            
+            if (Url.includes(`?filter=`)) {
+              if (Url.includes(`&${btnName}=${btnValue}`)) {
+                const newUrl = Url.replace(`&${btnName}=${btnValue}`, '');
+                window.location.href = newUrl;
+              } else if (Url.includes(`&${btnName}=`)) {
+                const newUrl = Url.replace(new RegExp(`&${btnName}=[^&]+`), `&${btnName}=${btnValue}`);
+                window.location.href = newUrl;
+              } else {
+                const newUrl = `${Url}&${btnName}=${btnValue}`;
+                window.location.href = newUrl;
+              }
+            }
+            else {
+              if (Url.includes(`?${btnName}=${btnValue}`)) {
+                const newUrl = Url.replace(`?${btnName}=${btnValue}`, '');
+                window.location.href = newUrl;
+              } else if (Url.includes(`?${btnName}=`)) {
+                const newUrl = Url.replace(new RegExp(`\\?${btnName}=[^&]+`), `?${btnName}=${btnValue}`);
+                window.location.href = newUrl;
+              } else {
+                const newUrl = `${Url}?${btnName}=${btnValue}`;
+                window.location.href = newUrl;
+              }
+            }
+          });
+        });
+      });
+    </script>
+{% endblock content %}

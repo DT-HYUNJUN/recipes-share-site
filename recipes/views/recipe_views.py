@@ -27,8 +27,19 @@ class RecipeListView(ListView):
         context = super().get_context_data(**kwargs)
         category = self.request.GET.get('filter')
         queryset = self.get_queryset()
+        sort_param = self.request.GET.get('sort')
         if category:
             queryset = queryset.filter(category=category)
+        
+        if sort_param == 'created_at':
+            queryset = queryset.order_by('-created_at')
+        elif sort_param == 'difficulty':
+            queryset = queryset.order_by('difficulty')
+        elif sort_param == 'time':
+            queryset = queryset.order_by('time')
+        elif sort_param == 'likes':
+            queryset = queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes')
+    
         paginator = Paginator(queryset, self.paginate_by)
         page_number = self.request.GET.get('page')
         page = paginator.get_page(page_number)
@@ -38,6 +49,7 @@ class RecipeListView(ListView):
 
     def get_queryset(self):
         return super().get_queryset()
+
 
 
 class RecipeDetailView(DetailView):
