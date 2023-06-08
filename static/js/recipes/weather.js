@@ -12,14 +12,15 @@ function onGeoOk(position) {
 
     if (weather == 'Clear') {
       weatherIcon.classList.add('bi-brightness-high')
-      weatherInfoText.textContent = '오늘 같이 맑은 날에는 '
+      weatherInfoText.textContent = '오늘 같이 맑은 날에는 김치찌개'
     } else if(weather == 'Clouds' || weather == 'Haze') {
       weatherIcon.classList.add('bi-cloudy')
-      weatherInfoText.textContent = '오늘 같이 흐린 날에는 '
+      weatherInfoText.textContent = '오늘 같이 흐린 날에는 하이볼'
     } else if(weather == 'Snow') {
       weatherIcon.classList.add('bi-cloud-snow')
+      weatherInfoText.textContent = '오늘 같이 눈 오는 날에는 크림 파스타'
     } else if(weather == 'Rain' || weather == 'Drizzle' || weather == 'Mist') {
-      weatherInfoText.textContent = '오늘 같이 비오는 날에는 파전 어떠신가요?'
+      weatherInfoText.textContent = '오늘 같이 비 오는 날에는 파전 어떠신가요?'
       weatherIcon.classList.add('bi-cloud-rain')
     }
     userWeather.textContent = `${name}의 현재 날씨: `

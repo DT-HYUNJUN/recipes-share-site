@@ -5,7 +5,7 @@
 <h1 class="logo-font text-4xl text-center mt-3">| 나의 글 수정 |</h1>
 
 <div class="container mx-auto max-w-screen-md">
-  <form class="mt-10" action="{% url 'communities:update' post.pk %}" method="post">
+  <form class="mt-10" action="{% url 'communities:update' post.pk %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{form|crispy}}
     <div class="flex justify-end">

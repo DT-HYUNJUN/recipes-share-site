@@ -7,54 +7,59 @@
 {% block content %}
 <div class="container mx-auto max-w-screen-xl my-10">
   <!-- 본문 -->
-  <div class="border p-3 rounded-lg grid grid-cols-12">
-    <div class="col-span-1 px-5 mt-2">
-      <a href="{% url 'accounts:profile' post.user %}">
-        <img class="w-4/5 rounded-full" {% if post.user.profile_image %} src="{{ post.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
-      </a>
-    </div> 
-    <div class="col-span-11">
-      <div class="flex justify-between gap-3 text-sm my-3">
+  <div class="border p-3 rounded-lg">
+    <div class="flex justify-between items-center">
+      <!-- 프로필 사진 / 닉네임 / 작성 날짜 -->
+      <div class="mt-2 flex items-center  gap-3">
+        <a href="{% url 'accounts:profile' post.user %}">
+          <img class="w-20 rounded-full" {% if post.user.profile_image %} src="{{ post.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
+        </a>
         <div class="flex gap-3 text-sm my-3 items-center">
           <a class="flex" href="{% url 'accounts:profile' post.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline">{{ post.user.nickname }}</p></a>
           |<p class="text-gray-600">{{ post.created_at }}</p>
         </div>
-
+      </div>
+      <!-- dropdown section-->
+      <div>
         {% if request.user == post.user %}
           <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
           </button>
-        {% endif %}
-        <!-- Dropdown menu -->
-        <div id="dropdownDots" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-36 dark:bg-gray-700 dark:divide-gray-600">
-          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
-            <li>
-              <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" href="{% url 'communities:update' post.pk %}">수정하기</a>
-            </li>
-            <li>
-              <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" href="{% url 'communities:delete' post.pk %}">삭제하기</a>
-            </li>
-          </ul>
-        </div>
+          {% endif %}
+          <!-- Dropdown menu -->
+          <div id="dropdownDots" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-36 dark:bg-gray-700 dark:divide-gray-600">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
+              <li>
+                <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" href="{% url 'communities:update' post.pk %}">수정하기</a>
+              </li>
+              <li>
+                <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" href="{% url 'communities:delete' post.pk %}">삭제하기</a>
+              </li>
+            </ul>
+          </div>
       </div>
-      <h1 class=" text-xl my-4 text-[#2E8B57]" >  {{ post.title }}</h1>
-      <p class="text-md p-3">{{ post.content|linebreaksbr }}</p>
+    </div>
+    <div class="ps-24">
       <div>
-        <img class="w-4/5" {% if post.image %} src="{{ post.image.url }}" {% endif %}  alt="">
+        <h1 class=" text-xl my-4 text-[#2E8B57]">{{ post.title }}</h1>
+        <p class="text-md py-3">{{ post.content|linebreaksbr }}</p>
+        <div>
+          <img class="w-4/5" {% if post.image %} src="{{ post.image.url }}" {% endif %}  alt="">
+        </div>
+        <form id="like-form" class="my-7" data-post-id="{{ post.pk }}">
+          {% csrf_token %}
+          {% if request.user.is_authenticated %}
+            <button id="likes_btn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-2 px-4 rounded">
+              <i class="bi bi-heart{% if request.user in post.like_posts.all %}-fill{% endif %} text-danger"></i>
+            </button>
+          {% else %}
+            <button class="border border-red-500 text-red-500 py-2 px-4 rounded cursor-not-allowed opacity-50" disabled>
+              <i class="bi bi-heart"></i>
+            </button>
+          {% endif %}
+          <span id="like-post-count">{{ post.like_posts.all.count }}</span>
+        </form>
       </div>
-      <form id="like-form" class="my-7" data-post-id="{{ post.pk }}">
-        {% csrf_token %}
-        {% if request.user.is_authenticated %}
-          <button id="likes_btn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-2 px-4 rounded">
-            <i class="bi bi-heart{% if request.user in post.like_posts.all %}-fill{% endif %} text-danger"></i>
-          </button>
-        {% else %}
-          <button class="border border-red-500 text-red-500 py-2 px-4 rounded cursor-not-allowed opacity-50" disabled>
-            <i class="bi bi-heart"></i>
-          </button>
-        {% endif %}
-        <span id="like-post-count">{{ post.like_posts.all.count }}</span>
-      </form>
     </div>
   </div>
   {% comment %} action="{% url 'communities:comment_create' post.pk %}" method="POST" {% endcomment %}
@@ -131,17 +136,14 @@
             <th scope="col" class="py-3 text-center">
               글번호
             </th>
-            <th scope="col" class="px-6 py-3 w-full md:w-auto">
+            <th scope="col" class="px-6 py-3 w-full  md:w-3/5">
               제목
             </th>
-            <th scope="col" class="px-6 py-3 ">
+            <th scope="col" class="px-4 md:px-6 py-3 ">
               작성시간
             </th>
             <th scope="col" class="px-6 py-3">
               작성자
-            </th>
-            <th scope="col" class="text-center py-3">
-              좋아요
             </th>
           </tr>
         </thead>
@@ -176,21 +178,6 @@
               </td>
               <td class="px-6 py-4">
                 <a class="hover:underline decoration-1" href="{% url 'accounts:profile' post.user %}">{{ post.user.nickname }}</a>
-              </td>
-              <td class="px-6 py-4">
-                <form class="like-form" data-post-id="{{post.pk}}" >
-                  {% csrf_token %}
-                  {% if request.user in post.like_posts.all %}
-                    <button title="{{post.like_posts.all|length}}" type="submit" value="좋아요 취소" id="like-{{post.pk}}">
-                      <i class="bi bi-heart-fill" id="like-heart"></i>
-                    </button>
-                  {% else %}
-                    <button title="{{post.like_posts.all|length}}" type="submit" svalue="좋아요" id="like-{{post.pk}}">
-                      <i class="bi bi-heart" id="like-heart"></i>
-                    </button>
-                  {% endif %}
-                  <span id="post-like-count">{{ post.like_posts.all|length }}</span>
-                </form>
               </td>
             </tr>
           {% endfor %}
