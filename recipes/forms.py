@@ -10,6 +10,18 @@ class DifficultyField(forms.CharField):
     widget = DifficultyWidget  # 위젯에 커스텀 위젯을 지정
 
 
+class EquipForm(forms.ModelForm):
+    class Meta:
+        model = Equip
+        fields = ('microwave', 'stove', 'oven', 'air_fryer')
+        labels = {
+            'microwave': '전자레인지',
+            'stove': '가스레인지',
+            'oven': '오븐',
+            'air_fryer': '에어 프라이어',
+        }
+
+
 class RecipeForm(forms.ModelForm):
     title = forms.CharField(
         label='요리 이름',
