@@ -24,7 +24,6 @@
             <label for="category" class="block text-gray-700 text-sm font-bold mb-2">{{ form.category.label|safe }}<span class="asteriskField">*</span></label>
             <select name="category" id="id_category" pattern=".{1,}" required>
               <option value="" selected disabled>카테고리 선택</option>
-              <option value="메인요리">메인요리</option>
               <option value="밑반찬">밑반찬</option>
               <option value="간식">간식</option>
               <option value="간단요리">간단요리</option>
@@ -40,12 +39,14 @@
           </div>
           {{ form.time|as_crispy_field }}
           {{ form.difficulty|as_crispy_field }}
-          <div class="flex">
-            {{ equipform.microwave|as_crispy_field }}
-            {{ equipform.stove|as_crispy_field }}
-            {{ equipform.oven|as_crispy_field }}
-            {{ equipform.air_fryer|as_crispy_field }}
-          </div>
+        </div>
+
+        <p class="font-bold text-sm mb-2">조리도구</p>
+        <div id="equip-form" class="border w-fit p-3 rounded-lg flex flex-col gap-2 mb-3">
+          {{ equipform.microwave|as_crispy_field }}
+          {{ equipform.stove|as_crispy_field }}
+          {{ equipform.oven|as_crispy_field }}
+          {{ equipform.air_fryer|as_crispy_field }}
         </div>
       
         <div class="inline-block">
@@ -55,12 +56,25 @@
   
       <div class="flex justify-start items-center">
         <span class="block text-gray-700 text-sm font-bold mb-2 me-3 leading-loose">조리법</span>
-        {% comment %} <button type="button" id="add-step" class="border border-[#3CB371] hover:bg-[#003153] focus:ring-1 focus:ring-black font-medium text-sm px-2 py-1 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">단계 추가</button> {% endcomment %}
+       
         <button type="button" id="add-step" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
           <span class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
              단계 추가
           </span>
         </button>
+      </div>
+      
+      <div class="flex items-center gap-3 mb-2">
+        <p class="text-sm text-gray-600">* 순서는 직접 표기하지 않아도 됩니다.</p>
+        <button data-tooltip-target="tooltip-animation" type="button" class="">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+          </svg>
+        </button>
+        <div id="tooltip-animation" role="tooltip" class="absolute z-10 invisible inline-block text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+          <img class="w-40" src="{% static 'img/step_ex.png' %}" alt="">
+          <div class="tooltip-arrow bg-white" data-popper-arrow></div>
+        </div>
       </div>
       <div id="steps-section">
         {{ stepformset.management_form }}
@@ -74,7 +88,7 @@
 
       <div id="ingredient_label" class="flex gap-4">
         <span class="block text-gray-700 text-sm font-bold leading-loose mb-2">재료</span>
-        {% comment %} <button type="button" id="add-ingredient" class="border border-[#3CB371] hover:bg-[#003153] focus:ring-1 focus:ring-black font-medium text-sm px-2 py-1 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">추가</button> {% endcomment %}
+        
         <button type="button" id="add-ingredient" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-xs font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-teal-300 to-lime-300 dark:text-white dark:hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-lime-800">
           <span class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
             추가
@@ -97,7 +111,6 @@
       
     </div>
 
-    {% comment %} <hr id="bottom-line" class="mb-2"> {% endcomment %}
     <button type="submit" class=" mt-2 text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium text-base px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 group-invalid:pointer-events-none group-invalid:opacity-30">레시피 등록</button>
   </form>
 </div>

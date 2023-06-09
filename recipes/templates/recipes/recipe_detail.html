@@ -40,7 +40,7 @@
                 <a href="{% url 'recipes:recipe_update' recipe.pk %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">수정</a>
               </li>
               <li>
-                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
+                <a href="{% url 'recipes:recipe_delete' recipe.pk %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">삭제</a>
               </li>
             </ul>
           </div>
@@ -217,6 +217,27 @@
           <i class="bi bi-info-circle"></i>
         </button>
       </div>
+      <div class="my-3 flex gap-3">
+        <div class="divide-x divide-black">
+          {% if microwave %}
+            <span class="text-blue-600 ps-1">전자레인지</span>
+          {% endif %}
+
+          {% if stove %}
+            <span class="text-blue-600 ps-1">가스레인지</span>
+          {% endif %}
+
+          {% if oven %}
+            <span class="text-blue-600 ps-1">오븐</span>
+          {% endif %}
+
+          {% if air_fryer %}
+            <span class="text-blue-600 ps-1">에어프라이어</span>
+          {% endif %}
+        </div>
+        <span>이/가 필요합니다</span>
+      </div>
+
       <div class="mt-3">
         <div class="relative overflow-x-auto">
           <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">

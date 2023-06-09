@@ -84,6 +84,8 @@ function addForm(e) {
   formNum++
   newForm.innerHTML = newForm.innerHTML.replace(formRegex, `recipeingredient_set-${formNum}-`)
   newForm.innerHTML = newForm.innerHTML.replace()
+  quantityInput = newForm.querySelector('input')
+  quantityInput.setAttribute('placeholder', '수량을 입력해주세요')
   ingredientSection.insertBefore(newForm, line)
   totalForms.setAttribute('value', `${formNum + 1}`)
 
@@ -99,3 +101,25 @@ function addForm(e) {
   quantity.classList.add('py-0.5')
   quantity.parentNode.classList.add('grow')
 }
+
+const equipForm = document.getElementById('equip-form')
+const labels = equipForm.querySelectorAll('div > label')
+labels.forEach(label => {
+  label.classList.remove('mb-2')
+})
+
+const microwave = document.getElementById('div_id_microwave')
+microwave.classList.add('flex', 'justify-between', 'w-32')
+microwave.classList.remove('mb-3')
+
+const stove = document.getElementById('div_id_stove')
+stove.classList.add('flex', 'justify-between', 'w-32')
+stove.classList.remove('mb-3')
+
+const oven = document.getElementById('div_id_oven')
+oven.classList.add('flex', 'justify-between', 'w-32')
+oven.classList.remove('mb-3')
+
+const airFryer = document.getElementById('div_id_air_fryer')
+airFryer.classList.add('flex', 'justify-between', 'w-32')
+airFryer.classList.remove('mb-3')
