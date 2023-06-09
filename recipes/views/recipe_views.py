@@ -83,6 +83,9 @@ class RecipeDetailView(DetailView):
         if air_fryer:
             context['air_fryer'] = 1
         
+        if microwave|stove|oven|air_fryer:
+            context['equip'] = 1
+        
         
         reviews = recipe.recipes.prefetch_related('user').all()
         
