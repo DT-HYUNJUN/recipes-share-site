@@ -42,19 +42,7 @@
         </div>
         <label for="browser" class="logo-font text-xl">- 냉장고 재료를 선택하세요. -</label>
         <p class="text-red-500 text-sm">이미 냉장고에 있는 재료는 추가 불가능합니다.</p>
-        {% comment %} <input class="mt-8" autocomplete="off" role="combobox" list="" id="input" name="browsers" placeholder="재료를 검색하세요 !">
-        <datalist id="browsers" role="listbox">
-          <option value="파">파</option>
-          <option value="당근">당근</option>
-          <option value="배추">배추</option>
-          <option value="양파">양파</option>
-          <option value="오이">오이</option>
-          <option value="피망">피망</option>
-          <option value="사과">사과</option>
-          <option value="오렌지">오렌지</option>
-          <option value="자몽">자몽</option>
-          <option value="아보카도">아보카도</option>
-        </datalist> {% endcomment %}
+       
         <form id="fridge-form" data-url="{% url 'recipes:recipe_fridge' %}">
           {% csrf_token %}
           <input class="mt-8 read-only:bg-gray-300" autocomplete="off" role="combobox" list="" id="input" name="browsers" placeholder="재료를 검색하세요 !">
@@ -64,30 +52,61 @@
             {% endfor %}
           </datalist>
         </form>
+        <button class="mt-[405px] text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2" onClick="window.location.reload()">입력완료</button>
       </fieldset>
     </div>
 
 
-    {% comment %} {% for ingredient in recipe.recipeingredient_set.all %}
-    {{ ingredient.ingredient }}
- {% endcomment %}
-
 
     <!-- 냉장고 레시피-->
     {% if user_ingredients_names|length != 0 %}
-      <section class="half-bg-weather p-8 border shadow-lg bg-white rounded-lg">
+      <section class="half-bg-weather p-8 px-14 border shadow-lg bg-white rounded-lg my-14">
         <div>
-          <div class="mb-6">
-            <h1 class="logo-font text-4xl text-center mb-3">나의 냉장고로 만들 수 있는 요리 BEST <span><b>{{total_recipes|length}}건</b></span></h1>
+          <div class="mb-6 flex items-center justify-center">
+            <img class="w-10 mb-2" src="{% static 'img/icon_fridge.svg' %}" alt="">
+            <h1 class="logo-font text-4xl text-center">나의 냉장고로 만들 수 있는 요리 BEST <span><b>{{total_recipes|length}}건</b></span></h1>
           </div>
           <div class="recipe-weather-slide">
             {% for recipe in total_recipes %}
             <div class="">
-            
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
-                <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
-                  <div class="w-72 overflow-hidden">
-                    <img class="object-cover w-72 h-[400px] hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                <div class="w-72 relative bg-white dark:bg-gray-800 dark:border-gray-700">
+                  <div class="w-72 hover:brightness-50 peer">
+                    <img class="object-cover w-72 h-72" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                  </div>
+                  <div class="hidden absolute peer-hover:flex flex-col justify-center top-[37.5%] left-2/4 transform -translate-x-1/2 -translate-y-1/2 text-white w-full">
+                    <div class="flex items-center justify-center gap-2">
+                      <span>난이도</span>
+                      {% if recipe.difficulty == 1 %}
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      {% elif recipe.difficulty == 2 %}
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      {% elif recipe.difficulty == 3 %}
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      {% elif recipe.difficulty == 4 %}
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      {% elif recipe.difficulty == 5 %}
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                        <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      {% endif %}
+                    </div>
+                    <!--조리시간 -->
+                    <div class="flex items-center justify-center gap-2">
+                      <img class="w-7 brightness-200" src="{% static 'img/cooking-time-white.png' %}" alt="조리시간">
+                      <span class="font-normal text-white dark:text-gray-400">
+                        {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
+                        {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
+                      </span>
+                    </div>
                   </div>
                   <div class="p-5 text-center">
                     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
@@ -100,27 +119,72 @@
           </div>
         </div>
       </section>
-
     {% endif %}
     
 
     <!--냉장고 재료 별 만들 수 있는 요리-->
     {% for i in user_ingredients_names %}
-
-      <section class="half-bg-weather p-8 border shadow-lg bg-white rounded-lg">
+      <section class="half-bg-weather p-8 px-14 border shadow-lg bg-white rounded-lg mb-14">
         <div>
           <div class="mb-6">
-            <h1 class="logo-font text-4xl text-center mb-3"> {{i}} 로 만들 수 있는 요리 </h1>
+            <h1 class="logo-font text-4xl text-center mb-3"> {{i}} 으/로 만들 수 있는 요리 </h1>
           </div>
           <div class="recipe-weather-slide">
               {% for recipe in total_recipes %}
                 {% for recipe_ingredient in recipe.recipeingredient_set.all %}
                   {% if recipe_ingredient.ingredient.name == i %}
-                    <div class="">
+                    {% comment %} <div class="">
                       <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                         <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
                           <div class="w-72 overflow-hidden">
-                            <img class="object-cover w-72 h-[400px] hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                            <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                          </div>
+                          <div class="p-5 text-center">
+                            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate text-center">{{ recipe.content }}</p>
+                          </div>
+                        </div>
+                      </a>
+                    </div> {% endcomment %}
+                    <div class="">
+                      <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
+                        <div class="w-72 relative bg-white dark:bg-gray-800 dark:border-gray-700">
+                          <div class="w-72 hover:brightness-50 peer">
+                            <img class="object-cover w-72 h-72" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                          </div>
+                          <div class="hidden absolute peer-hover:flex flex-col justify-center top-[37.5%] left-2/4 transform -translate-x-1/2 -translate-y-1/2 text-white w-full">
+                            <div class="flex items-center justify-center gap-2">
+                              <span>난이도</span>
+                              {% if recipe.difficulty == 1 %}
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                              {% elif recipe.difficulty == 2 %}
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                              {% elif recipe.difficulty == 3 %}
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                              {% elif recipe.difficulty == 4 %}
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                              {% elif recipe.difficulty == 5 %}
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                                <img src="{% static 'img/rating-star.svg' %}" alt="">
+                              {% endif %}
+                            </div>
+                            <!--조리시간 -->
+                            <div class="flex items-center justify-center gap-2">
+                              <img class="w-7 brightness-200" src="{% static 'img/cooking-time-white.png' %}" alt="조리시간">
+                              <span class="font-normal text-white dark:text-gray-400">
+                                {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
+                                {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
+                              </span>
+                            </div>
                           </div>
                           <div class="p-5 text-center">
                             <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
@@ -146,118 +210,10 @@
 
     
 
-{% comment %} 
-    <section class="my-60">
-      <div>
-        <div class="mb-6">
-          <h1 class="logo-font text-4xl text-center mb-3">냉장고</h1>
-        </div>
-        <div class="recipe-fridge-slide">
-          <div class="">
-            <a class="inline-block" href="#">
-              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
-                <div>
-                  <img class="w-fit" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827567675625554/7.jpeg" alt=""/>
-                </div>
-                <div class="p-5">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                </div>
-              </div>
-            </a>
-          </div>
 
-          <div>
-            <a class="inline-block" href="#">
-              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
-                <div>
-                  <img class="object-cover h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110830867049357343/resized_SmartSelect_20220928_193644_YouTube.jpg" alt=""/>
-                </div>
-                <div class="p-5">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div>
-            <a class="inline-block" href="#">
-              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
-                <div>
-                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110827802946703430/e0147c2e083e50818e468babff9e8a76bf9dd24c_20230225_003103_waifu2x_photo_noise1_scale_waifu2x_photo_noise2_scale.png" alt=""/>
-                </div>
-                <div class="p-5">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="">
-            <a class="inline-block" href="#">
-              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
-                <div>
-                  <img class="object-cover recipe-wrapper h-72" src="https://media.discordapp.net/attachments/1100972915958235296/1110829107643695104/4.jpeg?width=961&height=1402" alt=""/>
-                </div>
-                <div class="p-5">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div>
-            <a class="inline-block" href="#">
-              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
-                <div>
-                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829233279873085/2.jpeg" alt=""/>
-                </div>
-                <div class="p-5">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div>
-            <a class="inline-block" href="#">
-              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
-                <div>
-                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829412687040553/i15448150203.png" alt=""/>
-                </div>
-                <div class="p-5">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div>
-            <a class="inline-block" href="#">
-              <div class="recipe-wrapper bg-white dark:bg-gray-800 dark:border-gray-700">
-                <div>
-                  <img class="object-cover recipe-wrapper h-72" src="https://cdn.discordapp.com/attachments/1100972915958235296/1110829355594158141/e2776e27ae8b44d2.jpeg" alt=""/>
-                </div>
-                <div class="p-5">
-                  <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                  <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div> {% endcomment %}
   <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.js"></script>
   <script>
-    {% comment %} let already = {{ already }}
-    let left = {{ left }} {% endcomment %}
+    
   </script>
   <script src="{% static 'js/recipes/carousel.js' %}"></script>
   <script src="{% static 'js/recipes/fridge.js' %}"></script>
