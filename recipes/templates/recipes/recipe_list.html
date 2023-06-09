@@ -19,40 +19,40 @@
     <!--카테고리-->
     <div class=" text-center mt-10 ">
       <ul class="grid grid-cols-4  w-[640px] mx-auto " style="margin-bottom: -1px;">
-        <button name="filter" value="모두보기" class="bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="모두보기" class=" {% if category %}  text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{%else%}bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {% endif %} " style="margin: 0 -1px -1px 0;">
           모두보기
         </button>
-        <button name="filter" value="밑반찬" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="밑반찬" class=" {% if category == '밑반찬' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           밑반찬
         </button>
-        <button name="filter" value="간식" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="간식" class=" {% if category == '간식' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           간식
         </button>
-        <button name="filter" value="간단요리" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="간단요리" class=" {% if category == '간단요리' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           간단요리
         </button>
-        <button name="filter" value="채식" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="채식" class=" {% if category == '채식' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           채식
         </button>
-        <button name="filter" value="한식" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="한식" class=" {% if category == '한식' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           한식
         </button>
-        <button name="filter" value="양식" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="양식" class=" {% if category == '양식' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           양식
         </button>
-        <button name="filter" value="일식" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="일식" class=" {% if category == '일식' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           일식
         </button>
-        <button name="filter" value="중식" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="중식" class=" {% if category == '중식' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           중식
         </button>
-        <button name="filter" value="분식" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="분식" class=" {% if category == '분식' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           분식
         </button>
-        <button name="filter" value="안주" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="안주" class=" {% if category == '안주' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           안주
         </button>
-        <button name="filter" value="베이킹" class=" text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering" style="margin: 0 -1px -1px 0;">
+        <button name="filter" value="베이킹" class=" {% if category == '베이킹' %} bg-[#8FBC8F] text-white hover:bg-[#3CB371] border border-[#2E8B57] p-2 filtering {%else%} text-black hover:bg-[#3CB371] hover:text-white border border-[#2E8B57] p-2 filtering{% endif %} " style="margin: 0 -1px -1px 0;">
           베이킹
         </button>
       </ul>
@@ -230,46 +230,6 @@
               const newUrlWithoutSort = newUrl.replace(/[?&]sort=[^&]+/g, '');
               const newUrlWithoutPage = newUrlWithoutSort.replace(/[?&]page=[^&]+/g, '');
               window.location.href = newUrlWithoutPage;
-            }
-          });
-        });
-    
-        const sortingButtons = document.querySelectorAll('.sorting');
-        sortingButtons.forEach((btn) => {
-          const btnName = btn.getAttribute('name');
-          const btnValue = btn.getAttribute('value');
-          btn.addEventListener('click', () => {
-            const Url = window.location.href;
-            
-            if (Url.includes(`?filter=`)) {
-              if (Url.includes(`&${btnName}=${btnValue}`)) {
-                const newUrl = Url.replace(`&${btnName}=${btnValue}`, '');
-                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
-                window.location.href = newUrlWithoutPage;
-              } else if (Url.includes(`&${btnName}=`)) {
-                const newUrl = Url.replace(new RegExp(`&${btnName}=[^&]+`), `&${btnName}=${btnValue}`);
-                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
-                window.location.href = newUrlWithoutPage;
-              } else {
-                const newUrl = `${Url}&${btnName}=${btnValue}`;
-                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
-                window.location.href = newUrlWithoutPage;
-              }
-            }
-            else {
-              if (Url.includes(`?${btnName}=${btnValue}`)) {
-                const newUrl = Url.replace(`?${btnName}=${btnValue}`, '');
-                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
-                window.location.href = newUrlWithoutPage;
-              } else if (Url.includes(`?${btnName}=`)) {
-                const newUrl = Url.replace(new RegExp(`\\?${btnName}=[^&]+`), `?${btnName}=${btnValue}`);
-                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
-                window.location.href = newUrlWithoutPage;
-              } else {
-                const newUrl = `${Url}?${btnName}=${btnValue}`;
-                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
-                window.location.href = newUrlWithoutPage;
-              }
             }
           });
         });

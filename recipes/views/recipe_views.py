@@ -44,6 +44,7 @@ class RecipeListView(ListView):
         page = paginator.get_page(page_number)
         context['page_obj'] = page
         context['pagelist'] = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
+        context['category'] = category
         return context
 
 
@@ -487,13 +488,24 @@ class RecipeEquip(ListView):
     model = Recipe
     paginate_by = 12
     # paginate_orphans = 3
-    
+
     def get_context_data(self, **kwargs):
-        context = super(RecipeEquip, self).get_context_data()
-        page = context['page_obj']
-        paginator = page.paginator
-        pagelist = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
-        context['pagelist'] = pagelist
+        context = dict()
+        queryset = self.get_queryset()
+        equip = self.request.GET.get('filter')
+        if equip == 'microwave':
+            queryset = queryset.filter(equip__microwave=True)
+        elif equip == 'stove':
+            queryset = queryset.filter(equip__stove=True)
+        elif equip == 'oven':
+            queryset = queryset.filter(equip__oven=True)
+        elif equip == 'air_fryer':
+            queryset = queryset.filter(equip__air_fryer=True)
+        paginator = Paginator(queryset, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        page = paginator.get_page(page_number)
+        context['page_obj'] = page
+        context['pagelist'] = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
         return context
     
     # def get_context_data(self, **kwargs):
