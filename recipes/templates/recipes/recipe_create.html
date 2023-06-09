@@ -40,6 +40,12 @@
           </div>
           {{ form.time|as_crispy_field }}
           {{ form.difficulty|as_crispy_field }}
+          <div class="flex">
+            {{ equipform.microwave|as_crispy_field }}
+            {{ equipform.stove|as_crispy_field }}
+            {{ equipform.oven|as_crispy_field }}
+            {{ equipform.air_fryer|as_crispy_field }}
+          </div>
         </div>
       
         <div class="inline-block">

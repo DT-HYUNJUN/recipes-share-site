@@ -85,8 +85,10 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
         ingredientformset = RecipeIngredientFormSet(queryset=RecipeIngredient.objects.none())
         stepformset = RecipeStepFormSet(queryset=RecipeStep.objects.none())
         form = RecipeForm()
+        equipform = EquipForm()
         return self.render_to_response({
             'form': form,
+            'equipform': equipform,
             'ingredientformset': ingredientformset,
             'stepformset': stepformset,
             'options': options,
@@ -95,6 +97,7 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
 
     def post(self, *args, **kwargs):
         form = RecipeForm(self.request.POST, self.request.FILES)
+        equipform = EquipForm(self.request.POST)
         stepforms = RecipeStepFormSet(self.request.POST)
         ingredientforms = RecipeIngredientFormSet(self.request.POST)
         ingredient_num = int(self.request.POST.get('recipeingredient_set-TOTAL_FORMS'))
@@ -103,6 +106,11 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
             recipe = form.save(commit=False)
             recipe.user = self.request.user
             recipe.save()
+
+            if equipform.is_valid():
+                equip = equipform.save(commit=False)
+                equip.recipe = recipe
+                equip.save()
 
             for subform in stepforms:
                 if subform.is_valid():
@@ -143,6 +151,7 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
 
     def get(self, *args, **kwargs):
         recipe = Recipe.objects.get(pk=kwargs['recipe_pk'])
+        equip = Equip.objects.get(recipe=recipe)
         temp = RecipeIngredient.objects.filter(recipe=recipe)
         ingredients = Ingredient.objects.exclude(recipeingredient__in=temp)
         options = [ingredient for ingredient in ingredients]
@@ -151,8 +160,10 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
         stepupdateformset = RecipeStepUpdateFormSet(instance=recipe, prefix='step-update')
         stepformset = RecipeStepFormSet()
         form = RecipeUpdateForm(instance=recipe)
+        equipform = EquipForm(instance=equip)
         return self.render_to_response({
             'form': form,
+            'equipform': equipform,
             'ingredientupdateformset': ingredientupdateformset,
             'ingredientformset': ingredientformset,
             'stepupdateformset': stepupdateformset,
@@ -166,6 +177,7 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
         recipe = Recipe.objects.get(pk=kwargs['recipe_pk'])
         ingredients = RecipeIngredient.objects.filter(recipe=recipe).order_by('pk')
         form = RecipeForm(self.request.POST, self.request.FILES, instance=recipe)
+        equipform = EquipForm(self.request.POST, instance=recipe.equips)
         stepforms = RecipeStepFormSet(self.request.POST)
         stepupdateforms = RecipeStepUpdateFormSet(self.request.POST, prefix='step-update')
         ingredientforms = RecipeIngredientFormSet(self.request.POST)
@@ -178,6 +190,11 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
             recipe = form.save(commit=False)
             recipe.user = self.request.user
             recipe.save()
+
+            if equipform.is_valid():
+                equip = form.save(commit=False)
+                equip.recipe = recipe
+                equip.save()
 
             for subform in stepupdateforms:
                 if subform.is_valid():

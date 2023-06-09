@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from imagekit.models import ProcessedImageField
 from django.core.validators import MinValueValidator, MaxValueValidator
-from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Ingredient(models.Model):
@@ -30,13 +29,15 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
-    
+
+
     @property
     def get_hour(self):
         time = int(self.time)
         hour = time // 60
         return hour
-    
+
+
     @property
     def get_minute(self):
         time = self.time
@@ -48,15 +49,19 @@ class LikeRecipe(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
+
     class Meta:
         db_table = 'like_recipe'
+
 
 class BookmarkRecipe(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
+
     class Meta:
         db_table = 'bookmark_recipe'
+
 
 class RecipeStep(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
@@ -82,7 +87,12 @@ class RecipeReview(models.Model):
 
 
 class Equip(models.Model):
+    recipe = models.OneToOneField(Recipe, on_delete=models.CASCADE, default=None)
     microwave = models.BooleanField(default=False)
     stove = models.BooleanField(default=False)
     oven = models.BooleanField(default=False)
-    air_fryer = models.BooleanField(default=False) # 태그
+    air_fryer = models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return f'도구: {self.recipe.title}'
