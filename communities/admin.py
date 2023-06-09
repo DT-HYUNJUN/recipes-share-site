@@ -1,3 +1,15 @@
 from django.contrib import admin
+from accounts.admin import PaginationInline
+from .models import *
 
-# Register your models here.
+
+class CommentInline(PaginationInline):
+    model = Comment
+
+
+class PostAdmin(admin.ModelAdmin):
+    model = Post
+    inlines = (CommentInline,)
+
+
+admin.site.register(Post, PostAdmin)
