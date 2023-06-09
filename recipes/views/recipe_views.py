@@ -66,7 +66,25 @@ class RecipeDetailView(DetailView):
         adj_recipes = list(prev_recipes) + list(next_recipes)
         ingredients = RecipeIngredient.objects.select_related('ingredient').filter(recipe=recipe)
         steps = RecipeStep.objects.filter(recipe=recipe)
+        equip = recipe.equip
+        microwave = equip.microwave
+        stove = equip.stove
+        oven = equip.oven
+        air_fryer = equip.air_fryer
+
+        # 조리 도구 리스트 출력
+        if microwave:
+            context['microwave'] = 1
+        if stove:
+            context['stove'] = 1
+        if oven:
+            context['oven'] = 1
+        if air_fryer:
+            context['air_fryer'] = 1
+        
+        
         reviews = recipe.recipes.prefetch_related('user').all()
+        
         context['reviews'] = reviews
         context['review_form'] = RecipeReviewForm()
         context['adj_recipes'] = adj_recipes
@@ -248,15 +266,29 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
 
 
 class RecipeDeleteView(UserPassesTestMixin, DeleteView):
+    # model = Recipe
+    # success_url = reverse_lazy('recipes:recipe_list')
+    # pk_url_kwarg = 'recipe_pk'
+
+
+    # def test_func(self):
+    #     recipe = Recipe.objects.get(pk=self.object.pk)
+    #     return recipe.user == self.request.user or self.request.user.is_superuser or self.request.user.is_staff
+    
+
+    # def get(self, request, *args, **kwargs):
+    #     return self.post(request, *args, **kwargs)
     model = Recipe
     success_url = reverse_lazy('recipes:recipe_list')
     pk_url_kwarg = 'recipe_pk'
 
-
     def test_func(self):
-        recipe = Recipe.objects.get(pk=self.object.pk)
+        recipe = self.get_object()  # get_object 메서드를 사용하여 삭제 대상 객체를 가져옵니다.
         return recipe.user == self.request.user or self.request.user.is_superuser or self.request.user.is_staff
-    
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        return obj
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)

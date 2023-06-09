@@ -8,16 +8,18 @@
 {% block content %}
   <div class="container mx-auto max-w-screen-xl py-8">
     <!-- 생일 -->
-    <button id="birthday-alert" data-modal-target="staticModal" data-modal-toggle="staticModal" class="hidden bottom-24 right-32" type="button" data-is-birthday={{ is_birthday }}>
-      <img class="w-12 animate-bounce" src="{% static 'img/gift.svg' %}" alt="">
-    </button>
+    {% if is_birthday %}
+      <button id="birthday-alert" data-modal-target="staticModal" data-modal-toggle="staticModal" class="hidden lg:fixed bottom-24 right-32" type="button">
+        <img class="w-12 animate-bounce" src="{% static 'img/gift2.png' %}" alt="">
+      </button>
+    {% endif %}
     <div id="staticModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
       <div class="relative w-full max-w-2xl max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-              Static modal
+              생일 축하합니다 ! 🎉
             </h3>
             <button id="close-birthday" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="staticModal">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
@@ -29,19 +31,8 @@
         </div>
       </div>
     </div>
-    {% comment %} <div id="birthday-alert" class="fixed bottom-10 right-10 w-60 h-60 bg-red-200" data-set->
-      <div class="relative">
-          <a href="{% url 'recipes:recipe_search' %}?keyword=미역국">
-            <img src="{% static 'img/birthday.png' %}" alt="">
-          </a>
-          <button id="close-birthday" type="button" class="absolute top-1 right-1 text-gray-900 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
-            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            <span class="sr-only">Close modal</span>
-          </button>
-        </div>
-    </div> {% endcomment %}
+  
     <!-- 배너 -->
-    {% comment %} <img class="absolute left-0" src="{% static 'img/banner2.png' %}" alt="banner"> {% endcomment %}
     <div class="shadow-lg">
       <img class="mb-60" src="{% static 'img/banner2.png' %}" alt="">
     </div>
@@ -51,7 +42,7 @@
       <div class="flex gap-3 justify-center">
         <div class="overflow-hidden">
           <a class="relative" href="{% url 'recipes:recipe_detail' like_recipe1.pk %}">
-            <img class="w-[588px] h-[588px] object-cover hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe1.image.url }}" {% else %} src="{{ like_recipe1.image }}" {% endif %} alt="">
+            <img class="w-[588px] h-[588px] object-cover hover:scale-125 transition ease-in-out" {% if like_recipe1.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe1.image.url }}" {% else %} src="{{ like_recipe1.image }}" {% endif %} alt="">
             <p class="absolute bottom-6 left-6 text-lg bg-black/50 font-bold px-2 text-white">{{ like_recipe1.title }}</p>
           </a>
         </div>

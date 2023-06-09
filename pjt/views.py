@@ -13,12 +13,11 @@ def index(request):
     like_recipe4 = like_recipes[3]
     
     # random_recipes = Recipe.objects.order_by('?')[:4]
-    
-    all_recipes = list(set(Recipe.objects.all()))
-    random.shuffle(all_recipes)  
-    random_recipes = all_recipes[:4]  
 
-    
+    all_recipes = list(set(Recipe.objects.all()))
+    random.shuffle(all_recipes)
+    random_recipes = all_recipes[:4]
+
     recipes = Recipe.objects.all()
     recipes1 = Recipe.objects.all()[:4]
     recipes2 = Recipe.objects.all()[4:8]
@@ -40,4 +39,5 @@ def index(request):
         'like_recipe4': like_recipe4,
         'is_birthday' : is_birthday,
     }
+    
     return render(request, 'index.html', context)
