@@ -30,6 +30,8 @@
   height: 1.5rem;
 }
 
+
+
 .recipe-fridge-slide {
   position: relative;
 }
@@ -46,6 +48,7 @@
   height: 1.5rem;
 }
 
+
 .slick-prev {
   text-align: center;
   left: -50px;
@@ -54,6 +57,30 @@
 .slick-next {
   right: -45px;
 }
+
+@media (max-width: 800px) {
+  .slick-prev {
+    text-align: center;
+    left: -32px;
+  }
+  .slick-next {
+    right: -25px;
+  }
+
+  
+.recipe-weather-slide button {
+  background-color: #2e8b57;
+  color: white;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+ }
+ 
 /* 
 .half-bg-likes::before {
   background: linear-gradient(rgb(255, 255, 255) 40%, rgb(240, 253, 244) 30%);

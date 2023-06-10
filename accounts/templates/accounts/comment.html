@@ -2,13 +2,13 @@
   <!-- 내가 쓴 댓글 테이블 -->
   <h1 class="text-lg logo-font my-3 mx-3">내가 쓴 댓글</h1>
   <div class="relative overflow-x-auto flex flex-col items-center">
-    <table class=" w-5/6 text-sm text-left text-gray-500 dark:text-gray-400 table-auto ">
+    <table class="w-full sm:w-5/6 text-sm text-left text-gray-500 dark:text-gray-400 table-auto ">
       <thead class="text-xs text-gray-700 uppercase bg-[#f0fff0] dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th scope="col" class="px-6 py-3 text-center">
             글번호
           </th>
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="sm:px-6 sm:py-3 px-1">
             제목
           </th>
           <th scope="col" class="px-6 py-3">
@@ -25,14 +25,19 @@
             <td class="px-6 py-4 text-center ">
               {{ comment.pk }}
             </td>
-            <td class="px-6 py-4">
-              <div class="truncate w-[400px]">
+            <td class="sm:px-6 sm:py-4 px-1 py-4">
+              <div class="truncate w-[70px] sm:w-[400px]">
                 <a href="{% url 'communities:detail' comment.post.pk %}" class="hover:underline decoration-1">{{ comment.content }}<br>
                   <span class="text-gray-400">{{ comment.post.title }}</span><span class="text-[#2e8b57] ms-1">[{{ comment.post.posts.all.count }}]</span></a>
               </div>
             </td>
             <td class="px-6 py-4">
-              {{ comment.created_at|date:'Y-m-d H:i' }}
+              <div class=" hidden md:block">
+                {{ comment.created_at|date:'y-m-d H:i' }}
+              </div>
+              <div class="block md:hidden whitespace-nowrap">
+                {{ comment.created_at|date:'m-d' }}
+              </div>
             </td>
             <td class="px-6 py-4">
               <a class="hover:underline decoration-1" href="{% url 'accounts:profile' comment.user %}">{{ comment.user.nickname }}</a>
