@@ -7,41 +7,41 @@
       {% for recipe in like_recipes %}
       <div>
         <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
-          <div class="w-48 bg-white dark:bg-gray-800 dark:border-gray-700">
+          <div class="w-32 sm:w-48 bg-white dark:bg-gray-800 dark:border-gray-700">
             <div>
-              <img class="object-cover w-48 h-48" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+              <img class="object-cover w-32 h-32 sm:w-48 sm:h-48" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
             </div>
-            <div class="p-5 text-center">
-              <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
+            <div class="sm:p-5 text-center">
+              <h5 class="mb-2 sm:text-xl text-sm font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
               <div class="flex flex-col justify-center">
-                <div class="flex items-center justify-center gap-2">
-                  <span>난이도</span>
+                <div class="flex items-center justify-center">
+                  <span class="text-sm sm:text-base">난이도</span>
                   {% if recipe.difficulty == 1 %}
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                   {% elif recipe.difficulty == 2 %}
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                   {% elif recipe.difficulty == 3 %}
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                   {% elif recipe.difficulty == 4 %}
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                   {% elif recipe.difficulty == 5 %}
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
-                    <img src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                   {% endif %}
                 </div>
                 <!--조리시간 -->
                 <div class="flex items-center justify-center gap-2">
-                  <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                  <span class="font-normal text-gray-700 dark:text-gray-400">
+                  <img class="w-5 sm:w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                  <span class="text-sm sm:text-base text-gray-700 dark:text-gray-400">
                     {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
                     {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
                   </span>
@@ -67,41 +67,41 @@
         {% for recipe in bookmark_recipes %}
         <div>
           <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
-            <div class="w-48 bg-white dark:bg-gray-800 dark:border-gray-700">
-              <div>              
-                <img class="object-cover w-48 h-48" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+            <div class="w-32 sm:w-48 bg-white dark:bg-gray-800 dark:border-gray-700">
+              <div>
+                <img class="object-cover w-32 h-32 sm:w-48 sm:h-48" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
               </div>
-              <div class="p-5 text-center">
-                <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
+              <div class="sm:p-5 text-center">
+                <h5 class="mb-2 sm:text-xl text-sm font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
                 <div class="flex flex-col justify-center">
-                  <div class="flex items-center justify-center gap-2">
-                    <span>난이도</span>
+                  <div class="flex items-center justify-center">
+                    <span class="text-sm sm:text-base">난이도</span>
                     {% if recipe.difficulty == 1 %}
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                     {% elif recipe.difficulty == 2 %}
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                     {% elif recipe.difficulty == 3 %}
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                     {% elif recipe.difficulty == 4 %}
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                     {% elif recipe.difficulty == 5 %}
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
-                      <img src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                     {% endif %}
                   </div>
                   <!--조리시간 -->
                   <div class="flex items-center justify-center gap-2">
-                    <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                    <span class="font-normal text-gray-700 dark:text-gray-400">
+                    <img class="w-5 sm:w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                    <span class="text-sm sm:text-base text-gray-700 dark:text-gray-400">
                       {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
                       {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
                     </span>
