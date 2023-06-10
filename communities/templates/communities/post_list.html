@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <div class="relative overflow-x-auto flex flex-col items-center ">
+  <div class="hidden md:relative overflow-x-auto md:flex flex-col items-center ">
     <table class=" w-5/6 text-sm text-left text-gray-500 dark:text-gray-400 table-auto min-w-full">
       <thead class="text-xs text-gray-700 uppercase bg-[#f0fff0] dark:bg-gray-700 dark:text-gray-400">
         <tr>
@@ -123,6 +123,19 @@
       </ul>
     </nav>
       
+  </div>
+
+  <div class="md:hidden ">
+    <!-- 사진 -->
+    <div class="w-24">
+      <img class="w-24" {% if post.image %} src="{{ post.image.url }}" {% else %} src="{% static 'img/no_img.jpeg' %}" {% endif %} alt="">
+    </div>
+    <div>
+      <p>{{ post.title }}</p>
+      <span>{{ post.user.username }}</span>
+      <span>{{ post.created_at }}</span>
+    </div>
+
   </div>
 </div>
 
