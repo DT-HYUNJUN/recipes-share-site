@@ -39,27 +39,27 @@
     <!-- 인기순 -->
     <section class="mb-60 p-8 half-bg-likes border shadow-lg bg-white rounded-lg">
       <h1 class="logo-font text-4xl text-center mb-8">인기 레시피</h1>
-      <div class="flex gap-3 justify-center">
+      <div class="lg:grid grid-cols-2 lg:gap-3 justify-center">
         <div class="overflow-hidden">
           <a class="relative" href="{% url 'recipes:recipe_detail' like_recipe1.pk %}">
-            <img class="w-[588px] h-[588px] object-cover hover:scale-125 transition ease-in-out" {% if like_recipe1.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe1.image.url }}" {% else %} src="{{ like_recipe1.image }}" {% endif %} alt="">
-            <p class="absolute bottom-6 left-6 text-lg bg-black/50 font-bold px-2 text-white">{{ like_recipe1.title }}</p>
+            <img class="w-[295px] h-[295px] lg:w-[588px] lg:h-[588px] object-cover hover:scale-125 transition ease-in-out" {% if like_recipe1.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe1.image.url }}" {% else %} src="{{ like_recipe1.image }}" {% endif %} alt="">
+            <p class="absolute bottom-0 left-0 lg:bottom-6 lg:left-6 text-lg bg-black/50 font-bold px-2 text-white">{{ like_recipe1.title }}</p>
           </a>
         </div>
-        <div>
+        <div class="lg:grid lg:grid-rows-2">
           <div class="mb-3 overflow-hidden">
             <a class="relative" href="{% url 'recipes:recipe_detail' like_recipe2.pk %}">
-              <img class="w-[588px] h-[288px] object-cover hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe2.image.url }}" {% else %} src="{{ like_recipe2.image }}" {% endif %} alt="">
-              <p class="absolute bottom-6 left-6 text-lg bg-black/50 font-bold px-2 text-white">{{ like_recipe2.title }}</p>
+              <img class="w-[295px] h-[295px] lg:w-[588px] lg:h-[288px] object-cover hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe2.image.url }}" {% else %} src="{{ like_recipe2.image }}" {% endif %} alt="">
+              <p class="absolute bottom-0 left-0 lg:bottom-6 lg:left-6 text-lg bg-black/50 font-bold px-2 text-white">{{ like_recipe2.title }}</p>
             </a>
           </div>
-          <div class="flex gap-3">
+          <div class="lg:grid lg:grid-cols-2 lg:gap-3">
             <a class="relative" href="{% url 'recipes:recipe_detail' like_recipe3.pk %}">
-              <img class="w-[288px] h-[288px] object-cover hover:brightness-50 peer" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe3.image.url }}" {% else %} src="{{ like_recipe3.image }}" {% endif %} alt="">
+              <img class="w-[295px] h-[295px] lg:w-[288px] lg:h-[288px] object-cover hover:brightness-50 peer" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe3.image.url }}" {% else %} src="{{ like_recipe3.image }}" {% endif %} alt="">
               <p class="hidden absolute text-lg top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 peer-hover:block text-white">{{ like_recipe3.title }}</p>
             </a>
             <a class="relative" href="{% url 'recipes:recipe_detail' like_recipe4.pk %}">
-              <img class="w-[288px] h-[288px] object-cover hover:brightness-50 peer" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe4.image.url }}" {% else %} src="{{ like_recipe4.image }}" {% endif %} alt="">
+              <img class="w-[295px] h-[295px] lg:w-[288px] lg:h-[288px] object-cover hover:brightness-50 peer" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe4.image.url }}" {% else %} src="{{ like_recipe4.image }}" {% endif %} alt="">
               <p class="hidden absolute text-lg top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 peer-hover:block text-white">{{ like_recipe4.title }}</p>
             </a>
           </div>
@@ -73,7 +73,7 @@
         <div class="mb-6">
           <h1 class="logo-font text-4xl text-center mb-3">오늘 뭐 먹지?</h1>
         </div>
-        <div class="recipe-weather-slide">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-3">
           {% for recipe in random_recipes %}
           <div class="">
             <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
@@ -99,7 +99,7 @@
     <section class="mt-60 p-8  border shadow-lg bg-white rounded-lg">
       <h1 class="logo-font text-4xl text-center mb-7">레시피 더보기</h1>
       <div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
           {% for recipe in recipes1 %}
             <div>
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
@@ -152,7 +152,7 @@
           {% endfor %}
         </div>
 
-        <div id="recipe-hidden-1" class="hidden grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+        <div id="recipe-hidden-1" class="hidden grid-cols-1 md:grid-cols-4 gap-3 mb-3">
           {% for recipe in recipes2 %}
             <div>
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
@@ -205,7 +205,7 @@
           {% endfor %}
         </div>
 
-        <div id="recipe-hidden-2" class="hidden grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+        <div id="recipe-hidden-2" class="hidden grid-cols-1 md:grid-cols-4 gap-3 mb-3">
           {% for recipe in recipes3 %}
             <div>
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">

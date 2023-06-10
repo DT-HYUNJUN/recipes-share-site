@@ -30,8 +30,8 @@ $(document).ready(function () {
       },
     ],
   });
-  // 날씨순
-  $(".recipe-weather-slide").slick({
+  // 오늘 뭐먹지
+  $(".recipe-random-slide").slick({
     infinite: true,
     slidesToShow: 4,
     slidesToScroll: 4,
@@ -86,8 +86,8 @@ $(document).ready(function () {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: 1,
+          slidesToScroll: 1,
           rows: 1,
         },
       },
