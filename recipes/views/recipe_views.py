@@ -67,7 +67,7 @@ class RecipeDetailView(DetailView):
         adj_recipes = list(prev_recipes) + list(next_recipes)
         ingredients = RecipeIngredient.objects.select_related('ingredient').filter(recipe=recipe)
         steps = RecipeStep.objects.filter(recipe=recipe)
-        equip = Recipe.objects.get(recipe=recipe)
+        equip = Equip.objects.get(recipe=recipe)
         microwave = equip.microwave
         stove = equip.stove
         oven = equip.oven
