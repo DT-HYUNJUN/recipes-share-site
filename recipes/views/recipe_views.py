@@ -67,7 +67,7 @@ class RecipeDetailView(DetailView):
         adj_recipes = list(prev_recipes) + list(next_recipes)
         ingredients = RecipeIngredient.objects.select_related('ingredient').filter(recipe=recipe)
         steps = RecipeStep.objects.filter(recipe=recipe)
-        equip = recipe.equip
+        equip = Recipe.objects.get(recipe=recipe)
         microwave = equip.microwave
         stove = equip.stove
         oven = equip.oven
@@ -198,8 +198,9 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
     def post(self, *args, **kwargs):
         recipe = Recipe.objects.get(pk=kwargs['recipe_pk'])
         ingredients = RecipeIngredient.objects.filter(recipe=recipe).order_by('pk')
+        equips = Equip.objects.get(recipe=recipe)
         form = RecipeForm(self.request.POST, self.request.FILES, instance=recipe)
-        equipform = EquipForm(self.request.POST, instance=recipe.equips)
+        equipform = EquipForm(self.request.POST, instance=equips)
         stepforms = RecipeStepFormSet(self.request.POST)
         stepupdateforms = RecipeStepUpdateFormSet(self.request.POST, prefix='step-update')
         ingredientforms = RecipeIngredientFormSet(self.request.POST)
