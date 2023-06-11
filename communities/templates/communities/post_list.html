@@ -13,11 +13,11 @@
     </div>
   </div>
 
-  <div class="hidden md:relative overflow-x-auto md:flex flex-col items-center ">
+  <div class="relative overflow-x-auto md:flex flex-col items-center ">
     <table class=" w-5/6 text-sm text-left text-gray-500 dark:text-gray-400 table-auto min-w-full">
       <thead class="text-xs text-gray-700 uppercase bg-[#f0fff0] dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" class="md:px-6 px-3 md:py-3">
+          <th scope="col" class="text-center md:px-6 sm:px-3 md:py-3">
             글번호
           </th>
           <th scope="col" class="px-6 py-3">
@@ -29,7 +29,7 @@
           <th scope="col" class="px-6 py-3">
             작성자
           </th>
-          <th scope="col" class="md:px-6 px-3 md:py-3">
+          <th scope="col" class="hidden sm:block md:px-6 px-3 md:py-3">
             좋아요
           </th>
         </tr>
@@ -37,11 +37,11 @@
       <tbody>
         {% for post in posts %}
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
-            <td class="px-6 py-4 text-center ">
+            <td class="sm:px-6 py-4 text-center">
               {{ post.pk }}
             </td>
             <td class="px-6 py-4">
-              <div class="truncate w-[400px]">
+              <div class="truncate w-[75px] sm:w-[400px]">
                 <a class="hover:underline decoration-1" href="{% url 'communities:detail' post.pk %}">
                   {{ post.title }} <span class="text-[#2e8b57] ms-1">[{{ post.posts.all.count }}]</span>
                   {% if post.image %}
@@ -55,7 +55,7 @@
               </div>
             </td>
             <td class="px-6 py-4">
-              <div class=" hidden md:block">
+              <div class="hidden md:block">
                 {{ post.created_at|date:'y-m-d H:i' }}
               </div>
               <div class="block md:hidden whitespace-nowrap">
@@ -65,7 +65,7 @@
             <td class="px-6 py-4">
               <a class="hover:underline decoration-1" href="{% url 'accounts:profile' post.user %}">{{ post.user.nickname }}</a>
             </td>
-            <td class="px-6 py-4">
+            <td class="hidden sm:block px-6 py-4">
               <form class="like-form" data-post-id="{{post.pk}}" >
                 {% csrf_token %}
                 {% if request.user in post.like_posts.all %}
@@ -122,20 +122,6 @@
         {% endif %}
       </ul>
     </nav>
-      
-  </div>
-
-  <div class="md:hidden ">
-    <!-- 사진 -->
-    <div class="w-24">
-      <img class="w-24" {% if post.image %} src="{{ post.image.url }}" {% else %} src="{% static 'img/no_img.jpeg' %}" {% endif %} alt="">
-    </div>
-    <div>
-      <p>{{ post.title }}</p>
-      <span>{{ post.user.username }}</span>
-      <span>{{ post.created_at }}</span>
-    </div>
-
   </div>
 </div>
 

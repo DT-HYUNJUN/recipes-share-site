@@ -9,28 +9,28 @@
       <p class="text-center text-base">조리도구 별 요리를 골라보세요 !</p>
     </div>
 
-    <div class="flex flex-wrap gap-5 justify-center mt-10 p-5 ">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 justify-center mt-10 p-5">
       <button name="filter" value="microwave" class="filtering">
-        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700 hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600">
-          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/microwave.png' %}" alt="">
+        <div class="w-32 h-32 sm:w-48 sm:h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700 hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600">
+          <img class="rounded-lg object-cover cursor-pointer w-24 sm:w-40" src="{% static 'img/equip/microwave.png' %}" alt="">
           <p class="hidden absolute text-xl font-semibold top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white w-full text-center">전자레인지</p>
         </div>
       </button>
       <button name="filter" value="oven" class="filtering">
-        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700 hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600">
-          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/oven.png' %}" alt="">
+        <div class="w-32 h-32 sm:w-48 sm:h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700 hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600">
+          <img class="rounded-lg object-cover cursor-pointer w-24 sm:w-40" src="{% static 'img/equip/oven.png' %}" alt="">
           <p class="hidden absolute text-xl font-semibold top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white w-full text-center">오븐</p>
         </div>
       </button>
       <button name="filter" value="air_fryer" class="filtering">
-        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700 hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600">
-          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/airfryer.png' %}" alt="">
+        <div class="w-32 h-32 sm:w-48 sm:h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700 hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600">
+          <img class="rounded-lg object-cover cursor-pointer w-24 sm:w-40" src="{% static 'img/equip/airfryer.png' %}" alt="">
           <p class="hidden absolute text-xl font-semibold top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white w-full text-center">에어프라이어</p>
         </div>
       </button>
       <button name="filter" value="stove" class="filtering">
-        <div class="w-48 h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700 hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600">
-          <img class="rounded-lg object-cover cursor-pointer w-40" src="{% static 'img/equip/stove.png' %}" alt="">
+        <div class="w-32 h-32 sm:w-48 sm:h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700 hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600">
+          <img class="rounded-lg object-cover cursor-pointer w-24 sm:w-40" src="{% static 'img/equip/stove.png' %}" alt="">
           <p class="hidden absolute text-xl font-semibold top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 group-hover:block text-white w-full text-center">가스레인지</p>
         </div>
       </button>
@@ -42,57 +42,53 @@
         <div class="flex">
           <div class=" grid grid-cols-2 md:grid-cols-4 gap-4 mx-auto mt-9 ">
             {% for recipe in page_obj %}
-              <div>
-                <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
-                  <div class="w-72 bg-white">
-                    <div class="class">
-                      <img class="object-cover w-72 h-72" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
-                    </div>
-                    <div class="p-5 text-center">
-                      <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
-                      <!--난이도 -->
-                      <div class="flex flex-col justify-center">
-                        <div class="flex items-center justify-center gap-2">
-                          <span>난이도</span>
-                          {% if recipe.difficulty == 1 %}
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <div>
+              <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
+                <div class="w-36 sm:w-72 bg-white">
+                  <div class="class">
+                    <img class="object-cover w-36 h-36 sm:w-72 sm:h-72 border border-[#0000000f]" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                  </div>
+                  <div class="py-5 sm:p-5 text-center">
+                    <h5 class="mb-2 text-sm sm:text-xl font-bold  text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
+                    <!--난이도 -->
+                    <div class="flex flex-col justify-center">
+                      <div class="flex items-center justify-center sm:gap-2">
+                        <span>난이도</span>
+                        {% if recipe.difficulty == 1 %}
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 2 %}
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 3 %}
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 4 %}
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 5 %}
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
-                          <img src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                          <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                         {% endif %}
-                        </div>
-                        <!--조리시간 -->
-                        {% comment %} <div class="flex items-center justify-center gap-2">
-                          <img class="ml-3 w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                          <span class="font-normal text-gray-700 dark:text-gray-400">{{ recipe.time }}분</span>
-                        </div> {% endcomment %}
-                        <div class="flex items-center justify-center gap-2">
-                          <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                          <span class="font-normal text-gray-700 dark:text-gray-400">
-                            {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
-                            {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
-                          </span>
-                        </div>
+                      </div>
+                      <!--조리시간 -->
+                      <div class="flex items-center justify-center gap-2">
+                        <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                        <span class="font-normal text-gray-700 dark:text-gray-400">
+                          {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
+                          {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
+                        </span>
                       </div>
                     </div>
                   </div>
-                </a>
-              </div>
+                </div>
+              </a>
+            </div>
             {% endfor %}
           </div>
         </div>

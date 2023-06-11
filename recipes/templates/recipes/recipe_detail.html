@@ -12,7 +12,7 @@
     <div class="pl-4 text-sm font-normal">링크가 복사되었습니다.</div>
   </div>
 
-  <section class="px-52">
+  <section class="px-5 sm:px-52">
     <!-- 레시피 정보 -->
     <div class="flex-col space-y-4">
       <!-- 사진 -->
@@ -54,7 +54,7 @@
           <div class="relative w-full">
             <a class="hover:brightness-50 peer" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="text-center">
-                <img class="object-cover border w-[216px] h-[183px]" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                <img class="object-cover border w-full sm:w-[216px] h-[183px]" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                 <h1 class="text-lg font-bold line-clamp-1">{{ recipe.title }}</h1>
               </div>
             </a>
@@ -96,13 +96,13 @@
         {% endfor %}
       </div>
 
-      <div class="mt-2 flex items-center  gap-3">
+      <div class="mt-2 flex items-center gap-3">
         <a href="{% url 'accounts:profile' recipe.user %}">
-          <img class="w-16 rounded-full" {% if recipe.user.profile_image %} src="{{ recipe.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
+          <img class="w-10 sm:w-16 rounded-full" {% if recipe.user.profile_image %} src="{{ recipe.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
         </a>
         <div class="flex gap-3 text-sm my-3 items-center">
           <a class="flex" href="{% url 'accounts:profile' recipe.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline">{{ recipe.user.nickname }}</p></a>
-          |<p class="text-gray-600">{{ recipe.created_at }}</p>
+          |<p class="text-xs sm:text-base text-gray-600">{{ recipe.created_at }}</p>
         </div>
       </div>
 
@@ -111,7 +111,7 @@
       </div>
       <!-- 제목, 북마크-->
       <div class="flex justify-between">
-        <h1 class="text-2xl font-bold">{{ recipe.title }}</h1>
+        <h1 class="text-base sm:text-2xl font-bold">{{ recipe.title }}</h1>
         <div class="flex gap-3">
           <div class="text-center">
             <form id="likes_form" class="" data-recipe-id="{{ recipe.pk }}">
@@ -148,35 +148,35 @@
       <!-- 난이도, 소요시간-->
       <div class="flex justify-between items-center">
         <div class="flex items-center gap-10">
-          <div class="flex items-center gap-2">
-            <span>난이도</span>
+          <div class="flex items-center gap-1 sm:gap-2">
+            <span class="text-sm sm:text-base">난이도</span>
             {% if recipe.difficulty == 1 %}
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
           {% elif recipe.difficulty == 2 %}
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
           {% elif recipe.difficulty == 3 %}
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
           {% elif recipe.difficulty == 4 %}
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
           {% elif recipe.difficulty == 5 %}
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
-            <img src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+            <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
           {% endif %}
           </div>
           <div class="flex items-center gap-2">
             <div class="text-xs">
-              <img src="{% static 'img/coocking-time.png' %}" alt="">
+              <img class="w-6 sm:w-8" src="{% static 'img/coocking-time.png' %}" alt="">
             </div>
-            <span class="font-normal text-gray-700 dark:text-gray-400">
+            <span class="text-sm sm:text-base text-gray-700 dark:text-gray-400">
               {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
               {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
             </span>
@@ -211,7 +211,7 @@
     </div>
     <!-- 재료 -->
     <div>
-      <div class="flex justify-between items-center border-b border-b-[#2e8b57]">
+      <div class="flex justify-between items-center border-b border-b-[#2e8b57] mt-10">
         <p class="text-xl font-bold mt-3">재료</p>
         <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-lg" type="button">
           <i class="bi bi-info-circle"></i>
@@ -276,9 +276,9 @@
       <div class="p-5">
         <!-- 레시피 순서 content -->
         {% for step in recipe.recipestep_set.all %}
-        <div class="grid grid-cols-2 lg:grid-cols-12 gap-3 mb-3">
-          <div class="lg:col-span-1 w-8 h-8 bg-[#2e8b57] text-white text-center rounded-[70px] text-xl">{{ forloop.counter }}</div>
-          <p class="lg:col-span-11">{{ step.detail|linebreaksbr }}</p>
+        <div class="grid grid-cols-12 gap-1 mb-5">
+          <div class="col-span-2 w-8 h-8 bg-[#2e8b57] text-white text-center rounded-[70px] text-xl">{{ forloop.counter }}</div>
+          <p class="text-sm sm:text-base col-span-10">{{ step.detail|linebreaksbr }}</p>
         </div>
         {% endfor %}
       </div>
