@@ -198,9 +198,9 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
     def post(self, *args, **kwargs):
         recipe = Recipe.objects.get(pk=kwargs['recipe_pk'])
         ingredients = RecipeIngredient.objects.filter(recipe=recipe).order_by('pk')
-        equips = Equip.objects.get(recipe=recipe)
+        equip = Equip.objects.get(recipe=recipe)
         form = RecipeForm(self.request.POST, self.request.FILES, instance=recipe)
-        equipform = EquipForm(self.request.POST, instance=equips)
+        equipform = EquipForm(self.request.POST, instance=equip)
         stepforms = RecipeStepFormSet(self.request.POST)
         stepupdateforms = RecipeStepUpdateFormSet(self.request.POST, prefix='step-update')
         ingredientforms = RecipeIngredientFormSet(self.request.POST)
