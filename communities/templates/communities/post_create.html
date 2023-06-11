@@ -6,7 +6,7 @@
 <h1 class="logo-font text-4xl text-center mt-3">| 글 작성 |</h1>
 
 <div class="container mx-auto max-w-screen-md">
-  <form class="mt-10" action="{% url 'communities:create' %}" method="post" enctype="multipart/form-data">
+  <form class="mt-10 px-6" action="{% url 'communities:create' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{form|crispy}} 
     <div class="flex justify-end">

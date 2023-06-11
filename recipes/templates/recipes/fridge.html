@@ -7,11 +7,11 @@
 {% endblock style %}
 
 {% block content %}
-  <div class="container mx-auto max-w-screen-xl">
+  <div class="container mx-auto max-w-screen-xl p-3">
     {% if request.user.is_authenticated %}
-      <h1 class="logo-font flex justify-center text-4xl my-10">| {{ request.user.username }}님의 냉장고 입니다. |</h1>
+      <h1 class="logo-font flex justify-center text-xl sm:text-4xl my-10">| {{ request.user.username }}님의 냉장고 입니다. |</h1>
     {% else %}
-      <h1 class="logo-font flex justify-center text-4xl my-10">| 로그인을 해주세요. |</h1>
+      <h1 class="logo-font flex justify-center text-xl sm:text-4xl my-10">| 로그인을 해주세요. |</h1>
     {% endif %}
     <div class='lg:flex lg:justify-center relative'>
       <img class="hidden lg:block w-3/4" src="{% static 'img/fridge.jpg' %}" alt="">
@@ -31,7 +31,7 @@
           </div>
         {% endfor %}
       </div>
-      <fieldset class="lg:absolute top-[2rem] right-[12rem] lg:w-[425px] h-[605px] bg-white text-center">
+      <fieldset class="lg:absolute top-[2rem] right-[12rem] lg:w-[425px] h-[605px] bg-white text-center mt-10 sm:mt-0">
         <div class="flex justify-end">
           <button id="ingrd-delete" type="button" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-1 mr-2 mt-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
