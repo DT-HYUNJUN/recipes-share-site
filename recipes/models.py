@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from imagekit.models import ProcessedImageField
 from django.core.validators import MinValueValidator, MaxValueValidator
+from PIL import Image
 
 
 class Ingredient(models.Model):
@@ -26,7 +27,26 @@ class Recipe(models.Model):
     bookmark_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='bookmark_recipes', blank=True, through='BookmarkRecipe')  # 레시피 북마크
     ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
 
-
+    def process_image(image):
+        img = Image.open(image)
+        
+        # 회전 메타데이터를 확인하여 이미지 회전
+        if hasattr(img, '_getexif') and img._getexif():
+            exif = dict(img._getexif().items())
+            orientation = exif.get(0x0112)
+            
+            if orientation == 3:
+                img = img.rotate(180, expand=True)
+            elif orientation == 6:
+                img = img.rotate(-90, expand=True)
+            elif orientation == 8:
+                img = img.rotate(90, expand=True)
+        
+        # 이미지 처리 및 저장
+        img.thumbnail((800, 800))  # 이미지 크기 조정 등 필요한 처리
+        img.save(image.path)
+    
+    
     def __str__(self):
         return self.title
 
