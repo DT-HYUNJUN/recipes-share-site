@@ -10,7 +10,6 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     like_posts = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_posts_users', blank=True)
-    image = ProcessedImageField(upload_to='communities/images/', null=True, blank=True)
 
 
     def __str__(self):
@@ -27,3 +26,16 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.post.title} - {self.user}'
+
+
+class Image(models.Model):
+    def image_path(instance, filename):
+        return f'communities/posts/{instance.post.pk}/{filename}'
+
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to=image_path)
+
+
+    def __str__(self):
+        return f'{self.post.title} - image'
