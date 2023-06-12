@@ -35,7 +35,7 @@
     {% include 'navbar.html' %}
     {% include 'controller.html' %}
 
-    <div id="wrapper-body" class="">
+    <div id="wrapper-body" class="dark:bg-gray-900">
       {% block content %}{% endblock content %}
     </div>
 
@@ -47,6 +47,7 @@
     <script src="{% static 'js/accounts/logout.js' %}"></script>
     <script src="{% static 'js/recipes/weather.js' %}"></script>
     <script src="{% static 'js/alert.js' %}"></script>
+    <script src="{% static 'js/controller.js' %}"></script>
   </body>
 
 </html>

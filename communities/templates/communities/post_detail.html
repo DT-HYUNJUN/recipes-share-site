@@ -49,19 +49,30 @@
       <div>
         <h1 class=" text-xl my-4 text-[#2E8B57]">{{ post.title }}</h1>
         <p class="text-md py-3">{{ post.content|linebreaksbr }}</p>
-        <div class="flex items-center">
-          <div class="post-image" style="width : 50%">
+        {% comment %} <div class="flex items-center">
+          <div class="post-image" style="width: 50%;">
             {% for image in post.images.all %}
             <div>
               <div class="w-[700px] bg-white dark:bg-gray-800 dark:border-gray-700">
-                <div>
-                  <img class="object-cover w-[700px] h-[600px]" src="{{ image.image.url }}" alt="">
-                </div>
+                <img class="object-cover  w-[400px] h-[400px] sm:w-[700px] sm:h-[600px]" src="{{ image.image.url }}" alt="">
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div> {% endcomment %}
+
+        <div class="flex items-center">
+          <div class="post-image flex justify-center items-center w-[90%] sm:w-[50%]">
+            {% for image in post.images.all %}
+            <div>
+              <div class="w-full bg-white dark:bg-gray-800 dark:border-gray-700">
+                <img class="object-cover w-full h-auto sm:w-[700px]" src="{{ image.image.url }}" alt="">
               </div>
             </div>
             {% endfor %}
           </div>
         </div>
+        
         <form id="like-form" class="my-7" data-post-id="{{ post.pk }}">
           {% csrf_token %}
           {% if request.user.is_authenticated %}
