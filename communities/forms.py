@@ -1,5 +1,7 @@
 from django import forms
-from .models import Post, Comment
+from django.forms import inlineformset_factory
+from .models import *
+
 
 class PostForm(forms.ModelForm):
     title = forms.CharField(
@@ -16,10 +18,13 @@ class PostForm(forms.ModelForm):
             }
         )
     )
+
+
     class Meta:
         model = Post
-        fields = ('title', 'content', 'image', )
-    
+        fields = ('title', 'content',)
+
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
@@ -29,16 +34,54 @@ class PostForm(forms.ModelForm):
         
 class CommentForm(forms.ModelForm):
     content = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-
-            }
-        )
+        widget=forms.Textarea
     )
+
+
     class Meta:
         model = Comment
         fields = ('content',)
 
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['content'].label = ''
+
+
+class ImageForm(forms.ModelForm):
+    image = forms.ImageField(widget=forms.FileInput(attrs={'multiple': True}))
+
+
+    class Meta:
+        model = Image
+        fields = ('image',)
+        labels = {'image': ''}
+
+
+class ImageUpdateForm(forms.ModelForm):
+    image = forms.ImageField(widget=forms.ClearableFileInput)
+
+
+    class Meta:
+        model = Image
+        fields = ('image',)
+        labels = {'image': ''}
+
+
+ImageFormSet = inlineformset_factory(
+    Post,
+    Image,
+    fields=('image',),
+    form=ImageForm,
+    extra=0,
+)
+
+
+ImageUpdateFormSet = inlineformset_factory(
+    Post,
+    Image,
+    fields=('image',),
+    form=ImageUpdateForm,
+    extra=0,
+    can_delete=True,
+)

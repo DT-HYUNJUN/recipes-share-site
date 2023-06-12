@@ -7,7 +7,14 @@
 <div class="container mx-auto max-w-screen-md">
   <form class="mt-10 px-6" action="{% url 'communities:update' post.pk %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{form|crispy}}
+    {{ form|crispy }}
+    {{ imageupdateformset.management_form }}
+    {% for imageform in imageupdateformset %}
+    <div class="flex items-center">
+      {{ imageform|crispy }}
+    </div>
+    {% endfor %}
+    {{ imageaddform|crispy }}
     <div class="flex justify-end">
       <a href="{% url 'communities:detail' post.pk %}">
         <button type="button" class="text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">취소</button>

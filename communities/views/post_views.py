@@ -1,13 +1,12 @@
-from typing import Any
-from django.db.models.query import QuerySet
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, CreateView, DeleteView, View, UpdateView, ListView, DetailView
+import os
+from django.db.models.signals import post_delete, pre_save
+from django.dispatch import receiver
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import TemplateView, DeleteView, View, UpdateView, ListView, DetailView
 from communities.models import *
 from communities.forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.http import Http404
-from django.contrib import messages
 from django.http import JsonResponse
 
 
@@ -49,40 +48,71 @@ class PostDetailView(DetailView):
         return context
 
 
-class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Post
-    form_class = PostForm
+class PostCreateView(LoginRequiredMixin, TemplateView):
     template_name = 'communities/post_create.html'
-    success_url = reverse_lazy('communities:post_list')
 
-    def test_func(self):
-        return self.request.user.is_authenticated 
-    
-    def form_valid(self, form):
-        post = form.save(commit=False)  
-        post.user = self.request.user
-        post.save()
-        return super().form_valid(form)
+
+    def get(self, *args, **kwargs):
+        form = PostForm()
+        imageform = ImageForm()
+        return self.render_to_response({
+            'form': form,
+            'imageform': imageform,
+        })
+
+
+    def post(self, *args, **kwargs):
+        form = PostForm(self.request.POST)
+        images = self.request.FILES.getlist('image')
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = self.request.user
+            post.save()
+
+            for image in images:
+                if image:
+                    Image.objects.create(post=post, image=image)
+        
+            return redirect('communities:detail', post_pk=post.pk)
+
+        imageform = ImageForm()
+
+        return self.render_to_response({
+            'form': form,
+            'imageform': imageform
+        })
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     pk_url_kwarg = 'post_pk'
-    
+
+
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.user
 
+
     def get_success_url(self):
         return reverse_lazy('communities:post_list')
 
+
     def get(self, request, *args, **kwargs):
         return self.delete(request, *args, **kwargs)
+
+
+    def delete(self, *args, **kwargs):
+        post = Post.objects.get(pk=kwargs['post_pk'])
+        media_dir = os.path.join(settings.MEDIA_ROOT, 'communities', 'posts', str(kwargs['post_pk']))
+        post.delete()
+        if os.path.exists(media_dir):
+            try: os.rmdir(media_dir)
+            except: pass
+        return redirect('communities:post_list')
    
     
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Post
-    form_class = PostForm
     template_name = 'communities/post_update.html'
     pk_url_kwarg = 'post_pk'
 
@@ -93,9 +123,48 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return (review.user == user) or user.is_superuser or user.is_staff
 
 
-    def get_success_url(self):
-        post_pk = self.kwargs['post_pk']
-        return reverse_lazy('communities:post_list')
+    def get(self, *args, **kwargs):
+        post = Post.objects.get(pk=kwargs['post_pk'])
+        form = PostForm(instance=post)
+        imageupdateformset = ImageUpdateFormSet(instance=post)
+        imageaddform = ImageForm()
+        return self.render_to_response({
+            'post': post,
+            'form': form,
+            'imageupdateformset': imageupdateformset,
+            'imageaddform': imageaddform,
+        })
+
+
+    def post(self, *args, **kwargs):
+        post = Post.objects.get(pk=kwargs['post_pk'])
+        images = post.images.all()
+        form = PostForm(self.request.POST, instance=post)
+        imageformset = ImageUpdateFormSet(self.request.POST, self.request.FILES, queryset=images, instance=post)
+        new_images = self.request.FILES.getlist('image')
+        image_num = int(self.request.POST.get('images-TOTAL_FORMS'))
+
+        if form.is_valid() and imageformset.is_valid():
+            updated_post = form.save()
+            
+            for i in range(image_num):
+                if self.request.POST.get(f'images-{i}-DELETE') == 'on':
+                    target = Image.objects.get(pk=int(self.request.POST.get(f'images-{i}-id')))
+                    target.delete()
+                elif self.request.FILES.get(f'images-{i}-image'):
+                    target = Image.objects.get(pk=int(self.request.POST.get(f'images-{i}-id')))
+                    target.image = self.request.FILES.get(f'images-{i}-image')
+                    target.save()
+
+            for new_image in new_images:
+                Image.objects.create(post=updated_post, image=new_image)
+
+            return redirect('communities:detail', post.pk)
+
+        return self.render_to_response({
+            'form': form,
+            'imageformset': imageformset,
+        })
 
 
 class PostLikeView(LoginRequiredMixin, View):
@@ -113,3 +182,26 @@ class PostLikeView(LoginRequiredMixin, View):
             'is_liked': is_liked,
         }
         return JsonResponse(context)
+
+
+@receiver(post_delete, sender=Image)
+def delete_post_image(sender, instance, *args, **kwargs):
+    try:
+        instance.image.delete(save=False)
+    except:
+        pass
+
+
+@receiver(pre_save, sender=Image)
+def pre_save_image(sender, instance, *args, **kwargs):
+    try:
+        old_image = instance.__class__.objects.get(pk=instance.pk).image.path
+        try:
+            new_image = instance.image.path
+        except:
+            new_image = None
+        if new_image != old_image:
+            if os.path.exists(old_image):
+                os.remove(old_image)
+    except:
+        pass
