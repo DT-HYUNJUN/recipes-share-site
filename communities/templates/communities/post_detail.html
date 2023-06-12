@@ -49,8 +49,18 @@
       <div>
         <h1 class=" text-xl my-4 text-[#2E8B57]">{{ post.title }}</h1>
         <p class="text-md py-3">{{ post.content|linebreaksbr }}</p>
-        <div>
-          <img class="w-4/5" {% if post.image %} src="{{ post.image.url }}" {% endif %}  alt="">
+        <div class="flex items-center">
+          <div class="post-image" style="width : 50%">
+            {% for image in post.images.all %}
+            <div>
+              <div class="w-[700px] bg-white dark:bg-gray-800 dark:border-gray-700">
+                <div>
+                  <img class="object-cover w-[700px] h-[600px]" src="{{ image.image.url }}" alt="">
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
         </div>
         <form id="like-form" class="my-7" data-post-id="{{ post.pk }}">
           {% csrf_token %}
@@ -198,6 +208,8 @@
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.js"></script>
+<script src="{% static 'js/recipes/carousel.js' %}"></script>
 <script src="{% static 'js/communities/review.js' %}"></script>
 <script src="{% static 'js/communities/like.js' %}"></script>
 {% endblock script %}
