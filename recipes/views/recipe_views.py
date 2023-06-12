@@ -397,14 +397,22 @@ class RecipeNameSearchView(RecipeSearchView):
         
         sort_param = self.request.GET.get('sort')
         
-        if sort_param == 'created_at':
+        if sort_param == 'created_at_asc':
             title_queryset = title_queryset.order_by('-created_at')
-        elif sort_param == 'difficulty':
+        elif sort_param == 'created_at_desc':
+            title_queryset = title_queryset.order_by('created_at')
+        elif sort_param == 'difficulty_asc':
             title_queryset = title_queryset.order_by('difficulty')
-        elif sort_param == 'time':
+        elif sort_param == 'difficulty_desc':
+            title_queryset = title_queryset.order_by('-difficulty')
+        elif sort_param == 'time_asc':
             title_queryset = title_queryset.order_by('time')
-        elif sort_param == 'likes':
-            title_queryset = title_queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes')
+        elif sort_param == 'time_desc':
+            title_queryset = title_queryset.order_by('-time')
+        elif sort_param == 'likes_asc':
+            title_queryset = title_queryset.annotate(num_likes=Count('like_recipes')).order_by('num_likes')
+        elif sort_param == 'likes_desc':
+            title_queryset = title_queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes')    
 
         context['keyword'] = keyword
         context['title_recipes'] = title_queryset
@@ -424,15 +432,22 @@ class RecipeIngredientSearchView(RecipeSearchView):
         
         sort_param = self.request.GET.get('sort')
         
-        if sort_param == 'created_at':
+        if sort_param == 'created_at_asc':
             ingredient_queryset = ingredient_queryset.order_by('-created_at')
-        elif sort_param == 'difficulty':
+        elif sort_param == 'created_at_desc':
+            ingredient_queryset = ingredient_queryset.order_by('created_at')
+        elif sort_param == 'difficulty_asc':
             ingredient_queryset = ingredient_queryset.order_by('difficulty')
-        elif sort_param == 'time':
+        elif sort_param == 'difficulty_desc':
+            ingredient_queryset = ingredient_queryset.order_by('-difficulty')
+        elif sort_param == 'time_asc':
             ingredient_queryset = ingredient_queryset.order_by('time')
-        elif sort_param == 'likes':
-            ingredient_queryset = ingredient_queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes')
-
+        elif sort_param == 'time_desc':
+            ingredient_queryset = ingredient_queryset.order_by('-time')
+        elif sort_param == 'likes_asc':
+            ingredient_queryset = ingredient_queryset.annotate(num_likes=Count('like_recipes')).order_by('num_likes')
+        elif sort_param == 'likes_desc':
+            ingredient_queryset = ingredient_queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes') 
         context['keyword'] = keyword
         context['ingredient_queryset'] = ingredient_queryset
         context['sort_param'] = sort_param
