@@ -60,8 +60,8 @@
                                 {% else %}
                                   <img class="w-[40px] rounded-full" src="{% static 'img/profile_image2.png' %}" alt="default.img">
                                 {% endif %}
-                                {% comment %} <span class="ml-2">{{ following.nickname }}</span> {% endcomment %}
-                                <a href="{% url 'accounts:profile' following.username %}"> <span class="ml-2" >{{ following.nickname }}</span> </a>
+                                
+                                <a href="{% url 'accounts:profile' following.username %}"> <span class="ml-2  hover:text-green-700 " >{{ following.nickname }}</span> </a>
                               </div>
                             </li>
                           {% endfor %}
@@ -108,8 +108,8 @@
                                 {% else %}
                                   <img class="w-[40px] rounded-full" src="{% static 'img/profile_image2.png' %}" alt="default.img">
                                 {% endif %}
-                                {% comment %} <span class='ml-2' style='font-weight:bold;'>{{ following.nickname }}</span> {% endcomment %}
-                                <a href="{% url 'accounts:profile' following.username %}"> <span class='ml-2'>{{ following.nickname }}</span></a>
+                        
+                                <a href="{% url 'accounts:profile' following.username %}"> <span class='ml-2 hover:text-green-700'>{{ following.nickname }}</span></a>
                               </div>
                             <li>
                           {% endfor %}

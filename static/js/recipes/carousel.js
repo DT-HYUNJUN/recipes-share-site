@@ -125,6 +125,7 @@ $(document).ready(function () {
 //       },
 //     ],
 //   });
+
   $(".recipe-weather-slide").slick({
     infinite: true,
     slidesToShow: 4,
@@ -155,4 +156,36 @@ $(document).ready(function () {
       },
     ],
   });
+});
+
+
+// Index 광고 
+$(".index-ad").slick({
+  infinite: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  prevArrow: '',
+  nextArrow: '',
+  autoplay: true,
+  autoplaySpeed: 4000, // Set the autoplay time for the recipe-like-slide slider
+  pauseOnHover: false,
+  pauseOnFocus: false,
+
+  responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+        rows: 1,
+      },
+    },
+    {
+      breakpoint: 1280,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+  ],
 });
