@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container mx-auto max-w-screen-xl">
+<div class="container mx-auto max-w-screen-xl px-5">
   <div>
     <h1 class="logo-font text-4xl text-center my-10">| Community |</h1>
     <div class="text-end pr-[1%] mb-1">
@@ -41,9 +41,11 @@
               {{ post.pk }}
             </td>
             <td class="px-6 py-4">
-              <div class="truncate w-[75px] sm:w-[400px]">
+              <div class="truncate w-[65px] sm:w-[400px]">
                 <a class="hover:underline decoration-1" href="{% url 'communities:detail' post.pk %}">
-                  {{ post.title }} <span class="text-[#2e8b57] ms-1">[{{ post.posts.all.count }}]</span>
+                  {{ post.title }}
+                </a>
+                <span class="text-[#2e8b57] ms-1">[{{ post.posts.all.count }}]</span>
                   {% if post.image %}
                     <span>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 inline-block">
@@ -51,7 +53,6 @@
                       </svg>
                     </span>
                   {% endif %}
-                </a>
               </div>
             </td>
             <td class="px-6 py-4">
@@ -63,7 +64,7 @@
               </div>
             </td>
             <td class="px-6 py-4">
-              <a class="hover:underline decoration-1" href="{% url 'accounts:profile' post.user %}">{{ post.user.nickname }}</a>
+              <a class="hover:underline decoration-1 truncate" href="{% url 'accounts:profile' post.user %}">{{ post.user.nickname }}</a>
             </td>
             <td class="hidden sm:block px-6 py-4">
               <form class="like-form" data-post-id="{{post.pk}}" >
@@ -89,9 +90,9 @@
     <!--페이지 네이션-->
     <nav aria-label="Page navigation example" class="flex justify-center my-14">
       <ul class="inline-flex -space-x-px">
-        {% if posts.has_previous %}
+        {% if page_obj.has_previous %}
           <li>
-            <a href="?q=community/?page={{ posts.previous_page_number }}" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</a>
+            <a href="?q=community/?page={{ page_obj.previous_page_number }}" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</a>
           </li>
         {% else %}
           <li>
@@ -99,26 +100,26 @@
           </li>
         {% endif %}
 
-        {% for index in posts.paginator.page_range %}
-          {% if index == posts.number %}
-              <li>
-                <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
-              </li>
-            {% else %}
-              <li>
-                <a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="?q=community/?page={{ index }}">{{ index }}</a>
-              </li>
+        {% for index in pagelist %}
+          {% if index == page_obj.number %}
+            <li>
+              <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
+            </li>
+          {% else %}
+            <li>
+              <a class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" href="?q=community&page={{ index }}">{{ index }}</a>
+            </li>
           {% endif %}
         {% endfor %}
         
-        {% if posts.has_next %}
-        <li>
-          <a href="?q=community/?page={{ posts.next_page_number }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
-        </li>
+        {% if page_obj.has_next %}
+          <li>
+            <a href="?q=community&page={{ page_obj.next_page_number }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
+          </li>
         {% else %}
-        <li>
-          <a class="px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</a>
-        </li>
+          <li>
+            <a class="px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</a>
+          </li>
         {% endif %}
       </ul>
     </nav>

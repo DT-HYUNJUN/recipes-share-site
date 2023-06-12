@@ -31,7 +31,7 @@
           </div>
         {% endfor %}
       </div>
-      <fieldset class="lg:absolute top-[2rem] right-[12rem] lg:w-[425px] h-[605px] bg-white text-center mt-10 sm:mt-0">
+      <fieldset class="lg:absolute top-[2rem] right-[12rem] w-10 h-[430px] lg:w-[425px] lg:h-[605px] bg-white text-center mt-10 sm:mt-0">
         <div class="flex justify-end">
           <button id="ingrd-delete" type="button" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-1 mr-2 mt-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -45,14 +45,14 @@
        
         <form id="fridge-form" data-url="{% url 'recipes:recipe_fridge' %}">
           {% csrf_token %}
-          <input class="mt-8 read-only:bg-gray-300" autocomplete="off" role="combobox" list="" id="input" name="browsers" placeholder="재료를 검색하세요 !">
+          <input class="mt-8 read-only:bg-gray-300" autocomplete="off" role="combobox" list="" id="input" name="browsers" {% if not request.user.is_authenticated %} placeholder="로그인 해주세요 !" readonly {% else %} placeholder="재료를 검색하세요 !" {% endif %}>
           <datalist id="browsers" role="listbox">
             {% for ingredient in left %}
               <option id="{{ ingredient.name }}" value="{{ ingredient.name }}">{{ ingredient.name }}</option>
             {% endfor %}
           </datalist>
         </form>
-        <button class="mt-[405px] text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2" onClick="window.location.reload()">입력완료</button>
+        <button class="mt-[230px] sm:mt-[405px] text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2" onClick="window.location.reload()">입력완료</button>
       </fieldset>
     </div>
 
@@ -70,9 +70,9 @@
             {% for recipe in total_recipes %}
             <div class="">
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
-                <div class="w-72 relative bg-white dark:bg-gray-800 dark:border-gray-700">
-                  <div class="w-72 hover:brightness-50 peer">
-                    <img class="object-cover w-72 h-72" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                <div class="w-56 sm:w-72 relative bg-white dark:bg-gray-800 dark:border-gray-700">
+                  <div class="w-56 sm:w-72 hover:brightness-50 peer">
+                    <img class="object-cover w-56 sm:w-72 h-56 sm:h-72" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                   </div>
                   <div class="hidden absolute peer-hover:flex flex-col justify-center top-[37.5%] left-2/4 transform -translate-x-1/2 -translate-y-1/2 text-white w-full">
                     <div class="flex items-center justify-center gap-2">
@@ -109,7 +109,7 @@
                     </div>
                   </div>
                   <div class="p-5 text-center">
-                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
+                    <h5 class="sm:mb-2 sm:text-xl text-base font-bold tracking-tight text-gray-900 dark:text-white line-clamp-2 sm:line-clamp-1">{{ recipe.title }}</h5>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate text-center">{{ recipe.content }}</p>
                   </div>
                 </div>
@@ -133,24 +133,11 @@
               {% for recipe in total_recipes %}
                 {% for recipe_ingredient in recipe.recipeingredient_set.all %}
                   {% if recipe_ingredient.ingredient.name == i %}
-                    {% comment %} <div class="">
-                      <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
-                        <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
-                          <div class="w-72 overflow-hidden">
-                            <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
-                          </div>
-                          <div class="p-5 text-center">
-                            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate text-center">{{ recipe.content }}</p>
-                          </div>
-                        </div>
-                      </a>
-                    </div> {% endcomment %}
                     <div class="">
                       <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
-                        <div class="w-72 relative bg-white dark:bg-gray-800 dark:border-gray-700">
-                          <div class="w-72 hover:brightness-50 peer">
-                            <img class="object-cover w-72 h-72" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                        <div class="w-56 sm:w-72 relative bg-white dark:bg-gray-800 dark:border-gray-700">
+                          <div class="w-56 sm:w-72 hover:brightness-50 peer">
+                            <img class="object-cover w-56 sm:w-72 h-56 sm:h-72" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                           </div>
                           <div class="hidden absolute peer-hover:flex flex-col justify-center top-[37.5%] left-2/4 transform -translate-x-1/2 -translate-y-1/2 text-white w-full">
                             <div class="flex items-center justify-center gap-2">
@@ -195,11 +182,8 @@
                     </div>
                   {% endif %}
                   {% empty %}
-           
                 {% endfor %} 
               {% endfor %} 
-
-
           </div>
         </div>
       </section>
