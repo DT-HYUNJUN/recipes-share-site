@@ -32,11 +32,19 @@ class RecipeListView(ListView):
         
         if sort_param == 'created_at':
             queryset = queryset.order_by('-created_at')
+        elif sort_param == 'created_at_desc':
+            queryset = queryset.order_by('created_at')
         elif sort_param == 'difficulty':
             queryset = queryset.order_by('difficulty')
+        elif sort_param == 'difficulty_desc':
+            queryset = queryset.order_by('-difficulty')
         elif sort_param == 'time':
             queryset = queryset.order_by('time')
+        elif sort_param == 'time_desc':
+            queryset = queryset.order_by('-time')
         elif sort_param == 'likes':
+            queryset = queryset.annotate(num_likes=Count('like_recipes')).order_by('num_likes')
+        elif sort_param == 'likes_desc':
             queryset = queryset.annotate(num_likes=Count('like_recipes')).order_by('-num_likes')
     
         paginator = Paginator(queryset, self.paginate_by)
