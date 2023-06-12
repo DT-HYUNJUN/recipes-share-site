@@ -61,7 +61,7 @@
     <!-- Dropdown menu -->
     <div class="container mx-auto">
       <section class="border-t-4 pt-10 mt-10">
-        <div class="flex justify-end md:mx-52">
+        <div class="flex justify-end">
           <div class="flex justify-center">
             <button id="dropdownOffsetButton" data-dropdown-toggle="dropdownOffset" data-dropdown-offset-distance="-35" data-dropdown-offset-skidding="0" class="text-black bg-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center" type="button">
               {% if sort_param == 'created_at' %}
@@ -233,7 +233,47 @@
             }
           });
         });
-
+    
+        const sortingButtons = document.querySelectorAll('.sorting');
+        sortingButtons.forEach((btn) => {
+          const btnName = btn.getAttribute('name');
+          const btnValue = btn.getAttribute('value');
+          btn.addEventListener('click', () => {
+            const Url = window.location.href;
+            
+            if (Url.includes(`?filter=`)) {
+              if (Url.includes(`&${btnName}=${btnValue}`)) {
+                const newUrl = Url.replace(`&${btnName}=${btnValue}`, '');
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              } else if (Url.includes(`&${btnName}=`)) {
+                const newUrl = Url.replace(new RegExp(`&${btnName}=[^&]+`), `&${btnName}=${btnValue}`);
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              } else {
+                const newUrl = `${Url}&${btnName}=${btnValue}`;
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              }
+            }
+            else {
+              if (Url.includes(`?${btnName}=${btnValue}`)) {
+                const newUrl = Url.replace(`?${btnName}=${btnValue}`, '');
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              } else if (Url.includes(`?${btnName}=`)) {
+                const newUrl = Url.replace(new RegExp(`\\?${btnName}=[^&]+`), `?${btnName}=${btnValue}`);
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              } else {
+                const newUrl = `${Url}?${btnName}=${btnValue}`;
+                const newUrlWithoutPage = newUrl.replace(/[?&]page=[^&]+/g, '');
+                window.location.href = newUrlWithoutPage;
+              }
+            }
+          });
+        });
+  
         const pageButtons = document.querySelectorAll('.page');
         pageButtons.forEach((btn) => {
           const btnName = btn.getAttribute('name');
