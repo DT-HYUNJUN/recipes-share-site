@@ -1,7 +1,9 @@
-import json
+import json, os
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
 from django.db.models import Count
+from django.db.models.signals import post_delete, pre_save
+from django.dispatch import receiver
 from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -287,13 +289,16 @@ class RecipeDeleteView(UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy('recipes:recipe_list')
     pk_url_kwarg = 'recipe_pk'
 
+
     def test_func(self):
         recipe = self.get_object()  # get_object 메서드를 사용하여 삭제 대상 객체를 가져옵니다.
         return recipe.user == self.request.user or self.request.user.is_superuser or self.request.user.is_staff
 
+
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         return obj
+
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
@@ -507,3 +512,26 @@ class RecipeEquip(ListView):
         context['page_obj'] = page
         context['pagelist'] = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
         return context
+
+
+@receiver(post_delete, sender=Recipe)
+def delete_recipe_image(sender, instance, *args, **kwargs):
+    try:
+        instance.image.delete(save=False)
+    except:
+        pass
+
+
+@receiver(pre_save, sender=Recipe)
+def pre_save_image(sender, instance, *args, **kwargs):
+    try:
+        old_image = instance.__class__.objects.get(pk=instance.pk).image.path
+        try:
+            new_image = instance.image.path
+        except:
+            new_image = None
+        if new_image != old_image:
+            if os.path.exists(old_image):
+                os.remove(old_image)
+    except:
+        pass
