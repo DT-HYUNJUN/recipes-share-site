@@ -59,8 +59,12 @@
 
     <button type="submit" class="mt-1 w-full border border-gray-300 py-3 rounded-lg bg-green-700 hover:bg-green-600 text-white font-bold group-invalid:pointer-events-none group-invalid:opacity-30">
         회원가입
-      </button>
+    </button>
   </form>
+  {% load socialaccount %}
+  <a href="{% provider_login_url 'kakao' method='oauth2' %}" class="social--login w-full h-full object-cover"> 
+    <img src="{% static 'img/kakao_login_medium_wide.png' %}" class="mt-5 w-full h-full object-cover" alt="카카오">
+  </a>
   <div class="mt-4 flex justify-center">
     <span class="text-gray-500 text-sm mr-1">이미 아이디가 있으신가요? </span>
     <a href="{% url 'accounts:login' %}" class="align-middle">
