@@ -49,14 +49,6 @@
 }
 
 
-.slick-prev {
-  text-align: center;
-  left: -50px;
-}
-
-.slick-next {
-  right: -45px;
-}
 
 @media (max-width: 800px) {
   .slick-prev {
@@ -66,45 +58,44 @@
   .slick-next {
     right: -25px;
   }
-
   
-.recipe-weather-slide button {
+  .recipe-weather-slide button {
+    background-color: #2e8b57;
+    color: white;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 10;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+ 
+.post-image {
+  position: relative;
+}
+
+.post-image button {
   background-color: #2e8b57;
   color: white;
   border-radius: 50%;
   position: absolute;
   z-index: 10;
+  top: 50%;
   transform: translateY(-50%);
   width: 1.5rem;
   height: 1.5rem;
 }
 
- }
- 
-/* 
-.half-bg-likes::before {
-  background: linear-gradient(rgb(255, 255, 255) 40%, rgb(240, 253, 244) 30%);
-  content: "";
-  position: absolute;
-  display: block;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 940px;
-  z-index: -1;
-} */
+.slick-prev {
+  text-align: center;
+  left: -50px;
+}
 
-/* .half-bg-weather::before {
-  background: linear-gradient(rgb(240, 253, 244) 40%, rgb(255, 255, 255) 30%);
-  content: "";
-  position: absolute;
-  display: block;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 700px;
-  z-index: -1;
-} */
+.slick-next {
+  right: -50px;
+}
+
 
 .recipe-wrapper {
   width: 296px;
