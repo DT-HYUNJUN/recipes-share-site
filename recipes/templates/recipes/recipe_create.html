@@ -19,7 +19,7 @@
         {{ form.title|as_crispy_field }}
         {{ form.content|as_crispy_field }}
       
-        <div class="flex gap-5">
+        <div class="flex gap-5 mb-3">
           <div class="flex flex-col">
             <label for="category" class="block text-gray-700 text-sm font-bold mb-2">{{ form.category.label|safe }}<span class="asteriskField">*</span></label>
             <select name="category" id="id_category" pattern=".{1,}" required>
@@ -37,6 +37,8 @@
               <option value="베이킹">베이킹</option>
             </select>
           </div>
+        </div>
+        <div class="flex gap-10">
           {{ form.time|as_crispy_field }}
           {{ form.difficulty|as_crispy_field }}
         </div>

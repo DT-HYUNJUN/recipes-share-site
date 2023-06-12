@@ -126,7 +126,8 @@ reviewSubmit.addEventListener("click", (e) => {
         "py-5",
         "px-3",
         "border-b",
-        "bg-[#9ACD32]/[0.2]"
+        "bg-[#9ACD32]/[0.2]",
+        "dark:bg-green-900",
       );
 
       const profileImageWrapper = document.createElement("div");
@@ -160,7 +161,7 @@ reviewSubmit.addEventListener("click", (e) => {
       authorContainer.classList.add("flex", "justify-between");
 
       const authorName = document.createElement("p");
-      authorName.classList.add("font-bold", "mb-1");
+      authorName.classList.add("font-bold", "mb-1", "dark:text-white");
       authorName.textContent = data.nickname;
       authorContainer.appendChild(authorName);
 
@@ -266,7 +267,7 @@ reviewSubmit.addEventListener("click", (e) => {
 
       const reviewContent = document.createElement("p");
       reviewContent.setAttribute("id", "review-content");
-      reviewContent.classList.add("col-span-6", "flex", "items-center", "mb-2");
+      reviewContent.classList.add("col-span-6", "flex", "items-center", "mb-2", "dark:text-gray-300");
       reviewContent.textContent = data.content;
       contentContainer.appendChild(reviewContent);
 
