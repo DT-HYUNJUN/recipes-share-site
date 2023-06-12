@@ -24,7 +24,6 @@
             <label for="category" class="block text-gray-700 text-sm font-bold mb-2">{{ form.category.label|safe }}<span class="asteriskField">*</span></label>
             <select name="category" id="id_category" pattern=".{1,}" required>
               <option value="" disabled>카테고리 선택</option>
-              <option value="메인요리" {% if recipe.category == '메인요리' %}selected{% endif %}>메인요리</option>
               <option value="밑반찬" {% if recipe.category == '밑반찬' %}selected{% endif %}>밑반찬</option>
               <option value="간식" {% if recipe.category == '간식' %}selected{% endif %}>간식</option>
               <option value="간단요리" {% if recipe.category == '간단요리' %}selected{% endif %}>간단요리</option>

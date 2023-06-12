@@ -2,7 +2,7 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
 from django.db.models import Count
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView, UpdateView, View
@@ -67,11 +67,14 @@ class RecipeDetailView(DetailView):
         adj_recipes = list(prev_recipes) + list(next_recipes)
         ingredients = RecipeIngredient.objects.select_related('ingredient').filter(recipe=recipe)
         steps = RecipeStep.objects.filter(recipe=recipe)
-        equip = Equip.objects.get(recipe=recipe)
-        microwave = equip.microwave
-        stove = equip.stove
-        oven = equip.oven
-        air_fryer = equip.air_fryer
+        equip = Equip.objects.filter(recipe=recipe)
+        if equip:
+            microwave = equip[0].microwave
+            stove = equip[0].stove
+            oven = equip[0].oven
+            air_fryer = equip[0].air_fryer
+        else:
+            microwave, stove, oven, air_fryer = None, None, None, None
 
         # 조리 도구 리스트 출력
         if microwave:
@@ -83,7 +86,7 @@ class RecipeDetailView(DetailView):
         if air_fryer:
             context['air_fryer'] = 1
         
-        if microwave|stove|oven|air_fryer:
+        if microwave or stove or oven or air_fryer:
             context['equip'] = 1
         
         
@@ -173,7 +176,7 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
 
     def get(self, *args, **kwargs):
         recipe = Recipe.objects.get(pk=kwargs['recipe_pk'])
-        equip = Equip.objects.get(recipe=recipe)
+        equip = Equip.objects.filter(recipe=recipe)
         temp = RecipeIngredient.objects.filter(recipe=recipe)
         ingredients = Ingredient.objects.exclude(recipeingredient__in=temp)
         options = [ingredient for ingredient in ingredients]
@@ -182,7 +185,10 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
         stepupdateformset = RecipeStepUpdateFormSet(instance=recipe, prefix='step-update')
         stepformset = RecipeStepFormSet()
         form = RecipeUpdateForm(instance=recipe)
-        equipform = EquipForm(instance=equip)
+        if equip:
+            equipform = EquipForm(instance=equip[0])
+        else:
+            equipform = EquipForm()
         return self.render_to_response({
             'form': form,
             'equipform': equipform,
@@ -198,9 +204,12 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
     def post(self, *args, **kwargs):
         recipe = Recipe.objects.get(pk=kwargs['recipe_pk'])
         ingredients = RecipeIngredient.objects.filter(recipe=recipe).order_by('pk')
-        equip = Equip.objects.get(recipe=recipe)
+        equip = Equip.objects.filter(recipe=recipe)
         form = RecipeForm(self.request.POST, self.request.FILES, instance=recipe)
-        equipform = EquipForm(self.request.POST, instance=equip)
+        if equip:
+            equipform = EquipForm(self.request.POST, instance=equip[0])
+        else:
+            equipform = EquipForm(self.request.POST)
         stepforms = RecipeStepFormSet(self.request.POST)
         stepupdateforms = RecipeStepUpdateFormSet(self.request.POST, prefix='step-update')
         ingredientforms = RecipeIngredientFormSet(self.request.POST)
@@ -215,7 +224,7 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
             recipe.save()
 
             if equipform.is_valid():
-                equip = form.save(commit=False)
+                equip = equipform.save(commit=False)
                 equip.recipe = recipe
                 equip.save()
 
