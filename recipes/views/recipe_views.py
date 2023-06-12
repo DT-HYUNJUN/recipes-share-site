@@ -1,19 +1,16 @@
-import json
+import json, os
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import Paginator
 from django.db.models import Count
+from django.db.models.signals import post_delete, pre_save
+from django.dispatch import receiver
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView, UpdateView, View
 from recipes.forms import *
 from recipes.models import *
 from accounts.models import *
-from django.db.models import Count
-from django.http import JsonResponse
-from django.views import View
-from django.core.paginator import Paginator
-from django.shortcuts import get_object_or_404
 
 
 class RecipeListView(ListView):
@@ -288,48 +285,24 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
 
 
 class RecipeDeleteView(UserPassesTestMixin, DeleteView):
-    # model = Recipe
-    # success_url = reverse_lazy('recipes:recipe_list')
-    # pk_url_kwarg = 'recipe_pk'
-
-
-    # def test_func(self):
-    #     recipe = Recipe.objects.get(pk=self.object.pk)
-    #     return recipe.user == self.request.user or self.request.user.is_superuser or self.request.user.is_staff
-    
-
-    # def get(self, request, *args, **kwargs):
-    #     return self.post(request, *args, **kwargs)
     model = Recipe
     success_url = reverse_lazy('recipes:recipe_list')
     pk_url_kwarg = 'recipe_pk'
+
 
     def test_func(self):
         recipe = self.get_object()  # get_object 메서드를 사용하여 삭제 대상 객체를 가져옵니다.
         return recipe.user == self.request.user or self.request.user.is_superuser or self.request.user.is_staff
 
+
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         return obj
 
+
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
-
-# class RecipeLikeView(LoginRequiredMixin, View):
-#     def post(self, request, *args, **kwargs):
-#         recipe_pk = kwargs['recipe_pk']
-#         recipe = Recipe.objects.get(pk=recipe_pk)
-#         if recipe.like_recipes.filter(pk=request.user.pk).exists():
-#             recipe.like_recipes.remove(request.user)
-#             like = False
-#         else:
-#             recipe.like_recipes.add(request.user)
-#             like = True
-#         context = {
-#             'like': like,
-#         }
-#         return JsonResponse(context)
 
 class RecipeLikeView(View):
     def post(self, request, recipe_pk):
@@ -465,7 +438,7 @@ class RecipeFridge(ListView):
         if self.request.user.is_authenticated:
             user_ingredients = UserIngredient.objects.filter(user=self.request.user)
             user_ingredient_names = user_ingredients.values_list('ingredient__name', flat=True)
-            
+
             queryset = Recipe.objects.annotate(ingredient_count=Count('ingredients'))
             total_recipes = Recipe.objects.filter(ingredients__name__in=user_ingredient_names)
             total_recipes = total_recipes.distinct()
@@ -486,8 +459,7 @@ class RecipeFridge(ListView):
             user_ingredient_names = user_ingredients.values_list('ingredient__name', flat=True)
             total_recipes = self.get_queryset()  
         buttons = [x for x in range(len(already)+1, 10)]
-   
-        
+
         context.update({
             'already': already,
             'left': left,
@@ -498,7 +470,6 @@ class RecipeFridge(ListView):
             
         })
         return context
-
 
 
     def post(self, request, *args, **kwargs):
@@ -519,11 +490,9 @@ class RecipeFridge(ListView):
 
 
 class RecipeEquip(ListView):
-    # model = Equip
     template_name = 'recipes/equip.html'
     model = Recipe
     paginate_by = 12
-    # paginate_orphans = 3
 
     def get_context_data(self, **kwargs):
         context = dict()
@@ -543,7 +512,26 @@ class RecipeEquip(ListView):
         context['page_obj'] = page
         context['pagelist'] = paginator.get_elided_page_range(page.number, on_each_side=2, on_ends=1)
         return context
-    
-    # def get_context_data(self, **kwargs):
-    #     context = super(RecipeFridge, self).get_context_data()
-    #     return context
+
+
+@receiver(post_delete, sender=Recipe)
+def delete_recipe_image(sender, instance, *args, **kwargs):
+    try:
+        instance.image.delete(save=False)
+    except:
+        pass
+
+
+@receiver(pre_save, sender=Recipe)
+def pre_save_image(sender, instance, *args, **kwargs):
+    try:
+        old_image = instance.__class__.objects.get(pk=instance.pk).image.path
+        try:
+            new_image = instance.image.path
+        except:
+            new_image = None
+        if new_image != old_image:
+            if os.path.exists(old_image):
+                os.remove(old_image)
+    except:
+        pass
