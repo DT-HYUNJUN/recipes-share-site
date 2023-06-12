@@ -9,7 +9,7 @@
       <p class="text-center text-base">조리도구 별 요리를 골라보세요 !</p>
     </div>
 
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 justify-center mt-10 p-5">
+    <div class="grid grid-cols-2 sm:grid-cols-4 place-items-center gap-5 mt-10 px-10">
       <button name="filter" value="microwave" class="filtering">
         <div class="w-32 h-32 sm:w-48 sm:h-48 flex flex-col justify-center items-center bg-[#f0fff0] relative group hover:bg-green-700 hover:bg-gradient-to-r hover:from-green-400 hover:via-green-500 hover:to-green-600">
           <img class="rounded-lg object-cover cursor-pointer w-24 sm:w-40" src="{% static 'img/equip/microwave.png' %}" alt="">
@@ -147,7 +147,7 @@
           {% for index in pagelist %}
             {% if index == page_obj.number %}
               <li>
-                <button name="page" value="{{index}}" class="page px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</button>
+                <button name="page" value="{{index}}" class="page px-3 py-2 leading-tight text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</button>
               </li>
             {% else %}
               <li>

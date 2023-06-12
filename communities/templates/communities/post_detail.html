@@ -5,18 +5,24 @@
 {% load static %}
 
 {% block content %}
-<div class="container mx-auto max-w-screen-xl my-10">
+<div class="container mx-auto max-w-screen-xl my-10 px-5 sm:p-0">
   <!-- 본문 -->
   <div class="border p-3 rounded-lg">
     <div class="flex justify-between items-center">
       <!-- 프로필 사진 / 닉네임 / 작성 날짜 -->
       <div class="mt-2 flex items-center  gap-3">
         <a href="{% url 'accounts:profile' post.user %}">
-          <img class="w-20 rounded-full" {% if post.user.profile_image %} src="{{ post.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
+          <img class="w-10 sm:w-20 rounded-full" {% if post.user.profile_image %} src="{{ post.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
         </a>
         <div class="flex gap-3 text-sm my-3 items-center">
           <a class="flex" href="{% url 'accounts:profile' post.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline">{{ post.user.nickname }}</p></a>
-          |<p class="text-gray-600">{{ post.created_at }}</p>
+          {% comment %} |<p class="text-gray-600">{{ post.created_at }}</p> {% endcomment %}
+          <div class="hidden md:block text-gray-600">
+            {{ post.created_at }}
+          </div>
+          <div class="block md:hidden text-gray-600">
+            {{ post.created_at|date:'Y-m-d H:i' }}
+          </div>
         </div>
       </div>
       <!-- dropdown section-->
@@ -39,7 +45,7 @@
           </div>
       </div>
     </div>
-    <div class="ps-24">
+    <div class="ps-12 sm:ps-24">
       <div>
         <h1 class=" text-xl my-4 text-[#2E8B57]">{{ post.title }}</h1>
         <p class="text-md py-3">{{ post.content|linebreaksbr }}</p>
@@ -62,7 +68,7 @@
       </div>
     </div>
   </div>
-  {% comment %} action="{% url 'communities:comment_create' post.pk %}" method="POST" {% endcomment %}
+  
   {% if request.user.is_authenticated %}
     <form id="review-form" class="mt-5" data-pk="{{ post.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'communities:comment_create' post.pk %}">
       {% csrf_token %}
@@ -81,11 +87,11 @@
     {% for comment in comments %}
     <div id="review" {% if request.user == comment.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b" {% else %} class="grid grid-cols-12 text-sm mt-3 px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ comment.pk }}" data-review-pk="{{ comment.pk }}"  data-update-url="{% url 'communities:comment_update' post.pk comment.pk %}" data-delete-url="{% url 'communities:comment_delete' post.pk comment.pk %}">
       <!-- 댓글 작성자 프로필 사진 -->
-      <div class="col-span-1 flex items-start mb-1">
+      <div class="col-span-2 sm:col-span-1 flex items-start mb-1">
         <img class="w-10 rounded-full" {% if comment.user.profile_image %} src="{{ comment.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
       </div>
       <!-- 작성자 / 내용 -->
-      <div class="col-span-11">
+      <div class="col-span-10 sm:col-span-11">
         <div class="flex justify-between">
           {% comment %} <p class="font-bold mb-1">{{ comment.user.nickname }}</p> {% endcomment %}
           <a class=" hover:text-blue-800 hover:underline" href="{% url 'accounts:profile' comment.user %}"> <p class="font-bold mb-1">{{ comment.user.nickname }}</p></a>
@@ -136,7 +142,7 @@
             <th scope="col" class="py-3 text-center">
               글번호
             </th>
-            <th scope="col" class="px-6 py-3 w-full  md:w-3/5">
+            <th scope="col" class="px-6 py-3  md:w-3/5">
               제목
             </th>
             <th scope="col" class="px-4 md:px-6 py-3 ">
