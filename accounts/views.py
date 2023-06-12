@@ -63,9 +63,10 @@ def update(request):
         form = CustomUserChangeForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('accounts:profile', request.user.username)
+            return redirect('accounts:profile', username=request.user.username)
     else:
-        form = CustomUserChangeForm(instance=request.user)
+        initial_data = {'birthdate': request.user.birthdate.strftime('%Y-%m-%d')} if request.user.birthdate else None
+        form = CustomUserChangeForm(instance=request.user, initial=initial_data)
     context = {
         'form': form,
     }
