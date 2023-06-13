@@ -9,7 +9,7 @@
 {% endblock style %}
 
 {% block content %}
-<div class="container mx-auto max-w-screen-xl">
+<div class="container mx-auto max-w-screen-xl px-3">
   <h1 class="logo-font text-4xl text-center my-10">| 레시피 수정 |</h1>
   <form id="form-container" class="mt-4" action="{% url 'recipes:recipe_update' recipe.pk %}" method="POST" enctype="multipart/form-data" novalidate>
     <div class="border p-5 rounded-lg">
@@ -121,7 +121,7 @@
     </div>
 
     {% comment %} <hr id="bottom-line" class="mb-2"> {% endcomment %}
-    <button type="submit" class=" mt-2 text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium text-base px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 group-invalid:pointer-events-none group-invalid:opacity-30">레시피 등록</button>
+    <button type="submit" class="rounded-lg mt-2 text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium text-base px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 group-invalid:pointer-events-none group-invalid:opacity-30">레시피 등록</button>
   </form>
 </div>
 {% endblock content %}
