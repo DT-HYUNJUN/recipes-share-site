@@ -40,7 +40,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'https://port-0-hjtable-koh2xlitkbf4r.sel4.cloudtype.app/',
+    'port-0-hjtable-koh2xlitkbf4r.sel4.cloudtype.app/',
     'port-0-recipes-share-site-17xqnr2algn95l6h.sel3.cloudtype.app',
     'localhost',
     '127.0.0.1',
