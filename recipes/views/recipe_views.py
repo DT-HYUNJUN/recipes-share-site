@@ -53,6 +53,10 @@ class RecipeListView(ListView):
             queryset = queryset.annotate(num_likes=Count("like_recipes")).order_by(
                 "-num_likes"
             )
+        elif sort_param == "views_asc":
+            queryset = queryset.annotate(recipe_view=Count("viewed_users")).order_by("recipe_view")
+        elif sort_param == "views_desc":
+            queryset = queryset.annotate(recipe_view=Count("viewed_users")).order_by("-recipe_view")
 
         paginator = Paginator(queryset, self.paginate_by)
         page_number = self.request.GET.get("page")
@@ -462,13 +466,13 @@ class RecipeNameSearchView(RecipeSearchView):
         elif sort_param == "time_desc":
             title_queryset = title_queryset.order_by("-time")
         elif sort_param == "likes_asc":
-            title_queryset = title_queryset.annotate(
-                num_likes=Count("like_recipes")
-            ).order_by("num_likes")
+            title_queryset = title_queryset.annotate(num_likes=Count("like_recipes")).order_by("num_likes")
         elif sort_param == "likes_desc":
-            title_queryset = title_queryset.annotate(
-                num_likes=Count("like_recipes")
-            ).order_by("-num_likes")
+            title_queryset = title_queryset.annotate(num_likes=Count("like_recipes")).order_by("-num_likes")
+        elif sort_param == "views_asc":
+            title_queryset = title_queryset.annotate(recipe_view=Count("viewed_users")).order_by("recipe_view")
+        elif sort_param == "views_desc":
+            title_queryset = title_queryset.annotate(recipe_view=Count("viewed_users")).order_by("-recipe_view")
 
         context["keyword"] = keyword
         context["title_recipes"] = title_queryset
@@ -510,6 +514,10 @@ class RecipeIngredientSearchView(RecipeSearchView):
             ingredient_queryset = ingredient_queryset.annotate(
                 num_likes=Count("like_recipes")
             ).order_by("-num_likes")
+        elif sort_param == "views_asc":
+            ingredient_queryset = ingredient_queryset.annotate(recipe_view=Count("viewed_users")).order_by("recipe_view")
+        elif sort_param == "views_desc":
+            ingredient_queryset = ingredient_queryset.annotate(recipe_view=Count("viewed_users")).order_by("-recipe_view")
         context["keyword"] = keyword
         context["ingredient_queryset"] = ingredient_queryset
         context["sort_param"] = sort_param
