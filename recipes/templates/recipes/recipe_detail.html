@@ -181,6 +181,10 @@
               {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
             </span>
           </div>
+          <div>
+            <i class="bi bi-eye"> {{recipe.views}}
+            </i>
+          </div>
         </div>
         <div>
           <a class="underline dark:text-gray-400" href="#reviews">후기 보기</a>

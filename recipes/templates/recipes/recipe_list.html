@@ -159,6 +159,10 @@
                           <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                           <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                         {% endif %}
+                        <span>
+                          <i class="bi bi-eye ms-2">
+                          </i>{{recipe.views}}
+                        </span>
                       </div>
                       <!--조리시간 -->
                       <div class="flex items-center justify-center gap-2">
@@ -168,6 +172,7 @@
                           {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
                         </span>
                       </div>
+                      
                     </div>
                   </div>
                 </div>
