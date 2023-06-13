@@ -1,0 +1,96 @@
+<div class="container mx-auto max-w-screen-xl">
+  <!--내가 쓴 글 테이블-->
+  <h1 class="text-lg logo-font my-3 mx-3">내가 작성한 레시피</h1>
+  <div class="relative overflow-x-auto flex flex-col items-center">
+    <table class="w-full sm:w-4/5 text-sm text-left text-gray-500 dark:text-gray-400 table-auto"> 
+
+      <thead class="text-xs text-gray-700 uppercase bg-[#f0fff0] dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-center">
+            글번호
+          </th>
+          <th scope="col" class="sm:px-6 sm:py-3 px-1">
+            제목
+          </th>
+          <th scope="col" class="px-6 py-3">
+            작성시간
+          </th>
+          <th scope="col" class="px-6 py-3">
+            작성자
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for recipe in recipes %}
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
+            <td class="px-6 py-4 text-center ">
+              {{ recipe.pk }}
+            </td>
+            <td class="sm:px-6 sm:py-4 px-1 py-4">
+              <div class="truncate w-[70px] sm:w-[400px]">
+                <a class="hover:underline decoration-1" href="{% url 'recipes:recipe_detail' recipe.pk %}">{{ recipe.title }}</a>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div class="hidden md:block">
+                {{ recipe.created_at|date:'y-m-d H:i' }}
+              </div>
+              <div class="block md:hidden whitespace-nowrap">
+                {{ recipe.created_at|date:'m-d' }}
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <a class="hover:underline decoration-1" href="{% url 'accounts:profile' recipe.user %}">{{ recipe.user.nickname }}</a>
+            </td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% comment %} <section class="grid grid-cols-4">
+      <div class="text-sm">글번호</div>
+      <div class="text-sm">제목</div>
+      <div class="text-sm">작성시간</div>
+      <div class="text-sm">작성자</div>
+    </section> {% endcomment %}
+
+    <nav aria-label="Page navigation example" class="flex justify-center my-14">
+      <ul class="inline-flex -space-x-px">
+        {% if recipes.has_previous %}
+          <li>
+            <a href="?recipe_page={{ recipes.previous_page_number }}&q={{ recipes.q }}" class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">이전</a>
+          </li>
+        {% else %}
+          <li>
+            <a class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">이전</a>
+          </li>
+        {% endif %}
+
+        {% for index in recipes.paginator.page_range %}
+          {% if index == recipes.number %}
+            <li>
+              <span class="px-3 py-2 text-white border border-gray-300 bg-[#8FBC8F] dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ index }}</span>
+            </li>
+          {% else %}
+            <li>
+              <a href="?recipe_page={{ index }}&q={{ recipes.q }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ index }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if recipes.has_next %}
+          <li>
+            <a href="?recipe_page={{ recipes.next_page_number }}&q={{ recipes.q }}" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">다음</a>
+          </li>
+        {% else %}
+          <li>
+            <a class="px-3 py-2 leading-tight text-gray-500 bg-gray-200 border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white pointer-events-none">다음</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+
+ 
+</div>
