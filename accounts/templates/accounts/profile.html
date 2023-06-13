@@ -163,6 +163,13 @@
             </a>
 
             <hr class='m-0 ms-1 me-1'>
+
+            <a href="{% url 'accounts:profile' person %}?q=recipe" class="flex justify-center items-center">
+              <span class="material-symbols-outlined pr-2">storefront</span>
+              <p class="py-3 text-center">내가 작성한 레시피</p>
+            </a>
+
+            <hr class='m-0 ms-1 me-1'>
         </div>
         <!-- 왼쪽 쿼리 -->
         <div class="sm:w-5/6">
@@ -173,6 +180,8 @@
               {% include 'accounts/community.html' %}
             {% elif q == 'comment'%}
               {% include 'accounts/comment.html' %}
+            {% elif q == 'recipe'%}
+              {% include 'accounts/recipe.html' %}
             {% else %}
               {% include 'accounts/bookmark.html' %}
             {% endif %}

@@ -6,7 +6,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from communities.models import Post, Comment
-
+from recipes.models import Recipe
 from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthenticationForm, PasswordChangeForm
 # Create your views here.
 
@@ -115,20 +115,25 @@ def profile(request, username):
     person = User.objects.get(username=username)
     post_list = Post.objects.filter(user=person).order_by('-pk')
     comment_list = Comment.objects.filter(user=person).order_by('-pk')
-    
+    recipe_list = Recipe.objects.filter(user=person).order_by('-pk')
+
+    recipes = person.recipe_written.all()
     like_recipes = person.like_recipes.all()
     bookmark_recipes = person.bookmark_recipes.all()
     
+    q = request.GET.get('q')
+
     paginator_post = Paginator(post_list, 5)
     post_page = request.GET.get('post_page')
-    
-    q = request.GET.get('q')
     posts = paginator_post.get_page(post_page)
     
     paginator_comment = Paginator(comment_list, 5)
     comment_page = request.GET.get('comment_page')
-    
     comments = paginator_comment.get_page(comment_page)
+
+    paginator_recipe = Paginator(recipe_list, 5)
+    recipe_page = request.GET.get('recipe_page')
+    recipes = paginator_recipe.get_page(recipe_page)
     
     posts.q = q
     comments.q = q
@@ -137,6 +142,7 @@ def profile(request, username):
         'comments': comments,
         'q': q,
         'person': person,
+        'recipes': recipes,
         'like_recipes': like_recipes,
         'bookmark_recipes': bookmark_recipes,
     }
