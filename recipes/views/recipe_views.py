@@ -105,8 +105,12 @@ class RecipeDetailView(DetailView):
         if microwave or stove or oven or air_fryer:
             context["equip"] = 1
 
-        recipe.views += 1
-        recipe.save()
+        user = self.request.user
+
+        if user.is_authenticated and recipe not in user.viewed_recipes.all():
+            recipe.views += 1
+            recipe.save()
+            user.viewed_recipes.add(recipe)
 
         reviews = recipe.recipes.prefetch_related("user").all()
 
