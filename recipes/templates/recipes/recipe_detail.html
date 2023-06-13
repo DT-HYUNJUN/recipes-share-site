@@ -16,10 +16,10 @@
     <!-- 레시피 정보 -->
     <div class="flex-col space-y-4">
       <!-- 사진 -->
-      <div class="mt-10 flex justify-between items-center">
+      <div class="pt-10 flex justify-between items-center">
         <!-- 목록 -->
         <div class="hover:bg-gray-100 p-1.5 rounded-lg">
-          <a id="adj-list-btn" href="#" class="pt-2">
+          <a id="adj-list-btn" href="#" class="pt-2 dark:text-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
@@ -55,7 +55,7 @@
             <a class="hover:brightness-50 peer" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="text-center">
                 <img class="object-cover border w-full sm:w-[216px] h-[183px]" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
-                <h1 class="text-lg font-bold line-clamp-1">{{ recipe.title }}</h1>
+                <h1 class="text-lg font-bold line-clamp-1 dark:text-gray-400">{{ recipe.title }}</h1>
               </div>
             </a>
             <div class="hidden absolute peer-hover:flex flex-col justify-center top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 text-white w-full">
@@ -101,7 +101,7 @@
           <img class="w-10 sm:w-16 rounded-full" {% if recipe.user.profile_image %} src="{{ recipe.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
         </a>
         <div class="flex gap-3 text-sm my-3 items-center">
-          <a class="flex" href="{% url 'accounts:profile' recipe.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline">{{ recipe.user.nickname }}</p></a>
+          <a class="flex" href="{% url 'accounts:profile' recipe.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline dark:text-gray-200">{{ recipe.user.nickname }}</p></a>
           |<p class="text-xs sm:text-base text-gray-600">{{ recipe.created_at }}</p>
         </div>
       </div>
@@ -111,32 +111,32 @@
       </div>
       <!-- 제목, 북마크-->
       <div class="flex justify-between">
-        <h1 class="text-base sm:text-2xl font-bold">{{ recipe.title }}</h1>
+        <h1 class="text-base sm:text-2xl font-bold dark:text-white">{{ recipe.title }}</h1>
         <div class="flex gap-3">
           <div class="text-center">
             <form id="likes_form" class="" data-recipe-id="{{ recipe.pk }}">
               {% csrf_token %}
               {% if request.user.is_authenticated %}
-                <button id="likes_btn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-2 px-4 rounded">
+                <button id="likes_btn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white py-1 px-2 sm:py-2 sm:px-4 rounded">
                   <i class="bi bi-heart{% if request.user in recipe.like_users.all %}-fill{% endif %} text-danger"></i>
                 </button>
               {% else %}
-                <button class="border border-red-500 text-red-500 py-2 px-4 rounded cursor-not-allowed opacity-50" disabled>
+                <button class="border border-red-500 text-red-500 py-1 px-2 sm:py-2 sm:px-4 rounded cursor-not-allowed opacity-50" disabled>
                   <i class="bi bi-heart"></i>
                 </button>
               {% endif %}
             </form>
-            <span class="" id="recipe-like-count">{{ recipe.like_users.all.count }}</span>
+            <span class="dark:text-gray-400" id="recipe-like-count">{{ recipe.like_users.all.count }}</span>
           </div>
 
           <form id="bookmark_form" class="me-2" data-recipe-id="{{ recipe.pk }}">
             {% csrf_token %}
             {% if request.user.is_authenticated %}
-              <button id="bookmark_btn" class="border border-black text-black-500 hover:bg-black hover:text-white py-2 px-4 rounded">
+              <button id="bookmark_btn" class="border border-black text-black-500 hover:bg-black hover:text-white py-1 px-2 sm:py-2 sm:px-4 rounded">
                 <i class="bi bi-bookmark{% if request.user in recipe.bookmark_users.all %}-fill{% endif %} text-danger"></i>
               </button>
             {% else %}
-              <button class="border border-black text-black-500 py-2 px-4 rounded cursor-not-allowed opacity-50" disabled>
+              <button class="border border-black text-black-500 py-1 px-2 sm:py-2 sm:px-4 rounded cursor-not-allowed opacity-50" disabled>
                 <i class="bi bi-bookmark"></i>
               </button>
             {% endif %}
@@ -149,7 +149,7 @@
       <div class="flex justify-between items-center">
         <div class="flex items-center gap-10">
           <div class="flex items-center gap-1 sm:gap-2">
-            <span class="text-sm sm:text-base">난이도</span>
+            <span class="text-sm sm:text-base dark:text-gray-400">난이도</span>
             {% if recipe.difficulty == 1 %}
             <img class="w-[12px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
           {% elif recipe.difficulty == 2 %}
@@ -181,12 +181,16 @@
               {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
             </span>
           </div>
+          <div>
+            <i class="bi bi-eye"> {{recipe.views}}
+            </i>
+          </div>
         </div>
         <div>
-          <a class="underline" href="#reviews">후기 보기</a>
+          <a class="underline dark:text-gray-400" href="#reviews">후기 보기</a>
         </div>
       </div>
-      <hr>
+      <hr class="border-[#2e8b57]">
       <div>
         <!-- Dropdown menu -->
         <button id="dropdownTopButton" data-dropdown-toggle="dropdownTop" data-dropdown-placement="top" class="float-right" type="button">
@@ -199,21 +203,21 @@
             <button id="btnKakao" class="w-9" onclick="shareKakao()" data-title="{{ recipe.title }}" data-content="{{ recipe.content }}" data-link="{% url 'recipes:recipe_detail' recipe.pk %}" data-base-link="{% url 'index' %}" data-like-count="{{ recipe.like_users.all.count }}" data-comment-count="{{ reviews.count }}">
               <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카카오톡 공유 보내기 버튼"/>
             </button>
-            <button onclick="copyLink()" class="bg-green-100 w-9 h-9 flex justify-center items-center rounded-lg">
+            <button onclick="copyLink()" class="bg-green-100 w-9 h-9 flex justify-center items-center rounded-lg dark:bg-green-900">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
               </svg>
             </button>
           </ul>
         </div>
-        <p class="text-gray-600">{{ recipe.content|safe }}</p>
+        <p class="text-gray-600 dark:text-gray-300">{{ recipe.content|linebreaksbr }}</p>
       </div>
     </div>
     <!-- 재료 -->
     <div>
       <div class="flex justify-between items-center border-b border-b-[#2e8b57] mt-10">
-        <p class="text-xl font-bold mt-3">재료</p>
-        <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-lg" type="button">
+        <p class="text-xl font-bold mt-3 dark:text-gray-300">재료</p>
+        <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-lg dark:text-gray-300" type="button">
           <i class="bi bi-info-circle"></i>
         </button>
       </div>
@@ -272,13 +276,13 @@
 
     <!-- 레시피 순서-->
     <div>
-      <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57]">레시피</p>
+      <p class="text-xl font-bold mt-3 border-b border-b-[#2e8b57] dark:text-gray-300">레시피</p>
       <div class="p-5">
         <!-- 레시피 순서 content -->
         {% for step in recipe.recipestep_set.all %}
         <div class="grid grid-cols-12 gap-1 mb-5">
           <div class="col-span-2 w-8 h-8 bg-[#2e8b57] text-white text-center rounded-[70px] text-xl">{{ forloop.counter }}</div>
-          <p class="text-sm sm:text-base col-span-10">{{ step.detail|linebreaksbr }}</p>
+          <p class="text-sm sm:text-base col-span-10 dark:text-gray-300">{{ step.detail|linebreaksbr }}</p>
         </div>
         {% endfor %}
       </div>
@@ -289,10 +293,10 @@
         <form id="review-form" class="mt-5" data-pk="{{ recipe.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'recipes:review_create' recipe.pk %}">
           {% csrf_token %}
           <div class="border rounded-lg p-5 pb-0">
-            <p class="font-bold ms-4">{{ request.user.nickname }}</p>
+            <p class="font-bold ms-4 dark:text-gray-300">{{ request.user.nickname }}</p>
             {{ review_form.content|as_crispy_field }}
             <div class="flex justify-end">
-              <button type="submit" id="review_create_submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">작성</button>
+              <button type="submit" id="review_create_submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800">작성</button>
             </div>
           </div>
         </form>
@@ -300,9 +304,9 @@
 
       <!-- 이게 진짜 댓글 -->
       <section id="reviews">
-        <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 <span id="review-count">{{ reviews.count }}</span></p>
+        <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57] dark:text-gray-300">댓글 <span id="review-count">{{ reviews.count }}</span></p>
         {% for review in reviews %}
-        <div id="review" {% if request.user == review.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b" {% else %} class="grid grid-cols-12 text-sm mt-3  px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
+        <div id="review" {% if request.user == review.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b dark:bg-green-900" {% else %} class="grid grid-cols-12 text-sm mt-3  px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
           <!-- 리뷰 작성자 프로필 사진 -->
           <div class="col-span-1 flex items-start mb-1">
             <img class="w-10 rounded-full" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
@@ -310,7 +314,7 @@
           <!-- 작성자 / 내용 -->
           <div class="col-span-11">
             <div class="flex justify-between">
-              <p class="font-bold mb-1">{{ review.user.nickname }}</p>
+              <p class="font-bold mb-1 dark:text-white">{{ review.user.nickname }}</p>
               {% if request.user == review.user %}
               <div>
                 <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ review.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
@@ -328,7 +332,7 @@
               {% endif %}
             </div>
             <div id="review" class="mb-2" data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}">
-              <p id="review-content" class="col-span-6 flex items-center">{{ review.content|linebreaksbr }}</p>
+              <p id="review-content" class="col-span-6 flex items-center dark:text-gray-300">{{ review.content|linebreaksbr }}</p>
               <div id="comment-textarea" class="hidden col-span-6 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                 <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                   <label for="comment" class="sr-only">Your comment</label>

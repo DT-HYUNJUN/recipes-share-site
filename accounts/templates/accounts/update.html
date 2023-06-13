@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 
 <div class="container mt-5 mx-auto max-w-xs">
@@ -21,7 +22,7 @@
     </div>
     <div class="mb-4 relative">
       <label for="id_profile_image" class="w-full inline-block px-4 py-2 bg-black text-white rounded-lg cursor-pointer text-center">이미지 선택</label>
-      <input type="file" name="profile_image" id="id_profile_image" onchange="previewImage(event)" class="hidden" />
+      <input type="file" name="profile_image" id="id_profile_image" class="hidden" />
     </div>
     <div class="mb-4 relative">
       {% if form.instance.profile_image %}
@@ -35,18 +36,8 @@
     </button>
   </form>
 </div>
-<script>
-  function previewImage(event) {
-    var input = event.target;
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        var imagePreview = document.getElementById("imagePreview");
-        imagePreview.src = e.target.result;
-        imagePreview.style.display = "block";
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-  </script>
 {% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/accounts/profile_img.js' %}"></script>
+{% endblock script %}

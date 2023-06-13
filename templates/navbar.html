@@ -1,17 +1,17 @@
 {% load static %}
 
 <!-- 상단 날씨별 메뉴 추천 부분 -->
-<div id="weather-info" class="hidden p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+<div id="weather-info" class="hidden p-4 text-green-800 bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
   <div id="weather-info-text" class="ml-3 text-sm font-medium">
   </div>
-  <span id="goto-recipe" data-link="{% url 'recipes:recipe_search' %}" class="border-b cursor-pointer border-b-green-50 hover:border-b-blue-600 hover:text-gray-950 text-sm font-medium text-blue-800 ml-1"></span>
+  <span id="goto-recipe" data-link="{% url 'recipes:recipe_search' %}" class="border-b cursor-pointer border-b-green-50 hover:border-b-green-600 hover:text-gray-950 text-sm font-medium text-blue-800 ml-1 dark:text-white"></span>
   <button id="close-alert" type="button" class="ms-3 -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#weather-info" aria-label="Close">
     <span class="sr-only">Close</span>
     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
   </button>
 </div>
 
-<div class="text-center my-6 ">
+<div class="text-center py-6 pt-10 dark:bg-gray-700">
   <a href="{% url 'index' %}" class="inline-block">
     <img src="{% static 'img/logo.svg' %}" class="h-20" alt="Flowbite Logo"/>
   </a>
@@ -21,8 +21,8 @@
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     <div class="flex justify-center items-center gap-2">
       <h6 id="" class="flex items-center gap-1">
-        <span id="user-weather"></span>
-        <span class="text-2xl mb-1">
+        <span id="user-weather" class="dark:text-white"></span>
+        <span class="text-2xl mb-1 dark:text-white">
           <i id="weather-icon" class="bi"></i>
         </span>
       </h6>
@@ -30,7 +30,7 @@
     <div class="flex md:order-2">
       <form action="{%url 'recipes:recipe_search' %}" method ="get">
         <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" class="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1">
-          <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
           </svg>
           <span class="sr-only">Search</span>
@@ -38,7 +38,7 @@
       
         <div class="relative hidden md:block">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-6 h-6 text-gray-500" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
             </svg>
             <span class="sr-only">Search icon</span>
@@ -56,7 +56,7 @@
       <div class="ms-2">
         {% if not request.user.is_authenticated %}
           <!-- 로그인 안했을때 -->
-          <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="text-gray-500  focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm  text-center inline-flex items-center " type="button">
+          <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="text-gray-500  focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm  text-center inline-flex items-center pt-0.5" type="button">
             <i class="bi bi-person text-3xl "></i>
           </button>
 
@@ -76,8 +76,8 @@
           <!-- 로그인 했을때 -->
           <button id="dropdownInformationButton" data-dropdown-toggle="dropdownInformation" class="text-gray-500  focus:ring-4 focus:outline-none focus:ring-white font-medium rounded-lg text-sm  text-center inline-flex items-center " type="button">
             <div class="flex items-center content-center gap-1">
-                <img class="w-9 rounded-full" {% if request.user.profile_image %} src="{{ request.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image.png' %}" {% endif %} alt="profile">
-              <p class="hidden sm:block text-[#2f4f4f] font-bold">{{request.user.nickname}}</p>
+                <img class="w-9 rounded-full pt-1" {% if request.user.profile_image %} src="{{ request.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image.png' %}" {% endif %} alt="profile">
+              <p class="hidden sm:block text-[#2f4f4f] font-bold dark:text-gray-400">{{request.user.nickname}}</p>
             </div>
           </button>
 
@@ -133,6 +133,79 @@
     </div>
   </div>
 </nav>
+
+<!-- 모바일 네브바 (밑에) -->
+<div id="mobile-navbar" class="hidden sm:hidden fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-gray-200 rounded-full bottom-4 left-1/2 dark:bg-gray-700 dark:border-gray-600">
+  <div class="grid h-full max-w-lg grid-cols-5 mx-auto">
+    <!-- Home -->
+    <a href="{% url 'index' %}" class="inline-flex flex-col items-center justify-center px-5 rounded-l-full hover:bg-gray-50 dark:hover:bg-gray-800 group">
+      <button data-tooltip-target="tooltip-home" type="button" >
+        <svg class="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+        </svg>
+        <span class="sr-only">Home</span>
+      </button>
+    </a>
+      <div id="tooltip-home" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+          Home
+          <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+    <!-- Community -->
+    <a href="{% url 'communities:post_list' %}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+      <button data-tooltip-target="tooltip-wallet" type="button" class="pb-1 ">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-gray-500 group-hover:text-green-600">
+          <path fill-rule="evenodd" d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z" clip-rule="evenodd" />
+        </svg>        
+      </button>
+    </a>
+      <div id="tooltip-wallet" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+          Community
+          <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+    <!-- create -->
+      <div class="flex items-center justify-center">
+        <a href="{% url 'recipes:recipe_create' %}" class="inline-flex items-center justify-center w-10 h-10 font-medium bg-green-600 rounded-full hover:bg-green-700 group focus:ring-4 focus:ring-green-300 focus:outline-none dark:focus:ring-green-800">
+          <button data-tooltip-target="tooltip-new" type="button" >
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"></path>
+              </svg>
+              <span class="sr-only">New item</span>
+          </button>
+        </a>
+      </div>
+      <div id="tooltip-new" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+          Create new recipe
+          <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+      <!-- update -->
+      <a href="{% url 'accounts:update'%}" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+        <button data-tooltip-target="tooltip-settings" type="button">
+          <svg class="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+          </svg>
+          <span class="sr-only">Settings</span>
+        </button>
+      </a>
+      <div id="tooltip-settings" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+          Update profile
+          <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+      <!-- profile -->
+      <a class="inline-flex flex-col items-center justify-center px-5 rounded-r-full hover:bg-gray-50 dark:hover:bg-gray-800 group" href="{% url 'accounts:profile' request.user %}">
+        <button data-tooltip-target="tooltip-profile" type="button">
+          <svg class="w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"></path>
+          </svg>
+          <span class="sr-only">Profile</span>
+        </button>
+      </a>
+      <div id="tooltip-profile" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+          Profile
+          <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+  </div>
+</div>
+
 
 <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
   <div class="relative w-full max-w-md max-h-full">

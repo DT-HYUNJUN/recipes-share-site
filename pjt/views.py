@@ -24,7 +24,7 @@ def index(request):
     recipes3 = Recipe.objects.all()[8:12]
 
     today = datetime.date.today()
-    users_with_birthday = User.objects.filter(birthdate__day=today.day, birthdate__month=today.month)
+    users_with_birthday = User.objects.filter(username = request.user, birthdate__day=today.day, birthdate__month=today.month)
     is_birthday = 1 if users_with_birthday.exists() else 0
 
     context = {
