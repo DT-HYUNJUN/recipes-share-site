@@ -119,7 +119,7 @@
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                 <div class="w-36 sm:w-72 bg-white">
                   <div class="class">
-                    <img class="object-cover w-36 h-36 sm:w-72 sm:h-72 border border-[#0000000f]" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                    <img class="object-cover w-36 h-36 sm:w-72 sm:h-72 border border-[#0000000f]" {% if recipe.image.url|slice:':14' == '/media/recipes' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                   </div>
                   <div class="py-5 sm:p-5 text-center">
                     <h5 class="mb-2 text-sm sm:text-xl font-bold  text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
