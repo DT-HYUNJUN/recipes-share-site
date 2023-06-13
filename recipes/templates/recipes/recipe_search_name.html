@@ -6,15 +6,16 @@
 {% block content %}
 <div class="container mx-auto">
   <section class="border-t-4 pt-10 mt-10">
-    <div>
-      {% comment %} <h2>'{{ keyword }}' 이/가 포함된 레시피 검색결과입니다.</h2> {% endcomment %}
-      <div class="flex flex-col">
-        <div class="flex flex-col gap-3 sm:gap-0 sm:flex-row sm:w-[1200px] sm:flex  sm:justify-between sm:items-center sm:mx-auto">
-          <div>
-            <h2 class="text-center">'{{ keyword }}' 이/가 재료에 포함된 레시피 검색결과입니다.</h2>
-          </div>
+    <div class="flex flex-col">
+      <div class="flex flex-col gap-3 sm:gap-0 sm:flex-row sm:w-[1200px] sm:flex  sm:justify-between sm:items-center sm:mx-auto">
+        <div>
+          <h2 class="text-center">'{{ keyword }}' 이/가 재료에 포함된 레시피 검색결과입니다.</h2>
+        </div>
+      </div>
+      
           <div class="flex justify-center">
-            <div class="flex items-center px-2 z-10 bg-white">
+      
+            <div class="flex flex-row items-center px-2 z-10 bg-white">
               <button id="dropdownOffsetButton1" data-dropdown-toggle="dropdownOffset1" data-dropdown-offset-skidding="0" class="px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">최신순</button>
               <span class="mx-2 text-gray-300">|</span>
               <button id="dropdownOffsetButton2" data-dropdown-toggle="dropdownOffset2" data-dropdown-offset-skidding="0" class="px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천순</button>
@@ -22,41 +23,43 @@
               <button id="dropdownOffsetButton3" data-dropdown-toggle="dropdownOffset3" data-dropdown-offset-skidding="0" class="px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">난이도순</button>
               <span class="mx-2 text-gray-300">|</span>
               <button id="dropdownOffsetButton4" data-dropdown-toggle="dropdownOffset4" data-dropdown-offset-skidding="0" class="px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">소요시간순</button>
+              <span class="mx-2 text-gray-300">|</span>
+              <button id="dropdownOffsetButton5" data-dropdown-toggle="dropdownOffset5" data-dropdown-offset-skidding="0" class="px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">조회수순</button>
             </div>
-  
-            <div id="dropdownOffset1" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
-                <li>
-                  <button name="sort" value="created_at_asc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오름차순</button>
-                </li>
-                <li>
-                  <button name="sort" value="created_at_desc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">내림차순</button>
-                </li>
-              </ul>
-            </div>
-  
-            <div id="dropdownOffset2" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
-                <li>
-                  <button name="sort" value="liked_asc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오름차순</button>
-                </li>
-                <li>
-                  <button name="sort" value="liked_desc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">내림차순</button>
-                </li>
-              </ul>
-            </div>
-  
-            <div id="dropdownOffset3" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
-                <li>
-                  <button name="sort" value="difficulty_asc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오름차순</button>
-                </li>
-                <li>
-                  <button name="sort" value="difficulty_desc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">내림차순</button>
-                </li>
-              </ul>
-            </div>
-  
+
+          <div id="dropdownOffset1" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+              <li>
+                <button name="sort" value="created_at_asc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오름차순</button>
+              </li>
+              <li>
+                <button name="sort" value="created_at_desc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">내림차순</button>
+              </li>
+            </ul>
+          </div>
+
+          <div id="dropdownOffset2" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+              <li>
+                <button name="sort" value="liked_asc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오름차순</button>
+              </li>
+              <li>
+                <button name="sort" value="liked_desc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">내림차순</button>
+              </li>
+            </ul>
+          </div>
+
+          <div id="dropdownOffset3" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+              <li>
+                <button name="sort" value="difficulty_asc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오름차순</button>
+              </li>
+              <li>
+                <button name="sort" value="difficulty_desc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">내림차순</button>
+              </li>
+            </ul>
+          </div>
+          
             <div id="dropdownOffset4" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
               <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
                 <li>
@@ -67,66 +70,79 @@
                 </li>
               </ul>
             </div>
+
+            <div id="dropdownOffset5" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                <li>
+                  <button name="sort" value="views_asc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">오름차순</button>
+                </li>
+                <li>
+                  <button name="sort" value="views_desc" class="sorting w-full py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">내림차순</button>
+                </li>
+              </ul>
+            </div>          
+
           </div>
         </div>
-       
-      <div class="flex">
-        <div class=" grid grid-cols-2 md:grid-cols-4 gap-4 mx-auto mt-9 ">
-          {% for recipe in title_recipes %}
-          <div>
-            <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
-              <div class="w-36 sm:w-72 bg-white">
-                <div class="class">
-                  <img class="object-cover w-36 h-36 sm:w-72 sm:h-72 border border-[#0000000f]" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
-                </div>
-                <div class="py-5 sm:p-5 text-center">
-                  <h5 class="mb-2 text-sm sm:text-xl font-bold  text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
-                  <!--난이도 -->
-                  <div class="flex flex-col justify-center">
-                    <div class="flex items-center justify-center sm:gap-2">
-                      <span>난이도</span>
-                      {% if recipe.difficulty == 1 %}
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                      {% elif recipe.difficulty == 2 %}
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                      {% elif recipe.difficulty == 3 %}
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                      {% elif recipe.difficulty == 4 %}
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                      {% elif recipe.difficulty == 5 %}
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                        <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
-                      {% endif %}
-                    </div>
-                    <!--조리시간 -->
-                    <div class="flex items-center justify-center gap-2">
-                      <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                      <span class="font-normal text-gray-700 dark:text-gray-400">
-                        {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
-                        {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
-                      </span>
-                    </div>
+      </div>
+      
+      <div class=" grid grid-cols-2 md:grid-cols-4 gap-4 mx-auto mt-9 ">
+        {% for recipe in title_recipes %}
+        <div>
+          <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
+            <div class="w-36 sm:w-72 bg-white">
+              <div class="class">
+                <img class="object-cover w-36 h-36 sm:w-72 sm:h-72 border border-[#0000000f]" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+              </div>
+              <div class="py-5 sm:p-5 text-center">
+                <h5 class="mb-2 text-sm sm:text-xl font-bold  text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
+                <!--난이도 -->
+                <div class="flex flex-col justify-center">
+                  <div class="flex items-center justify-center sm:gap-2">
+                    <span>난이도</span>
+                    {% if recipe.difficulty == 1 %}
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    {% elif recipe.difficulty == 2 %}
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    {% elif recipe.difficulty == 3 %}
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    {% elif recipe.difficulty == 4 %}
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    {% elif recipe.difficulty == 5 %}
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                      <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
+                    {% endif %}
+                  </div>
+                  <!--조리시간 -->
+                  <div class="flex items-center justify-center gap-2">
+                    <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
+                    <span class="font-normal text-gray-700 dark:text-gray-400">
+                      {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
+                      {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
+                    </span>
                   </div>
                 </div>
               </div>
-            </a>
-          </div>
-          {% endfor %}
+            </div>
+          </a>
         </div>
+        {% endfor %}
       </div>
     </div>
   </section>
 
 </div>
+
+
 
 <script>
   const buttons = document.querySelectorAll('.sorting');
