@@ -14,16 +14,12 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    def image_path(instance, filename):
-        return f'recipes/{instance.pk}/{filename}'
-
-
     title = models.CharField(max_length=100)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='recipe_written')
     content = models.TextField(max_length=1000, blank=True, null=True)
     category = models.CharField(max_length=10)
     image = ProcessedImageField(
-        upload_to=image_path,
+        upload_to='recipes/',
         processors=[Transpose()],
         null=True,
         blank=True
