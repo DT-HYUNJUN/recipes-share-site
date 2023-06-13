@@ -17,8 +17,9 @@ let stepForms = document.querySelectorAll('.step-update-form')
 
 stepForms.forEach(form => {
   form.classList.add('flex', 'gap-2')
+  form.querySelector('label').textContent = 'X'
   form.querySelector('label').classList.remove('mb-2')
-  form.querySelector('label').classList.add('mb-1')
+  form.querySelector('label').classList.add('mb-1', 'text-red-500')
   form.childNodes[1].classList.add('grow')
   form.childNodes[5].classList.add('flex', 'flex-col', 'items-center')
 })
@@ -44,7 +45,7 @@ let stepNum = stepForm.length - 1
 
 // base form
 title.classList.add('grow')
-image.classList.add('grow')
+image.classList.add('')
 image.querySelector('input').classList.add('w-full')
 time.classList.add('py-0.5')
 

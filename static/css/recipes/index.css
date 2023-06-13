@@ -48,17 +48,15 @@
   height: 1.5rem;
 }
 
-
-
+/* 프로필 부분 북마크 , 좋아요 반응형 부분 css */
 @media (max-width: 800px) {
   .slick-prev {
     text-align: center;
-    left: -32px;
+    left: -32px !important;
   }
   .slick-next {
-    right: -25px;
+    right: -25px !important;
   }
-  
   .recipe-weather-slide button {
     background-color: #2e8b57;
     color: white;
@@ -68,6 +66,7 @@
     transform: translateY(-50%);
     width: 1.5rem;
     height: 1.5rem;
+    right: -10px;
   }
 }
  

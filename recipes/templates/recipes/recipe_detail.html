@@ -304,11 +304,11 @@
         {% for review in reviews %}
         <div id="review" {% if request.user == review.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b dark:bg-green-900" {% else %} class="grid grid-cols-12 text-sm mt-3  px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
           <!-- 리뷰 작성자 프로필 사진 -->
-          <div class="col-span-1 flex items-start mb-1">
+          <div class="col-span-2 sm:col-span-1 flex items-start mb-1">
             <img class="w-10 rounded-full" {% if review.user.profile_image %} src="{{ review.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}"{% endif %} alt="profile">
           </div>
           <!-- 작성자 / 내용 -->
-          <div class="col-span-11">
+          <div class="col-span-10 sm:col-span-11">
             <div class="flex justify-between">
               <p class="font-bold mb-1 dark:text-white">{{ review.user.nickname }}</p>
               {% if request.user == review.user %}

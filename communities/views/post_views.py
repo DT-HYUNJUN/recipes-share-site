@@ -45,7 +45,15 @@ class PostDetailView(DetailView):
         context['comment_form'] = CommentForm()
         context['adj_posts'] = adj_posts
 
+        images = post.images.all()
+        if images.count() == 1:
+            images = list(images) * 4
+        elif images.count() <= 3:
+            images = list(images) * 2
+        context['images'] = images
         return context
+    
+
 
 
 class PostCreateView(LoginRequiredMixin, TemplateView):

@@ -94,6 +94,7 @@ $(document).ready(function () {
     ],
   });
 
+  //  프로필 북마크 , 좋아요 
   $(".recipe-weather-slide").slick({
     infinite: true,
     slidesToShow: 4,

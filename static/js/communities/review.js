@@ -133,7 +133,8 @@ reviewSubmit.addEventListener("click", (e) => {
 
       const profileImageWrapper = document.createElement("div");
       profileImageWrapper.classList.add(
-        "col-span-1",
+        "sm:col-span-1",
+        "col-span-2",
         "flex",
         "items-start",
         "mb-1"
@@ -156,7 +157,7 @@ reviewSubmit.addEventListener("click", (e) => {
 
       // 작성자 / 내용
       const contentContainer = document.createElement("div");
-      contentContainer.classList.add("col-span-11");
+      contentContainer.classList.add("sm:col-span-11", "col-span-10");
 
       const authorContainer = document.createElement("div");
       authorContainer.classList.add("flex", "justify-between");
