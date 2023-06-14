@@ -1,14 +1,16 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout as auth_logout
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth import get_user_model
+from django.contrib.auth import (
+    login as auth_login,
+    logout as auth_logout,
+    get_user_model, update_session_auth_hash
+)
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from communities.models import Post, Comment
 from recipes.models import Recipe
-from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthenticationForm, PasswordChangeForm
-# Create your views here.
+from .forms import CustomUserCreationForm, CustomUserChangeForm, CustomAuthenticationForm
+
 
 def login(request):
     if request.user.is_authenticated:
@@ -31,6 +33,7 @@ def login(request):
         'form': form,
     }
     return render(request, 'accounts/login.html', context)
+
 
 @login_required
 def logout(request):
@@ -57,6 +60,7 @@ def signup(request):
     }
     return render(request, 'accounts/signup.html', context)
 
+
 @login_required
 def update(request):
     if request.method == 'POST':
@@ -72,6 +76,7 @@ def update(request):
     }
     return render(request, 'accounts/update.html', context)
 
+
 @login_required
 def change_password(request):
     if request.method == 'POST':
@@ -86,6 +91,7 @@ def change_password(request):
         'form': form,
     }
     return render(request, 'accounts/change_password.html', context)
+
 
 @login_required
 def delete(request):
@@ -108,6 +114,7 @@ def follow(request, user_pk):
         you.followers.add(me)
 
     return redirect('accounts:profile', you.username)
+
 
 @login_required
 def profile(request, username):

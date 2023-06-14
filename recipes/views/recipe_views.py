@@ -7,23 +7,17 @@ from django.dispatch import receiver
 from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import (
-    DeleteView,
-    DetailView,
-    ListView,
-    TemplateView,
-    UpdateView,
-    View,
-)
+from django.views.generic import DeleteView, DetailView, ListView, TemplateView, UpdateView, View
+from accounts.models import *
 from recipes.forms import *
 from recipes.models import *
-from accounts.models import *
 
 
 class RecipeListView(ListView):
     model = Recipe
     paginate_by = 12
     template_name = "recipes/recipe_list.html"
+
 
     def get_context_data(self, **kwargs):
         context = dict()
@@ -68,14 +62,12 @@ class RecipeListView(ListView):
         context["category"] = category
         return context
 
-    def get_queryset(self):
-        return super().get_queryset()
-
 
 class RecipeDetailView(DetailView):
     model = Recipe
     context_object_name = "recipe"
     pk_url_kwarg = "recipe_pk"
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -130,6 +122,7 @@ class RecipeDetailView(DetailView):
 class RecipeCreateView(LoginRequiredMixin, TemplateView):
     template_name = "recipes/recipe_create.html"
 
+
     def get(self, *args, **kwargs):
         ingredients = Ingredient.objects.all()
         options = [ingredient for ingredient in ingredients]
@@ -139,15 +132,14 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
         stepformset = RecipeStepFormSet(queryset=RecipeStep.objects.none())
         form = RecipeForm()
         equipform = EquipForm()
-        return self.render_to_response(
-            {
-                "form": form,
-                "equipform": equipform,
-                "ingredientformset": ingredientformset,
-                "stepformset": stepformset,
-                "options": options,
-            }
-        )
+        return self.render_to_response({
+            "form": form,
+            "equipform": equipform,
+            "ingredientformset": ingredientformset,
+            "stepformset": stepformset,
+            "options": options,
+        })
+
 
     def post(self, *args, **kwargs):
         form = RecipeForm(self.request.POST, self.request.FILES)
@@ -176,12 +168,10 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
             raw_ingredient = list()
 
             for i in range(1, ingredient_num):
-                raw_ingredient.append(
-                    (
-                        self.request.POST.get(f"recipeingredient_set-{i}-ingredient"),
-                        self.request.POST.get(f"recipeingredient_set-{i}-quantity"),
-                    )
-                )
+                raw_ingredient.append((
+                    self.request.POST.get(f"recipeingredient_set-{i}-ingredient"),
+                    self.request.POST.get(f"recipeingredient_set-{i}-quantity"),
+                ))
 
             for ingredient, quantity in raw_ingredient:
                 if ingredient.isdigit():
@@ -198,18 +188,17 @@ class RecipeCreateView(LoginRequiredMixin, TemplateView):
 
             return redirect("recipes:recipe_detail", recipe_pk=recipe.pk)
 
-        return self.render_to_response(
-            {
-                "form": form,
-                "ingredientforms": ingredientforms,
-                "stepforms": stepforms,
-            }
-        )
+        return self.render_to_response({
+            "form": form,
+            "ingredientforms": ingredientforms,
+            "stepforms": stepforms,
+        })
 
 
 class RecipeUpdateView(UserPassesTestMixin, UpdateView):
     template_name = "recipes/recipe_update.html"
     pk_url_kwarg = "recipe_pk"
+
 
     def test_func(self):
         keys = self.request.path.split("/")
@@ -217,6 +206,7 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
         isAuthor = self.request.user == recipe.user
         isAdmin = self.request.user.is_superuser or self.request.user.is_staff
         return isAuthor or isAdmin
+
 
     def get(self, *args, **kwargs):
         recipe = Recipe.objects.get(pk=kwargs["recipe_pk"])
@@ -237,18 +227,17 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
             equipform = EquipForm(instance=equip[0])
         else:
             equipform = EquipForm()
-        return self.render_to_response(
-            {
-                "form": form,
-                "equipform": equipform,
-                "ingredientupdateformset": ingredientupdateformset,
-                "ingredientformset": ingredientformset,
-                "stepupdateformset": stepupdateformset,
-                "stepformset": stepformset,
-                "options": options,
-                "recipe": recipe,
-            }
-        )
+        return self.render_to_response({
+            "form": form,
+            "equipform": equipform,
+            "ingredientupdateformset": ingredientupdateformset,
+            "ingredientformset": ingredientformset,
+            "stepupdateformset": stepupdateformset,
+            "stepformset": stepformset,
+            "options": options,
+            "recipe": recipe,
+        })
+
 
     def post(self, *args, **kwargs):
         recipe = Recipe.objects.get(pk=kwargs["recipe_pk"])
@@ -322,12 +311,10 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
             raw_ingredient = list()
 
             for i in range(1, ingredient_num):
-                raw_ingredient.append(
-                    (
-                        self.request.POST.get(f"recipeingredient_set-{i}-ingredient"),
-                        self.request.POST.get(f"recipeingredient_set-{i}-quantity"),
-                    )
-                )
+                raw_ingredient.append((
+                    self.request.POST.get(f"recipeingredient_set-{i}-ingredient"),
+                    self.request.POST.get(f"recipeingredient_set-{i}-quantity"),
+                ))
 
             for ingredient, quantity in raw_ingredient:
                 if ingredient.isdigit():
@@ -351,21 +338,20 @@ class RecipeUpdateView(UserPassesTestMixin, UpdateView):
 
             return redirect("recipes:recipe_detail", recipe.pk)
 
-        return self.render_to_response(
-            {
-                "form": form,
-                "ingredientupdateforms": ingredientupdateforms,
-                "stepupdateforms": stepupdateforms,
-                "ingredientforms": ingredientforms,
-                "stepforms": stepforms,
-            }
-        )
+        return self.render_to_response({
+            "form": form,
+            "ingredientupdateforms": ingredientupdateforms,
+            "stepupdateforms": stepupdateforms,
+            "ingredientforms": ingredientforms,
+            "stepforms": stepforms,
+        })
 
 
 class RecipeDeleteView(UserPassesTestMixin, DeleteView):
     model = Recipe
     success_url = reverse_lazy("recipes:recipe_list")
     pk_url_kwarg = "recipe_pk"
+
 
     def test_func(self):
         recipe = self.get_object()  # get_object 메서드를 사용하여 삭제 대상 객체를 가져옵니다.
@@ -375,9 +361,11 @@ class RecipeDeleteView(UserPassesTestMixin, DeleteView):
             or self.request.user.is_staff
         )
 
+
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         return obj
+
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
@@ -421,6 +409,7 @@ class RecipeSearchView(ListView):
     model = Recipe
     template_name = "recipes/recipe_search.html"
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         keyword = self.request.GET.get("keyword")
@@ -441,6 +430,7 @@ class RecipeSearchView(ListView):
 
 class RecipeNameSearchView(RecipeSearchView):
     template_name = "recipes/recipe_search_name.html"
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -482,6 +472,7 @@ class RecipeNameSearchView(RecipeSearchView):
 
 class RecipeIngredientSearchView(RecipeSearchView):
     template_name = "recipes/recipe_search_ingredient.html"
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -528,6 +519,7 @@ class RecipeFridge(ListView):
     model = Ingredient
     template_name = "recipes/fridge.html"
 
+
     def get_queryset(self):
         user_ingredients = []
         user_ingredient_names = []
@@ -545,6 +537,7 @@ class RecipeFridge(ListView):
             total_recipes = total_recipes.distinct()
 
             return total_recipes
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -575,6 +568,7 @@ class RecipeFridge(ListView):
         )
         return context
 
+
     def post(self, request, *args, **kwargs):
         jsonObject = json.loads(request.body)
         target_name = jsonObject.get("target")
@@ -596,6 +590,7 @@ class RecipeEquip(ListView):
     template_name = "recipes/equip.html"
     model = Recipe
     paginate_by = 12
+
 
     def get_context_data(self, **kwargs):
         context = dict()

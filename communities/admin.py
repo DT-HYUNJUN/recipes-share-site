@@ -7,9 +7,14 @@ class CommentInline(PaginationInline):
     model = Comment
 
 
+class ImageInline(admin.TabularInline):
+    model = Image
+    extra = 1
+
+
 class PostAdmin(admin.ModelAdmin):
     model = Post
-    inlines = (CommentInline,)
+    inlines = (CommentInline, ImageInline)
 
 
 admin.site.register(Post, PostAdmin)

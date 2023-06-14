@@ -3,8 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.views.generic import View
-from recipes.models import *
 from recipes.forms import *
+from recipes.models import *
 
 
 class RecipeReviewCreateView(LoginRequiredMixin, View):
