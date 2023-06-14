@@ -11,7 +11,7 @@
 {% block content %}
 <div class="container mx-auto max-w-screen-xl px-3">
   <h1 class="logo-font text-4xl text-center my-10">| 레시피 수정 |</h1>
-  <form id="form-container" class="mt-4" action="{% url 'recipes:recipe_update' recipe.pk %}" method="POST" enctype="multipart/form-data" novalidate>
+  <form id="form-container" class="mt-4 group" action="{% url 'recipes:recipe_update' recipe.pk %}" method="POST" enctype="multipart/form-data" novalidate>
     <div class="border p-5 rounded-lg">
       {% csrf_token %}
       {{ form.media }}

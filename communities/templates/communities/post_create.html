@@ -14,12 +14,14 @@
     {% csrf_token %}
     {{ form|crispy }}
     <p class="block text-gray-700 text-sm font-bold mb-2">사진</p>
-    {{ imageform|crispy }}
+    <div id="div_id_image" class="mb-3">
+      <input type="file" name="image" multiple accept="image/*" class="fileinput" id="id_image">
+    </div>
     <div class="flex justify-end">
       <a href="{% url 'communities:post_list' %}">
         <button type="button" class="text-white bg-gray-400 hover:bg-gray-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">취소</button>
       </a>
-      <button type="submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">등록</button>
+      <button type="submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 group-invalid:pointer-events-none group-invalid:opacity-30">등록</button>
     </div>
   </form>
 </div>
