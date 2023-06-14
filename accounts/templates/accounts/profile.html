@@ -9,7 +9,7 @@
 {% endblock style%}
 
 {% block content %}
-  <div class="container mx-auto max-w-screen-xl my-10">
+  <div class="container mx-auto max-w-screen-xl py-10">
     <div class='d-flex align-items-center justify-content-between mt-3 mb-2 mr'>
       <div class='sm:flex mt-2 mb-2'>
         <div class="sm:w-1/6 sm:pr-10">
@@ -22,7 +22,7 @@
                 <img src="{% static 'img/profile_image2.png' %}" class="card-img-top rounded-2 mx-auto mt-4 w-[150px]" alt="image">
               {% endif %}
               <div class="card-body mal">
-                <p class="card-text text-center">{{ person.nickname }}</p>
+                <p class="card-text text-center mt-1 dark:text-gray-400">{{ person.nickname }}</p>
               </div>
             </div>
         
@@ -128,11 +128,11 @@
                 <form action="{% url 'accounts:follow' person.pk %}" method="post">
                   {% csrf_token %}
                   {% if user in person.followers.all %}
-                    <button type="submit">Unfollow
+                    <button type="submit" class="dark:text-white">Unfollow
                       <i class="fa-solid fa-user-minus"></i>
                     </button>
                   {% else %}
-                    <button type="submit">Follow
+                    <button type="submit" class="dark:text-white">Follow
                       <i class="fa-solid fa-user-plus"></i>
                     </button>
                   {% endif %}
@@ -143,30 +143,33 @@
           </div>
           <br>
             <hr class='m-0 ms-1 me-1'>
-            <a href="{% url 'accounts:profile' person %}?q=bookmark" class="flex justify-center sm:justify-items-start">
-              <img class="w-10 h-10" src="{% static 'img/icon_bookmark.svg' %}" alt="">
-              <p class='py-3 text-center'>북마크</p>
+            <a href="{% url 'accounts:profile' person %}?q=bookmark" class="flex justify-center items-center gap-2 sm:justify-items-start">
+              {% comment %} <img class="w-10 h-10 " src="{% static 'img/icon_bookmark.svg' %}" alt=""> {% endcomment %}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 dark:text-white">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+              </svg>              
+              <p class='py-3 text-center dark:text-white'>북마크</p>
             </a>
 
             <hr class='m-0 ms-1 me-1'>
 
             <a href="{% url 'accounts:profile' person %}?q=community" class="flex justify-center items-center pr-2">
-              <span class="material-symbols-outlined pr-2">rate_review</span>
-              <p class="py-3 text-center">내가 쓴 글 보기</p>
+              <span class="material-symbols-outlined pr-2 dark:text-white">rate_review</span>
+              <p class="py-3 text-center dark:text-white">내가 쓴 글 보기</p>
             </a>
 
             <hr class='m-0 ms-1 me-1'>
 
             <a href="{% url 'accounts:profile' person %}?q=comment" class="flex justify-center items-center">
-              <span class="material-symbols-outlined pr-2">comment</span>
-              <p class="py-3 text-center">내가 쓴 댓글 보기</p>
+              <span class="material-symbols-outlined pr-2 dark:text-white">comment</span>
+              <p class="py-3 text-center dark:text-white">내가 쓴 댓글 보기</p>
             </a>
 
             <hr class='m-0 ms-1 me-1'>
 
             <a href="{% url 'accounts:profile' person %}?q=recipe" class="flex justify-center items-center">
-              <span class="material-symbols-outlined pr-2">storefront</span>
-              <p class="py-3 text-center">내가 작성한 레시피</p>
+              <span class="material-symbols-outlined pr-2 dark:text-white">storefront</span>
+              <p class="py-3 text-center dark:text-white">내가 작성한 레시피</p>
             </a>
 
             <hr class='m-0 ms-1 me-1'>

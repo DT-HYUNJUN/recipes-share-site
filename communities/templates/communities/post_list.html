@@ -5,9 +5,9 @@
 {% block content %}
 <div class="container mx-auto max-w-screen-xl px-5">
   <div>
-    <h1 class="logo-font text-4xl text-center my-10">| Community |</h1>
+    <h1 class="logo-font text-4xl text-center py-10 dark:text-gray-300">| Community |</h1>
     <div class="text-end pr-[1%] mb-1">
-      <button type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 md:mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+      <button type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 md:mb-2 dark:bg-[#2e8b57] dark:hover:bg-[#3CB371] focus:outline-none dark:focus:ring-blue-800">
         <a href="{% url 'communities:create' %}">글 작성</a>
       </button>
     </div>
@@ -36,7 +36,7 @@
       </thead>
       <tbody>
         {% for post in posts %}
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200">
             <td class="sm:px-6 py-4 text-center">
               {{ post.pk }}
             </td>

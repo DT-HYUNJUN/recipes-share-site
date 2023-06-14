@@ -132,7 +132,7 @@
           <form id="bookmark_form" class="me-2" data-recipe-id="{{ recipe.pk }}">
             {% csrf_token %}
             {% if request.user.is_authenticated %}
-              <button id="bookmark_btn" class="border border-black text-black-500 hover:bg-black hover:text-white py-1 px-2 sm:py-2 sm:px-4 rounded">
+              <button id="bookmark_btn" class="border border-black text-black-500 hover:bg-black hover:text-white py-1 px-2 sm:py-2 sm:px-4 rounded dark:border-gray-50 dark:text-gray-50 dark:hover:bg-gray-50 dark:hover:text-black">
                 <i class="bi bi-bookmark{% if request.user in recipe.bookmark_users.all %}-fill{% endif %} text-danger"></i>
               </button>
             {% else %}
@@ -174,14 +174,15 @@
           </div>
           <div class="flex items-center gap-2">
             <div class="text-xs">
-              <img class="w-6 sm:w-8" src="{% static 'img/coocking-time.png' %}" alt="">
+              <img class="w-6 sm:w-8 dark:hidden" src="{% static 'img/coocking-time.png' %}" alt="">
+              <img class="w-6 sm:w-8 hidden dark:block" src="{% static 'img/cooking-time-white.png' %}" alt="">
             </div>
             <span class="text-sm sm:text-base text-gray-700 dark:text-gray-400">
               {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
               {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
             </span>
           </div>
-          <div>
+          <div class="dark:text-gray-400">
             <i class="bi bi-eye"> {{recipe.views}}
             </i>
           </div>
@@ -200,7 +201,7 @@
         </button>
         <div id="dropdownTop" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-fit dark:bg-gray-700">
           <ul class="flex gap-3 items-center p-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownTopButton">
-            <button id="btnKakao" class="w-9" onclick="shareKakao()" data-title="{{ recipe.title }}" data-content="{{ recipe.content }}" data-link="{% url 'recipes:recipe_detail' recipe.pk %}" data-base-link="{% url 'index' %}" data-like-count="{{ recipe.like_users.all.count }}" data-comment-count="{{ reviews.count }}">
+            <button id="btnKakao" class="w-9" onclick="shareKakao()" data-title="{{ recipe.title }}" data-content="{{ recipe.content }}" data-link="{% url 'recipes:recipe_detail' recipe.pk %}" data-base-link="{% url 'index' %}" data-like-count="{{ recipe.like_users.all.count }}" data-comment-count="{{ reviews.count }}" data-view-count="{{ recipe.views }}">
               <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카카오톡 공유 보내기 버튼"/>
             </button>
             <button onclick="copyLink()" class="bg-green-100 w-9 h-9 flex justify-center items-center rounded-lg dark:bg-green-900">
@@ -290,7 +291,7 @@
 
     <div class="mt-10 ">
       {% if request.user.is_authenticated %}
-        <form id="review-form" class="mt-5" data-pk="{{ recipe.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'recipes:review_create' recipe.pk %}">
+        <form id="review-form" class="mt-5" data-pk="{{ recipe.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'recipes:review_create' recipe.pk %}" data-index-url="{% url 'index' %}">
           {% csrf_token %}
           <div class="border rounded-lg p-5 pb-0">
             <p class="font-bold ms-4 dark:text-gray-300">{{ request.user.nickname }}</p>
@@ -304,7 +305,7 @@
 
       <!-- 이게 진짜 댓글 -->
       <section id="reviews">
-        <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57] dark:text-gray-300">댓글 <span id="review-count">{{ reviews.count }}</span></p>
+        <p class="text-xl font-bold mt-3 border-b pb-5 border-b-[#2e8b57] dark:text-gray-300">댓글 <span id="review-count">{{ reviews.count }}</span></p>
         {% for review in reviews %}
         <div id="review" {% if request.user == review.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b dark:bg-green-900" {% else %} class="grid grid-cols-12 text-sm mt-3  px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}" data-delete-url="{% url 'recipes:review_delete' recipe.pk review.pk %}">
           <!-- 리뷰 작성자 프로필 사진 -->
@@ -314,7 +315,7 @@
           <!-- 작성자 / 내용 -->
           <div class="col-span-10 sm:col-span-11">
             <div class="flex justify-between">
-              <p class="font-bold mb-1 dark:text-white">{{ review.user.nickname }}</p>
+              <p class="font-bold mb-1 dark:text-gray-300">{{ review.user.nickname }}</p>
               {% if request.user == review.user %}
               <div>
                 <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ review.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
@@ -332,7 +333,7 @@
               {% endif %}
             </div>
             <div id="review" class="mb-2" data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}">
-              <p id="review-content" class="col-span-6 flex items-center dark:text-gray-300">{{ review.content|linebreaksbr }}</p>
+              <p id="review-content" class="col-span-6 flex items-center dark:text-white  ">{{ review.content|linebreaksbr }}</p>
               <div id="comment-textarea" class="hidden col-span-6 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
                 <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                   <label for="comment" class="sr-only">Your comment</label>
@@ -373,7 +374,7 @@
       </div>
       <!-- Modal body -->
       <div class="space-y-6">
-        <div class="relative overflow-x-auto sm:rounded-lg">
+        <div class="relative overflow-x-auto">
           <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <tbody>
               <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
@@ -382,7 +383,6 @@
                 </th>
                 <td class="px-6 py-4 text-end">
                   15ml = 3t
-                  {% comment %} <span>(계량스푼이 없는 경우 밥숟가락으로 볼록하게 가득 담으면 1큰술)</span> {% endcomment %}
                 </td>
               </tr>
               <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -417,7 +417,7 @@
                   28.3g
                 </td>
               </tr>
-              <tr class="border-b">
+              <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   1파운드(lb)
                 </th>
@@ -425,7 +425,7 @@
                  약 0.453 킬로그램(kg)
                 </td>
               </tr>
-              <tr class="border-b bg-gray-50">
+              <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" class=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   1갤런(gallon)
                 </th>
@@ -433,7 +433,7 @@
                  약 0.378 리터
                 </td>
               </tr>
-              <tr class="border-b">
+              <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   고기 1근
                 </th>
@@ -441,7 +441,7 @@
                  600g
                 </td>
               </tr>
-              <tr class="border-b bg-gray-50">
+              <tr class="border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" class= " px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   채소 1근
                 </th>
@@ -449,7 +449,7 @@
                  400g
                 </td>
               </tr>
-              <tr class="border-b">
+              <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   채소 1봉지
                 </th>

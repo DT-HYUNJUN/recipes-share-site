@@ -9,9 +9,9 @@
 {% block content %}
   <div class="container mx-auto max-w-screen-xl p-3">
     {% if request.user.is_authenticated %}
-      <h1 class="logo-font flex justify-center text-xl sm:text-4xl my-10">| {{ request.user.username }}님의 냉장고 입니다. |</h1>
+      <h1 class="logo-font flex justify-center text-xl sm:text-4xl my-10 dark:text-gray-300">| {{ request.user.username }}님의 냉장고 입니다. |</h1>
     {% else %}
-      <h1 class="logo-font flex justify-center text-xl sm:text-4xl my-10">| 로그인을 해주세요. |</h1>
+      <h1 class="logo-font flex justify-center text-xl sm:text-4xl my-10 dark:text-gray-300">| 로그인을 해주세요. |</h1>
     {% endif %}
     <div class='lg:flex lg:justify-center relative'>
       <img class="hidden lg:block w-3/4" src="{% static 'img/fridge.jpg' %}" alt="">
@@ -31,7 +31,7 @@
           </div>
         {% endfor %}
       </div>
-      <fieldset class="lg:absolute top-[2rem] right-[12rem] w-10 h-[430px] lg:w-[425px] lg:h-[605px] bg-white text-center mt-10 sm:mt-0">
+      <fieldset class="mx-auto lg:absolute lg:top-[1.5rem] lg:right-[11rem] w-10 h-[430px] lg:w-[425px] lg:h-[605px] bg-white text-center mt-10 sm:mt-0 dark:bg-gray-600 dark:border-gray-600">
         <div class="flex justify-end">
           <button id="ingrd-delete" type="button" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm p-1 mr-2 mt-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -40,15 +40,15 @@
           </button>
           <button id="ingrd-cancel" type="button" class="hidden text-gray-600 hover:text-white border border-gray-500 hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-1 text-center mr-2 mt-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">취소</button>
         </div>
-        <label for="browser" class="logo-font text-xl">- 냉장고 재료를 선택하세요. -</label>
-        <p class="text-red-500 text-sm">이미 냉장고에 있는 재료는 추가 불가능합니다.</p>
+        <label for="browser" class="logo-font text-xl dark:text-gray-200">- 냉장고 재료를 선택하세요. -</label>
+        <p class="text-red-500 text-sm dark:text-red-950">이미 냉장고에 있는 재료는 추가 불가능합니다.</p>
        
         <form id="fridge-form" data-url="{% url 'recipes:recipe_fridge' %}">
           {% csrf_token %}
-          <input class="mt-8 read-only:bg-gray-300" autocomplete="off" role="combobox" list="" id="input" name="browsers" {% if not request.user.is_authenticated %} placeholder="로그인 해주세요 !" readonly {% else %} placeholder="재료를 검색하세요 !" {% endif %}>
-          <datalist id="browsers" role="listbox">
+          <input class="mt-8 read-only:bg-gray-300 dark:bg-gray-400 dark:border-gray-500 dark:placeholder:text-gray-600" autocomplete="off" role="combobox" list="" id="input" name="browsers" {% if not request.user.is_authenticated %} placeholder="로그인 해주세요 !" readonly {% else %} placeholder="재료를 검색하세요 !" {% endif %}>
+          <datalist id="browsers" role="listbox" class="dark:bg-gray-400 dark:border-gray-600">
             {% for ingredient in left %}
-              <option id="{{ ingredient.name }}" value="{{ ingredient.name }}">{{ ingredient.name }}</option>
+              <option id="{{ ingredient.name }}" value="{{ ingredient.name }}" class="dark:bg-gray-400 dark:text-gray-950">{{ ingredient.name }}</option>
             {% endfor %}
           </datalist>
         </form>
@@ -60,7 +60,7 @@
 
     <!-- 냉장고 레시피-->
     {% if user_ingredients_names|length != 0 %}
-      <section class="half-bg-weather p-8 px-14 border shadow-lg bg-white rounded-lg my-14">
+      <section class="half-bg-weather p-8 px-14 border shadow-lg bg-white rounded-lg my-14 dark:bg-gray-700 dark:border-gray-700 dark:text-white">
         <div>
           <div class="mb-6 flex items-center justify-center">
             <img class="w-10 mb-2" src="{% static 'img/icon_fridge.svg' %}" alt="">
@@ -124,7 +124,7 @@
 
     <!--냉장고 재료 별 만들 수 있는 요리-->
     {% for i in user_ingredients_names %}
-      <section class="half-bg-weather p-8 px-14 border shadow-lg bg-white rounded-lg mb-14">
+      <section class="half-bg-weather p-8 px-14 border shadow-lg bg-white rounded-lg mb-14 dark:bg-gray-700 dark:border-gray-700 dark:text-white">
         <div>
           <div class="mb-6">
             <h1 class="logo-font lg:text-4xl text-center mb-3"> {{i}} 으/로 만들 수 있는 요리 </h1>
