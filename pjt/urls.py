@@ -13,3 +13,8 @@ urlpatterns = [
     path('recipes/', include('recipes.urls')),
     path('communities/', include('communities.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler400 = views.BadRequestView
+handler403 = views.ForbiddenView
+handler404 = views.NotFoundView
+handler500 = views.ServerErrorView
