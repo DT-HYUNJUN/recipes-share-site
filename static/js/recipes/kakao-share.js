@@ -5,6 +5,7 @@ let link = kakaoBtn.dataset.link
 link = link.substring(1)
 const likeCount = kakaoBtn.dataset.likeCount
 const commentCount = kakaoBtn.dataset.commentCount
+const viewCount = kakaoBtn.dataset.viewCount
 const toastSimple = document.getElementById('toast-simple')
 Kakao.init('46fed7723052d8712b267e8a83ab2fa4');
 
@@ -17,13 +18,11 @@ function shareKakao() {
       CONTENT: content,
       LIKECOUNT: likeCount,
       COMMENTCOUNT: commentCount,
+      VIEWCOUNT: viewCount,
       LINK: link,
     },
   });
 }
-
-
-
 
 function showToast() {
   toastSimple.classList.remove('hidden');

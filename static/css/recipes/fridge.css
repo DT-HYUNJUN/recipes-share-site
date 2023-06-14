@@ -29,7 +29,7 @@ datalist {
   border-radius: 0 0 5px 5px;
   border-top: none;
   font-family: sans-serif;
-  /* width: 350px; */
+  width: 350px;
   padding: 5px;
   max-height: 25rem;
   overflow-y: auto;
@@ -48,7 +48,7 @@ datalist {
     padding: 5px;
     max-height: 13rem;
     overflow-y: auto;
-    right: 5px;
+    right: 15px;
   }
 
   input {

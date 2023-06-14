@@ -6,6 +6,8 @@
 {% endblock style%}
 
 {% block content %}
+
+    <!--생일-->
   <div class="container mx-auto max-w-screen-xl py-8 px-2 sm:px-0">
     {% if is_birthday %}
     <button id="birthday-alert" data-modal-target="staticModal" data-modal-toggle="staticModal" class="z-10 hidden sm:block fixed bottom-24 right-32" type="button">
@@ -15,6 +17,7 @@
       <img class="w-8 sm:w-12 animate-bounce" src="{% static 'img/gift2.png' %}" alt="">
     </button>
     {% endif %}
+    
     <div id="staticModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
       <div class="relative w-full max-w-2xl max-h-full">
         <!-- Modal content -->
@@ -33,58 +36,44 @@
         </div>
       </div>
     </div>
-    <!-- 광고 -->
-    <div class="hidden lg:block w-64 h-[650px] border border-black absolute top-8 left-7 ">
-      <div class="index-ad">
-        <!--광고 1-->
-        <div>
-          <a class="inline-block" href="#">
-            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
-              <div class="w-72 overflow-hidden">
-                <img class="object-contain w-60 h-[640px]"  src="{% static 'img/no_img.jpeg' %}"  alt="">
-              </div>
-            </div>
-          </a>
-        </div>
-          <!--광고 2-->
-        <div>
-          <a class="inline-block" href="#">
-            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
-              <div class="w-72 overflow-hidden">
-                <img class="object-contain w-60 h-[640px]"  src="{% static 'img/no_img.jpeg' %}"  alt="">
-              </div>
-            </div>
-          </a>
-        </div>
-          <!--광고 3-->
-        <div>
-          <a class="inline-block" href="#">
-            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
-              <div class="w-72 overflow-hidden">
-                <img class="object-contain w-60 h-[640px]"  src="{% static 'img/no_img.jpeg' %}"  alt="">
-              </div>
-            </div>
-          </a>
-        </div>
-          <!--광고 4-->
-        <div >
-          <a class="inline-block" href="#">
-            <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
-              <div class="w-72 overflow-hidden">
-                <img class="object-contain w-60 h-[640px]"  src="{% static 'img/no_img.jpeg' %}"  alt="">
-              </div>
-            </div>
-          </a>
-        </div>
+    
+    
+    <div id="default-carousel" class="hidden lg:absolute lg:block w-64 h-[640px] top-8 left-7 " data-carousel="slide">
+      <!-- Carousel wrapper -->
+      <div class="relative w-60 h-[640px] overflow-hidden rounded-lg">
+          <!-- 8조 -->
+          <div class="hidden duration-1000 ease-in-out" data-carousel-item>
+            <a href="#">
+              <img src="{% static 'img/ad/8.gif' %}" class="absolute block object-contain w-60 h-[640px] bg-[#40B8C8] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </a>
+          </div>
+          <!-- 6조 -->
+          <div class="hidden duration-1000 ease-in-out" data-carousel-item>
+            <a href="#">
+              <img src="{% static 'img/ad/6.jpg' %}" class="absolute block object-contain w-60 h-[640px] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </a>
+          </div>
+          <!-- 10조 -->
+          <div class="hidden duration-1000 ease-in-out" data-carousel-item>
+            <a href="#">
+              <img src="{% static 'img/ad/10.png' %}" class="absolute block object-contain w-60 h-[640px] bg-[#FCF0E8] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </a>
+          </div>
+          <!-- 9조 -->
+          <div class="hidden duration-1000 ease-in-out" data-carousel-item>
+            <a href="#">
+              <img src="{% static 'img/ad/9.gif' %}" class="absolute block object-contain w-60 h-[640px] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </a>
+          </div>
       </div>
     </div>
   
     <!-- 배너 -->
     <div class="shadow-lg">
-      <img class="mb-60" src="{% static 'img/banner2.png' %}" alt="">
+      <img class="mb-32" src="{% static 'img/banner2.png' %}" alt="">
     </div>
     <!-- 인기순 -->
-    <section class="mb-60 p-8 half-bg-likes border shadow-lg bg-white rounded-lg dark:bg-gray-700 dark:border-gray-700">
+    <section class="mb-32 p-8 half-bg-likes border shadow-lg bg-white rounded-lg dark:bg-gray-700 dark:border-gray-700">
       <h1 class="logo-font text-4xl text-center mb-8 dark:text-gray-300">인기 레시피</h1>
       <div class="sm:grid grid-cols-2 sm:gap-3 justify-center">
         <div class="overflow-hidden w-[295px] h-[295px] sm:w-[601px] sm:h-[596px]">
@@ -120,9 +109,9 @@
         <div class="mb-6">
           <h1 class="logo-font text-4xl text-center mb-3 dark:text-gray-300">오늘 뭐 먹지?</h1>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 w-fit mx-auto">
           {% for recipe in random_recipes %}
-          <div class="">
+          <div class="w-72">
             <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
                 <div class="w-72 overflow-hidden">
@@ -143,12 +132,12 @@
    
 
     <!-- 레시피 더보기 -->
-    <section class="mt-60 p-8  border shadow-lg bg-white rounded-lg dark:bg-gray-700 dark:border-gray-700">
+    <section class="mt-32 p-8 border shadow-lg bg-white rounded-lg dark:bg-gray-700 dark:border-gray-700">
       <h1 class="logo-font text-4xl text-center mb-7 dark:text-gray-300">레시피 더보기</h1>
       <div>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3 w-fit mx-auto">
           {% for recipe in recipes1 %}
-            <div>
+            <div class="w-72">
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                 <div class="w-72 bg-white dark:bg-gray-800">
                   <div class="class overflow-hidden">
@@ -199,9 +188,9 @@
           {% endfor %}
         </div>
 
-        <div id="recipe-hidden-1" class="hidden grid-cols-1 md:grid-cols-4 gap-3 mb-3">
+        <div id="recipe-hidden-1" class="hidden grid-cols-1 md:grid-cols-4 gap-3 mb-3 w-fit mx-auto">
           {% for recipe in recipes2 %}
-          <div>
+          <div class="w-72">
             <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="w-72 bg-white dark:bg-gray-800">
                 <div class="class overflow-hidden">
@@ -252,9 +241,9 @@
           {% endfor %}
         </div>
 
-        <div id="recipe-hidden-2" class="hidden grid-cols-1 md:grid-cols-4 gap-3 mb-3">
+        <div id="recipe-hidden-2" class="hidden grid-cols-1 md:grid-cols-4 gap-3 mb-3 w-fit mx-auto">
           {% for recipe in recipes3 %}
-          <div>
+          <div class="w-72">
             <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="w-72 bg-white dark:bg-gray-800">
                 <div class="class overflow-hidden">
@@ -307,10 +296,9 @@
       </div>
 
       <div class="flex justify-center">
-        <button id="more-btn" type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">더보기</button>
+        <button id="more-btn" type="button" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mt-5 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800">더보기</button>
       </div>
     </section>
-
     <!--container 끝-->
   </div>
 

@@ -10,7 +10,7 @@
 
 {% block content %}
 <div class="container mx-auto max-w-screen-xl px-3">
-  <h1 class="logo-font text-4xl text-center my-10">| 레시피 작성 |</h1>
+  <h1 class="logo-font text-4xl text-center py-10 dark:text-gray-50">| 레시피 작성 |</h1>
   <form id="form-container" class="mt-4 group" action="{% url 'recipes:recipe_create' %}" method="POST" enctype="multipart/form-data" novalidate>
     <div class="border p-5 rounded-lg">
       {% csrf_token %}
@@ -43,7 +43,7 @@
           {{ form.difficulty|as_crispy_field }}
         </div>
 
-        <p class="font-bold text-sm mb-2">조리도구</p>
+        <p class="font-bold text-sm mb-2 dark:text-gray-400">조리도구</p>
         <div id="equip-form" class="border w-fit p-3 rounded-lg flex flex-col gap-2 mb-3">
           {{ equipform.microwave|as_crispy_field }}
           {{ equipform.stove|as_crispy_field }}
@@ -113,7 +113,7 @@
       
     </div>
 
-    <button type="submit" class="mt-2 rounded-lg text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium text-base px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 group-invalid:pointer-events-none group-invalid:opacity-30">레시피 등록</button>
+    <button type="submit" class="mt-2 rounded-lg text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-green-300 font-medium text-base px-3 py-2 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800 group-invalid:pointer-events-none group-invalid:opacity-30">레시피 등록</button>
   </form>
 </div>
 {% endblock content %}

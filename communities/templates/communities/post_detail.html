@@ -6,7 +6,7 @@
 
 
 {% block content %}
-<div class="container mx-auto max-w-screen-xl my-10 px-5 sm:p-0">
+<div class="container mx-auto max-w-screen-xl px-5 sm:py-10">
   <!-- 본문 -->
   <div class="border p-3 rounded-lg">
     <div class="flex justify-between items-center">
@@ -16,7 +16,7 @@
           <img class="w-10 sm:w-20 rounded-full" {% if post.user.profile_image %} src="{{ post.user.profile_image.url }}" {% else %} src="{% static 'img/profile_image2.png' %}" {% endif %}  alt="">
         </a>
         <div class="flex gap-3 text-sm my-3 items-center">
-          <a class="flex" href="{% url 'accounts:profile' post.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline">{{ post.user.nickname }}</p></a>
+          <a class="flex" href="{% url 'accounts:profile' post.user  %}"> <p class=" text-base hover:text-blue-800 hover:underline dark:text-white dark:hover:text-blue-800 hover:underline-offset-0">{{ post.user.nickname }}</p></a>
           {% comment %} |<p class="text-gray-600">{{ post.created_at }}</p> {% endcomment %}
           <div class="hidden md:block text-gray-600">
             {{ post.created_at }}
@@ -49,117 +49,12 @@
     <div class="ps-12 sm:ps-24">
       <div>
         <h1 class=" text-xl my-4 text-[#2E8B57]">{{ post.title }}</h1>
-        <p class="text-md py-3">{{ post.content|linebreaksbr }}</p>
-        {% comment %} <div class="flex items-center">
-          <div class="post-image flex justify-center items-center w-[90%] sm:w-[50%]">
-            {% for image in post.images.all %}
-            <div>
-              <div class="w-full bg-white dark:bg-gray-800 dark:border-gray-700">
-                <img class="object-cover w-full h-auto sm:w-[700px]" src="{{ image.image.url }}" alt="">
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div> {% endcomment %}
+        <p class="text-md py-3 dark:text-white">{{ post.content|linebreaksbr }}</p>
         
 
-        {% comment %} <div id="custom-controls-gallery" class="relative w-full" data-carousel="slide">
-          <!-- Carousel wrapper -->
-          <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-            {% for image in images %}
-              <!-- Item 1 -->
-              <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="{{ image.image.url }}" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
-              </div>
-            {% endfor %}
-            <!-- Item 2 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
-              <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
-            </div>
-            <!-- Item 3 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-              <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
-            </div>
-            <!-- Item 4 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-              <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
-            </div>
-            <!-- Item 5 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-              <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
-            </div>
-          </div>
-          <div class="flex justify-center items-center pt-4">
-            <button type="button" class="flex justify-center items-center mr-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
-              <span class="text-gray-400 hover:text-gray-900 dark:hover:text-white group-focus:text-gray-900 dark:group-focus:text-white">
-                <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
-                <span class="sr-only">Previous</span>
-              </span>
-            </button>
-            <button type="button" class="flex justify-center items-center h-full cursor-pointer group focus:outline-none" data-carousel-next>
-              <span class="text-gray-400 hover:text-gray-900 dark:hover:text-white group-focus:text-gray-900 dark:group-focus:text-white">
-                <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                <span class="sr-only">Next</span>
-              </span>
-            </button>
-          </div>
-        </div> {% endcomment %}
-
-        {% comment %} <div id="custom-controls-gallery" class="relative w-full" data-carousel="slide">
-          <!-- Carousel wrapper -->
-          <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-            {% for image in post.images.all %}
-            <!-- Carousel item -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-              <img src="{{ image.image.url }}" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
-            </div>
-            {% endfor %}
-          </div>
-          <div class="flex justify-center items-center pt-4">
-            <button type="button" class="flex justify-center items-center mr-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
-              <span class="text-gray-400 hover:text-gray-900 dark:hover:text-white group-focus:text-gray-900 dark:group-focus:text-white">
-                <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
-                <span class="sr-only">Previous</span>
-              </span>
-            </button>
-            <button type="button" class="flex justify-center items-center h-full cursor-pointer group focus:outline-none" data-carousel-next>
-              <span class="text-gray-400 hover:text-gray-900 dark:hover:text-white group-focus:text-gray-900 dark:group-focus:text-white">
-                <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                <span class="sr-only">Next</span>
-              </span>
-            </button>
-          </div>
-        </div> {% endcomment %}
-        
-        {% comment %} 요게 고쳐진 코드  {% endcomment %}
-        <div id="custom-controls-gallery" class="relative w-full" data-carousel="slide">
-          <!-- Carousel wrapper -->
-          <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-            {% for image in images %}
-              <!-- Carousel item -->
-              <div class="hidden bg-black duration-700 ease-in-out" {% if forloop.first %} data-carousel-item="active" {% else %} data-carousel-item {% endif %}>
-                <img src="{{ image.image.url }}" class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="">
-              </div>
-            {% endfor %}
-          </div>
-          <div class="flex justify-center items-center pt-4">
-            <button type="button" class="flex justify-center items-center mr-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
-              <span class="text-gray-400 hover:text-gray-900 dark:hover:text-white group-focus:text-gray-900 dark:group-focus:text-white">
-                <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
-                <span class="sr-only">Previous</span>
-              </span>
-            </button>
-            <button type="button" class="flex justify-center items-center h-full cursor-pointer group focus:outline-none" data-carousel-next>
-              <span class="text-gray-400 hover:text-gray-900 dark:hover:text-white group-focus:text-gray-900 dark:group-focus:text-white">
-                <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                <span class="sr-only">Next</span>
-              </span>
-            </button>
-          </div>
-        </div>
-
-
-        <div id="custom-controls-gallery" class="relative w-full" data-carousel="slide">
+        <!-- 진짜 -->
+        {% if images %}
+        <div id="custom-controls-gallery" class="relative w-full" data-carousel="static">
           <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
             {% for image in images%}
             <div class="slide {% if forloop.first %}active{% endif %}" data-carousel-item>
@@ -182,8 +77,8 @@
             </button>
           </div>
         </div>
+        {% endif %}
       
-
         <form id="like-form" class="my-7" data-post-id="{{ post.pk }}">
           {% csrf_token %}
           {% if request.user.is_authenticated %}
@@ -195,27 +90,27 @@
               <i class="bi bi-heart"></i>
             </button>
           {% endif %}
-          <span id="like-post-count">{{ post.like_posts.all.count }}</span>
+          <span id="like-post-count" class="dark:text-white">{{ post.like_posts.all.count }}</span>
         </form>
       </div>
     </div>
   </div>
   
   {% if request.user.is_authenticated %}
-    <form id="review-form" class="mt-5" data-pk="{{ post.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'communities:comment_create' post.pk %}">
+    <form id="review-form" class="mt-5" data-pk="{{ post.pk }}" data-csrftoken="{{ csrf_token }}" data-url="{% url 'communities:comment_create' post.pk %}" data-index-url="{% url 'index' %}">
       {% csrf_token %}
       <div class="border rounded-lg p-5 pb-0">
-        <p class="font-bold ms-4">{{ request.user.nickname }}</p>
+        <p class="font-bold ms-4 dark:text-white">{{ request.user.nickname }}</p>
         {{ comment_form.content|as_crispy_field }}
         <div class="flex justify-end">
-          <button type="submit" id="review_create_submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">작성</button>
+          <button type="submit" id="review_create_submit" class="text-white bg-[#2e8b57] hover:bg-[#3CB371] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2.5 py-2.5 mr-2 mb-2  dark:bg-[#2e8b57] dark:hover focus:outline-none dark:focus:ring-blue-800">작성</button>
         </div>
       </div>
     </form>
   {% endif %}
 
   <section id="reviews">
-    <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57]">댓글 <span id="review-count">{{ comments.count }}</span></p>
+    <p class="text-xl font-bold mt-3 mb-5 border-b border-b-[#2e8b57] dark:text-gray-300">댓글 <span id="review-count">{{ comments.count }}</span></p>
     {% for comment in comments %}
     <div id="review" {% if request.user == comment.user %} class="grid grid-cols-12 text-sm gap-3 py-5 px-3 bg-[#9ACD32]/[0.2] border-b" {% else %} class="grid grid-cols-12 text-sm mt-3 px-3 border-b" {% endif %} data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ comment.pk }}" data-review-pk="{{ comment.pk }}"  data-update-url="{% url 'communities:comment_update' post.pk comment.pk %}" data-delete-url="{% url 'communities:comment_delete' post.pk comment.pk %}">
       <!-- 댓글 작성자 프로필 사진 -->
@@ -226,7 +121,7 @@
       <div class="col-span-10 sm:col-span-11">
         <div class="flex justify-between">
           {% comment %} <p class="font-bold mb-1">{{ comment.user.nickname }}</p> {% endcomment %}
-          <a class=" hover:text-blue-800 hover:underline" href="{% url 'accounts:profile' comment.user %}"> <p class="font-bold mb-1">{{ comment.user.nickname }}</p></a>
+          <a class=" hover:text-blue-800 hover:underline" href="{% url 'accounts:profile' comment.user %}"> <p class="font-bold mb-1 dark:text-gray-400">{{ comment.user.nickname }}</p></a>
           {% if request.user == comment.user %}
           <div>
             <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown-{{ comment.pk }}" type="button"><i class="bi bi-three-dots-vertical"></i></button>
@@ -244,7 +139,7 @@
           {% endif %}
         </div>
         <div id="review" class="mb-2" data-csrftoken="{{ csrf_token }}" data-recipe-pk="{{ recipe.pk }}" data-review-pk="{{ review.pk }}"  data-update-url="{% url 'recipes:review_update' %}">
-          <p id="review-content" class="col-span-6 flex items-center">{{ comment.content|linebreaksbr }}</p>
+          <p id="review-content" class="col-span-6 flex items-center dark:text-white">{{ comment.content|linebreaksbr }}</p>
           <div id="comment-textarea" class="hidden col-span-6 w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
             <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
               <label for="comment" class="sr-only">Your comment</label>
@@ -334,6 +229,7 @@
 <script src="{% static 'js/recipes/carousel.js' %}"></script>
 <script src="{% static 'js/communities/review.js' %}"></script>
 <script src="{% static 'js/communities/like.js' %}"></script>
+
 
 
 {% endblock script %}

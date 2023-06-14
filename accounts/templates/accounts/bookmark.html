@@ -1,7 +1,7 @@
 {% load static %}
 
-<div>
-  <h1 class="logo-font text-4xl text-center my-8">좋아요</h1>
+<div class="p-4">
+  <h1 class="logo-font text-4xl text-center my-8 dark:text-white">좋아요</h1>
   <div class="flex justify-center items-center">
     <div class="recipe-weather-slide" style="width : 80%">
       {% for recipe in like_recipes %}
@@ -15,7 +15,7 @@
               <h5 class="mb-2 sm:text-xl text-sm font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
               <div class="flex flex-col justify-center">
                 <div class="flex items-center justify-center">
-                  <span class="text-sm sm:text-base">난이도</span>
+                  <span class="text-sm sm:text-base dark:text-gray-300">난이도</span>
                   {% if recipe.difficulty == 1 %}
                     <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                   {% elif recipe.difficulty == 2 %}
@@ -53,7 +53,7 @@
       </div>
       {% empty %}
       <div class="w-fit m-0">
-        <h1 class="text-center">레시피를 추가해보세요</h1>
+        <h1 class="text-center dark:text-gray-400">레시피를 추가해보세요</h1>
       </div>
       {% endfor %}
     </div>
@@ -61,7 +61,7 @@
 
   <!--북마크-->
   <div>
-    <h1 class="logo-font text-4xl text-center my-8">북마크</h1>
+    <h1 class="logo-font text-4xl text-center my-8 dark:text-white">북마크</h1>
     <div class="flex justify-center items-center">
       <div class="recipe-weather-slide" style="width : 80%">
         {% for recipe in bookmark_recipes %}
@@ -75,7 +75,7 @@
                 <h5 class="mb-2 sm:text-xl text-sm font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
                 <div class="flex flex-col justify-center">
                   <div class="flex items-center justify-center">
-                    <span class="text-sm sm:text-base">난이도</span>
+                    <span class="text-sm sm:text-base dark:text-gray-300">난이도</span>
                     {% if recipe.difficulty == 1 %}
                       <img class="w-[9px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                     {% elif recipe.difficulty == 2 %}
@@ -112,7 +112,7 @@
           </a>
         </div>
         {% empty %}
-        <h1 class="text-center">북마크를 추가해보세요</h1>
+        <h1 class="text-center dark:text-gray-400">북마크를 추가해보세요</h1>
         {% endfor %}
       
       </div>
