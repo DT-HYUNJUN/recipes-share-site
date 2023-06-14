@@ -62,6 +62,7 @@ class RecipeForm(forms.ModelForm):
         label="사진", widget=forms.FileInput(attrs={"class": "border border-inherit"})
     )
 
+
     class Meta:
         model = Recipe
         fields = (
@@ -116,6 +117,7 @@ class RecipeUpdateForm(forms.ModelForm):
             attrs={"class": "border border-inherit", "can_delete": False}
         ),
     )
+
 
     class Meta:
         model = Recipe

@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/communities/post.css' %}">
+{% endblock style %}
 
 {% block content %}
 <h1 class="logo-font text-4xl text-center pt-3 dark:text-gray-50">| 나의 글 수정 |</h1>
@@ -8,6 +13,7 @@
   <form class="mt-10 px-6" action="{% url 'communities:update' post.pk %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
+    <p class="block text-gray-700 text-sm font-bold mb-2">사진</p>
     {{ imageupdateformset.management_form }}
     {% for imageform in imageupdateformset %}
     <div class="flex items-center">
@@ -24,4 +30,3 @@
   </form>
 </div>
 {% endblock content %}
-

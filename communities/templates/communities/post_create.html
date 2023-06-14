@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/communities/post.css' %}">
+{% endblock style %}
 
 {% block content %}
-
 <h1 class="logo-font text-4xl text-center pt-3 dark:text-gray-50">| 글 작성 |</h1>
-
 <div class="container mx-auto max-w-screen-md">
-  <form class="mt-10 px-6" action="{% url 'communities:create' %}" method="post" enctype="multipart/form-data">
+  <form class="mt-10 px-6 group" action="{% url 'communities:create' %}" method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     {{ form|crispy }}
+    <p class="block text-gray-700 text-sm font-bold mb-2">사진</p>
     {{ imageform|crispy }}
     <div class="flex justify-end">
       <a href="{% url 'communities:post_list' %}">

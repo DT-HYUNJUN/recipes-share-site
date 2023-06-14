@@ -1,6 +1,5 @@
-from django.db import models
-from imagekit.models import ProcessedImageField
 from django.conf import settings
+from django.db import models
 from PIL import Image as P_Image
 
 
@@ -34,8 +33,9 @@ class Image(models.Model):
         return f'communities/posts/{instance.post.pk}/{filename}'
 
 
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images', blank=True, null=True)
     image = models.ImageField(upload_to=image_path)
+
     
     def process_image(image):
         img = P_Image.open(image)

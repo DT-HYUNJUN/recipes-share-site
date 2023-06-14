@@ -45,7 +45,6 @@ let stepNum = stepForm.length - 1
 
 // base form
 title.classList.add('grow')
-image.classList.add('')
 image.querySelector('input').classList.add('w-full')
 time.classList.add('py-0.5')
 

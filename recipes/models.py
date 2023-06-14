@@ -1,12 +1,13 @@
-from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import Transpose
 
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
+
 
     def __str__(self):
         return self.name
@@ -53,11 +54,13 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
 
+
     @property
     def get_hour(self):
         time = int(self.time)
         hour = time // 60
         return hour
+
 
     @property
     def get_minute(self):
@@ -70,6 +73,7 @@ class LikeRecipe(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
+
     class Meta:
         db_table = "like_recipe"
 
@@ -78,6 +82,7 @@ class BookmarkRecipe(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
+
     class Meta:
         db_table = "bookmark_recipe"
 
@@ -85,6 +90,7 @@ class BookmarkRecipe(models.Model):
 class RecipeStep(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     detail = models.TextField()
+
 
     def __str__(self):
         return self.recipe.title
@@ -110,6 +116,7 @@ class Equip(models.Model):
     stove = models.BooleanField(default=False)
     oven = models.BooleanField(default=False)
     air_fryer = models.BooleanField(default=False)
+
 
     def __str__(self):
         return f"도구: {self.recipe.title}"

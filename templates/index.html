@@ -79,24 +79,24 @@
       <div class="sm:grid grid-cols-2 sm:gap-3 justify-center">
         <div class="overflow-hidden w-[295px] h-[295px] sm:w-[601px] sm:h-[596px]">
           <a class="relative" href="{% url 'recipes:recipe_detail' like_recipe1.pk %}">
-            <img class="w-[295px] h-[295px] sm:w-[601px] sm:h-[596px] object-cover hover:scale-125 transition ease-in-out" {% if like_recipe1.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe1.image.url }}" {% else %} src="{{ like_recipe1.image }}" {% endif %} alt="">
+            <img class="w-[295px] h-[295px] sm:w-[601px] sm:h-[596px] object-cover hover:scale-125 transition ease-in-out" {% if like_recipe1.image.url|slice:':14' == '/media/recipes' %} src="{{ like_recipe1.image.url }}" {% else %} src="{{ like_recipe1.image }}" {% endif %} alt="">
             <p class="absolute w-[295px] bottom-0 left-0 sm:bottom-6 sm:left-6 text-lg bg-black/50 font-bold px-2 text-white">{{ like_recipe1.title }}</p>
           </a>
         </div>
         <div class="sm:grid sm:grid-rows-2">
           <div class="mb-3 overflow-hidden  w-[295px] h-[295px] sm:w-[601px] sm:h-[288px]">
             <a class="relative " href="{% url 'recipes:recipe_detail' like_recipe2.pk %}">
-              <img class="w-[295px] h-[295px] sm:w-[601px] sm:h-[288px] object-cover hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe2.image.url }}" {% else %} src="{{ like_recipe2.image }}" {% endif %} alt="">
+              <img class="w-[295px] h-[295px] sm:w-[601px] sm:h-[288px] object-cover hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/recipes' %} src="{{ like_recipe2.image.url }}" {% else %} src="{{ like_recipe2.image }}" {% endif %} alt="">
               <p class="absolute w-[295px] bottom-0 left-0 sm:bottom-6 sm:left-6 text-lg bg-black/50 font-bold px-2 text-white">{{ like_recipe2.title }}</p>
             </a>
           </div>
           <div class="sm:grid sm:grid-cols-2 sm:gap-3">
             <a class="relative w-[295px] h-[295px] sm:w-[295px] sm:h-[295px]" href="{% url 'recipes:recipe_detail' like_recipe3.pk %}">
-              <img class="w-[295px] h-[295px] sm:w-[295px] sm:h-[295px] object-cover hover:brightness-50 peer" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe3.image.url }}" {% else %} src="{{ like_recipe3.image }}" {% endif %} alt="">
+              <img class="w-[295px] h-[295px] sm:w-[295px] sm:h-[295px] object-cover hover:brightness-50 peer" {% if recipe.image.url|slice:':14' == '/media/recipes' %} src="{{ like_recipe3.image.url }}" {% else %} src="{{ like_recipe3.image }}" {% endif %} alt="">
               <p class="hidden absolute w-4/5 sm:w-auto text-lg top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 peer-hover:block text-white">{{ like_recipe3.title }}</p>
             </a>
             <a class="relative w-[295px] h-[295px] sm:w-[295px] sm:h-[295px]" href="{% url 'recipes:recipe_detail' like_recipe4.pk %}">
-              <img class="w-[295px] h-[295px] sm:w-[295px] sm:h-[295px] object-cover hover:brightness-50 peer" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ like_recipe4.image.url }}" {% else %} src="{{ like_recipe4.image }}" {% endif %} alt="">
+              <img class="w-[295px] h-[295px] sm:w-[295px] sm:h-[295px] object-cover hover:brightness-50 peer" {% if recipe.image.url|slice:':14' == '/media/recipes' %} src="{{ like_recipe4.image.url }}" {% else %} src="{{ like_recipe4.image }}" {% endif %} alt="">
               <p class="hidden absolute w-4/5 sm:w-auto text-lg top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 peer-hover:block text-white">{{ like_recipe4.title }}</p>
             </a>
           </div>
@@ -116,7 +116,7 @@
             <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="w-72 bg-white dark:bg-gray-800 dark:border-gray-700">
                 <div class="w-72 overflow-hidden">
-                  <img class="object-cover w-72 h-[400px] hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                  <img class="object-cover w-72 h-[400px] hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/recipe' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                 </div>
                 <div class="p-5 text-center">
                   <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
@@ -142,7 +142,7 @@
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
                 <div class="w-72 bg-white dark:bg-gray-800">
                   <div class="class overflow-hidden">
-                    <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                    <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/recipes' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                   </div>
                   <div class="p-5 text-center">
                     <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
@@ -195,7 +195,7 @@
             <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="w-72 bg-white dark:bg-gray-800">
                 <div class="class overflow-hidden">
-                  <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                  <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/recipe' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                 </div>
                 <div class="p-5 text-center">
                   <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>
@@ -248,7 +248,7 @@
             <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
               <div class="w-72 bg-white dark:bg-gray-800">
                 <div class="class overflow-hidden">
-                  <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/images/' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
+                  <img class="object-cover w-72 h-72 hover:scale-125 transition ease-in-out" {% if recipe.image.url|slice:':14' == '/media/recipe' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                 </div>
                 <div class="p-5 text-center">
                   <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">{{ recipe.title }}</h5>

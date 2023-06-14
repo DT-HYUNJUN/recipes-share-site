@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from communities.models import Post, Comment
-from recipes.models import Recipe, RecipeReview
+from recipes.models import Recipe
 from .models import UserIngredient
 
 
