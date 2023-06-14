@@ -1,15 +1,16 @@
 from django.conf import settings
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
-from recipes.models import Ingredient, Recipe
 from PIL import Image
+from recipes.models import Ingredient, Recipe
 
 
 class UserIngredient(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.user.nickname + self.ingredient.name
@@ -36,6 +37,7 @@ class User(AbstractUser):
     viewed_recipes = models.ManyToManyField(
         Recipe, related_name="viewed_users", blank=True
     )
+
 
     def fix_image_rotation(image_path):
         image = Image.open(image_path)

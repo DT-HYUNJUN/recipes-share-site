@@ -1,6 +1,6 @@
-from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -17,6 +17,7 @@ class CustomUserCreationForm(UserCreationForm):
             'birthdate'
         )
 
+
 class CustomUserChangeForm(UserChangeForm):
     password = None
     class Meta(UserChangeForm.Meta):
@@ -29,7 +30,6 @@ class CustomUserChangeForm(UserChangeForm):
             'profile_image',
             'birthdate'
         )
-
 
 
 class CustomAuthenticationForm(AuthenticationForm):

@@ -73,8 +73,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # pillow
-
     #provider
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.kakao',
@@ -183,23 +181,11 @@ CRISPY_TEMPLATE_PACK = "tailwind"
 
 # allauth 설정
 AUTHENTICATION_BACKENDS = (
-    # 'django.contrib.auth.backends.ModelBackend',  # <- 디폴트 모델 백엔드
-    'allauth.account.auth_backends.AuthenticationBackend', # <- 추가
+    # 'django.contrib.auth.backends.ModelBackend',  # 디폴트 모델 백엔드
+    'allauth.account.auth_backends.AuthenticationBackend', # 추가
 )
 
 SITE_ID = 1 # 사이트 아이디 기본값
-
-# SOCIALACCOUNT_PROVIDERS = {
-#     'kakao': {
-#         'APP': {
-#             'client_id': 'dfe16bf96b74862a562238d0ddf151b1',
-#             'secret': 'lQfaq0H4buXQcXfs4vvXfjdUxMPO0EHf',
-#             'key': '3bafb7a7a33a736f1ea00e8e1a78bbb6'
-#         }
-#     }
-# }
-
-LOGIN_REDIRECT_URL = '/recipes'
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 ACCOUNT_LOGOUT_ON_GET = True

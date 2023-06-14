@@ -1,9 +1,9 @@
-from django.shortcuts import render
-from recipes.models import Recipe
+import datetime, random
 from django.db.models import Count
+from django.shortcuts import render
 from accounts.models import User
-import datetime
-import random
+from recipes.models import Recipe
+
 
 def index(request):
     like_recipes = Recipe.objects.annotate(num_likes=Count('like_users')).order_by('-num_likes')[:4]
@@ -11,8 +11,6 @@ def index(request):
     like_recipe2 = like_recipes[1]
     like_recipe3 = like_recipes[2]
     like_recipe4 = like_recipes[3]
-    
-    # random_recipes = Recipe.objects.order_by('?')[:4]
 
     all_recipes = list(set(Recipe.objects.all()))
     random.shuffle(all_recipes)

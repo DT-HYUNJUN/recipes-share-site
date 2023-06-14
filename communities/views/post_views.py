@@ -1,13 +1,13 @@
 import os
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import TemplateView, DeleteView, View, UpdateView, ListView, DetailView
-from communities.models import *
-from communities.forms import *
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.urls import reverse_lazy
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, DeleteView, View, UpdateView, ListView, DetailView
+from communities.forms import *
+from communities.models import *
 
 
 class PostListView(ListView):
@@ -52,8 +52,6 @@ class PostDetailView(DetailView):
             images = list(images) * 2
         context['images'] = images
         return context
-    
-
 
 
 class PostCreateView(LoginRequiredMixin, TemplateView):
