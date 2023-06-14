@@ -66,9 +66,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'django_browser_reload',
     'pilkit',
-    # ckeditor
-    'ckeditor',
-    'ckeditor_uploader',
     # default
     'django.contrib.admin',
     'django.contrib.auth',
@@ -76,18 +73,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # tag
-    'taggit.apps.TaggitAppConfig',
-    'taggit_templatetags2',
     # pillow
 
     #provider
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.kakao',
 ]
-
-TAGGIT_CASE_INSENSITIVE = True
-TAGGIT_LIMIT = 50
 
 MIDDLEWARE = [
     "django_browser_reload.middleware.BrowserReloadMiddleware",
@@ -209,18 +200,6 @@ SITE_ID = 1 # 사이트 아이디 기본값
 # }
 
 LOGIN_REDIRECT_URL = '/recipes'
-
-# ckeditor 설정
-CKEDITOR_UPLOAD_PATH = 'uploads/'
-CKEDITOR_IMAGE_BACKEND = "pillow" 
-
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'full',
-        'height': 300,
-        'width': '100%',
-    },
-}
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 ACCOUNT_LOGOUT_ON_GET = True

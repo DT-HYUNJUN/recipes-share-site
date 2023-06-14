@@ -28,5 +28,4 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('recipes/', include('recipes.urls')),
     path('communities/', include('communities.urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
