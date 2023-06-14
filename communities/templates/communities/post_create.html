@@ -13,6 +13,7 @@
   <form class="mt-10 px-6 group" action="{% url 'communities:create' %}" method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     {{ form|crispy }}
+    <p class="block text-gray-700 text-sm font-bold mb-2">사진</p>
     {{ imageform|crispy }}
     <div class="flex justify-end">
       <a href="{% url 'communities:post_list' %}">
