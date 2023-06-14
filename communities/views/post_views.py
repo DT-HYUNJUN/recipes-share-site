@@ -46,14 +46,13 @@ class PostDetailView(DetailView):
         context['adj_posts'] = adj_posts
 
         images = post.images.all()
-        if images.count() == 1:
+        image_count = images.count()
+        if image_count == 1:
             images = list(images) * 4
-        elif images.count() <= 3:
+        elif image_count <= 3:
             images = list(images) * 2
         context['images'] = images
         return context
-    
-
 
 
 class PostCreateView(LoginRequiredMixin, TemplateView):
