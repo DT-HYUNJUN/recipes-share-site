@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/communities/post.css' %}">
+{% endblock style %}
 
 {% block content %}
 <h1 class="logo-font text-4xl text-center mt-3">| 나의 글 수정 |</h1>
@@ -24,4 +29,3 @@
   </form>
 </div>
 {% endblock content %}
-

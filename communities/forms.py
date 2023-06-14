@@ -49,23 +49,27 @@ class CommentForm(forms.ModelForm):
 
 
 class ImageForm(forms.ModelForm):
-    image = forms.ImageField(widget=forms.FileInput(attrs={'multiple': True}))
+    image = forms.ImageField(
+        label='',
+        widget=forms.FileInput(attrs={'multiple': True})
+    )
 
 
     class Meta:
         model = Image
         fields = ('image',)
-        labels = {'image': ''}
 
 
 class ImageUpdateForm(forms.ModelForm):
-    image = forms.ImageField(widget=forms.ClearableFileInput)
+    image = forms.ImageField(
+        label='',
+        widget=forms.ClearableFileInput
+    )
 
 
     class Meta:
         model = Image
         fields = ('image',)
-        labels = {'image': ''}
 
 
 ImageFormSet = inlineformset_factory(

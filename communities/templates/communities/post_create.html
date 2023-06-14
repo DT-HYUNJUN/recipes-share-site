@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/communities/post.css' %}">
+{% endblock style %}
 
 {% block content %}
-
 <h1 class="logo-font text-4xl text-center mt-3">| 글 작성 |</h1>
 
 <div class="container mx-auto max-w-screen-md">
-  <form class="mt-10 px-6" action="{% url 'communities:create' %}" method="post" enctype="multipart/form-data">
+  <form class="mt-10 px-6 group" action="{% url 'communities:create' %}" method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     {{ form|crispy }}
     {{ imageform|crispy }}
