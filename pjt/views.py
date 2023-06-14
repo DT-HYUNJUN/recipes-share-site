@@ -39,3 +39,19 @@ def index(request):
     }
     
     return render(request, 'index.html', context)
+
+
+def BadRequestView(request, exception):
+    return render(request, '400.html', status=403)
+
+
+def ForbiddenView(request, exception):
+    return render(request, '403.html', status=403)
+
+
+def NotFoundView(request, exception):
+    return render(request, '404.html', status=404)
+
+
+def ServerErrorView(request):
+    return render(request, '500.html', status=500)
