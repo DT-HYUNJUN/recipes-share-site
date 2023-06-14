@@ -34,7 +34,7 @@ class Image(models.Model):
         return f'communities/posts/{instance.post.pk}/{filename}'
 
 
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images', blank=True, null=True)
     image = models.ImageField(upload_to=image_path)
     
     def process_image(image):
