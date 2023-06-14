@@ -31,7 +31,6 @@ function onGeoOk(position) {
     }
     gotoRecipe.addEventListener('click', () => {
       link = gotoRecipe.dataset.link
-      console.log(link)
       window.location.href = link + `?keyword=${gotoRecipe.textContent}`
     })
     userWeather.textContent = `${name}의 현재 날씨: `

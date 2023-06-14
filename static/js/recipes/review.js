@@ -147,7 +147,7 @@ reviewSubmit.addEventListener("click", (e) => {
       } else {
         profileImage.setAttribute(
           "src",
-          "http://127.0.0.1:8000/static/img/profile_image2.png"
+          `${reviewForm.dataset.indexUrl}static/img/profile_image2.png`,
         );
       }
       profileImage.setAttribute("alt", "profile");

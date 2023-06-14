@@ -45,7 +45,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '.ap-northeast-2.compute.amazonaws.com',
     '.hjtable.shop',
-    '221.140.100.189',
+    'hj-table.kro.kr',
 ]
 
 
@@ -207,8 +207,6 @@ SITE_ID = 1 # 사이트 아이디 기본값
 #         }
 #     }
 # }
-
-LOGIN_REDIRECT_URL = '/recipes'
 
 # ckeditor 설정
 CKEDITOR_UPLOAD_PATH = 'uploads/'

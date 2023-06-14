@@ -3,8 +3,8 @@
 {% load static %}
 {% block content %}
 
-<div class="container mt-5 mx-auto max-w-xs">
-  <h1 class="logo-font text-4xl text-center my-8">| UPDATE PROFILE |</h1>
+<div class="container pt-5 mx-auto max-w-xs">
+  <h1 class="logo-font text-4xl text-center py-8 dark:text-gray-300">| UPDATE PROFILE |</h1>
   <form action="{% url 'accounts:update' %}" method="POST" class="group" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     {% include 'error.html' %}
@@ -34,6 +34,7 @@
     <button type="submit" class="mt-1 w-full border border-gray-300 py-3 rounded-lg bg-green-700 hover:bg-green-600 text-white font-bold group-invalid:pointer-events-none group-invalid:opacity-30">
       회원정보 수정
     </button>
+    <a href="{% url 'accounts:change_password' %}" class="text-center block mt-5 hover:underline dark:text-gray-300">비밀번호 변경</a>
   </form>
 </div>
 {% endblock content %}

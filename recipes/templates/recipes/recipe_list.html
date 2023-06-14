@@ -63,17 +63,16 @@
       <section class="border-t-4 pt-10 mt-10">
         <div class="flex justify-center sm:w-[1200px] sm:flex sm:justify-end sm:items-center sm:mx-auto">
           <div class="flex justify-center">
-      
             <div class="flex flex-row items-center px-2 z-10 bg-white dark:bg-gray-400">
-              <button id="dropdownOffsetButton1" data-dropdown-toggle="dropdownOffset1" data-dropdown-offset-skidding="0" class="px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">최신순</button>
+              <button id="dropdownOffsetButton1" data-dropdown-toggle="dropdownOffset1" data-dropdown-offset-skidding="0" class="sm:px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">최신순</button>
               <span class="mx-2 text-gray-300">|</span>
-              <button id="dropdownOffsetButton2" data-dropdown-toggle="dropdownOffset2" data-dropdown-offset-skidding="0" class="px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천순</button>
+              <button id="dropdownOffsetButton2" data-dropdown-toggle="dropdownOffset2" data-dropdown-offset-skidding="0" class="sm:px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">추천순</button>
               <span class="mx-2 text-gray-300">|</span>
-              <button id="dropdownOffsetButton3" data-dropdown-toggle="dropdownOffset3" data-dropdown-offset-skidding="0" class="px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">난이도순</button>
+              <button id="dropdownOffsetButton3" data-dropdown-toggle="dropdownOffset3" data-dropdown-offset-skidding="0" class="sm:px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">난이도순</button>
               <span class="mx-2 text-gray-300">|</span>
-              <button id="dropdownOffsetButton4" data-dropdown-toggle="dropdownOffset4" data-dropdown-offset-skidding="0" class="px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">소요시간순</button>
+              <button id="dropdownOffsetButton4" data-dropdown-toggle="dropdownOffset4" data-dropdown-offset-skidding="0" class="sm:px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">소요시간순</button>
               <span class="mx-2 text-gray-300">|</span>
-              <button id="dropdownOffsetButton4" data-dropdown-toggle="dropdownOffset5" data-dropdown-offset-skidding="0" class="px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">조회수순</button>
+              <button id="dropdownOffsetButton4" data-dropdown-toggle="dropdownOffset5" data-dropdown-offset-skidding="0" class="sm:px-2 py-2 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">조회수순</button>
             </div>
 
             <div id="dropdownOffset1" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700">
@@ -141,7 +140,7 @@
             {% for recipe in page_obj %}
             <div>
               <a class="inline-block" href="{% url 'recipes:recipe_detail' recipe.pk %}">
-                <div class="w-36 sm:w-72 bg-white">
+                <div class="w-36 sm:w-72 bg-white dark:bg-gray-600">
                   <div class="class">
                     <img class="object-cover w-36 h-36 sm:w-72 sm:h-72 border border-[#0000000f]" {% if recipe.image.url|slice:':14' == '/media/recipes' %} src="{{ recipe.image.url }}" {% else %} src="{{ recipe.image }}" {% endif %} alt="">
                   </div>
@@ -150,7 +149,7 @@
                     <!--난이도 -->
                     <div class="flex flex-col justify-center">
                       <div class="flex items-center justify-center sm:gap-2">
-                        <span>난이도</span>
+                        <span class="dark:text-gray-200">난이도</span>
                         {% if recipe.difficulty == 1 %}
                           <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                         {% elif recipe.difficulty == 2 %}
@@ -172,7 +171,7 @@
                           <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                           <img class="w-[16px] sm:w-[18px]" src="{% static 'img/rating-star.svg' %}" alt="">
                         {% endif %}
-                        <span>
+                        <span class="dark:text-gray-200">
                           <i class="bi bi-eye ms-2">
                           </i>{{recipe.views}}
                         </span>
@@ -180,7 +179,7 @@
                       <!--조리시간 -->
                       <div class="flex items-center justify-center gap-2">
                         <img class="w-7" src="{% static 'img/coocking-time.png' %}" alt="조리시간">
-                        <span class="font-normal text-gray-700 dark:text-gray-400">
+                        <span class="font-normal text-gray-700 dark:text-gray-200">
                           {% if recipe.get_hour != 0 %}{{ recipe.get_hour }}시간 {% endif %}
                           {% if recipe.get_minute != 0 %}{{ recipe.get_minute }}분{% endif %}
                         </span>
@@ -194,10 +193,10 @@
             {% endfor %}
           </div>
         </div>
-        <div class="md:mx-36 text-center sm:text-end">
+        <div class="md:mx-40 mt-5 text-center sm:text-end">
           <a href="{% url 'recipes:recipe_create' %}">
             <button type="button" class="text-white bg-[#3CB371] font-xs sm:font-medium rounded-lg px-3 py-2.5 text-center inline-flex items-center mr-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-              <img class=" w-7 sm:mr-3" src="{% static 'img/icon_pen.svg' %}" alt="">
+              <img class="w-7 sm:mr-3" src="{% static 'img/icon_pen.svg' %}" alt="">
               <span>레시피 작성</span>
             </button>
           </a>
