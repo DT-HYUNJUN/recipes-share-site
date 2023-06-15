@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
-from PIL import Image
+from PIL import Image as A_Image
 from recipes.models import Ingredient, Recipe
 
 
@@ -22,14 +22,9 @@ class User(AbstractUser):
     followers = models.ManyToManyField(
         "self", related_name="followings", symmetrical=False
     )
-    profile_image = ProcessedImageField(
-        upload_to="profile/",
-        processors=[ResizeToFill(300, 300)],
-        format="JPEG",
-        options={"quality": 80},
-        null=True,
-        blank=True,
-    )
+    def image_path(instance, filename):
+        return f'accounts/profile/{instance.user.pk}/{filename}'
+    profile_image = models.ImageField(upload_to=image_path, null=True, blank=True)
     fridge = models.ManyToManyField(
         Ingredient, through="UserIngredient", related_name="fridge_users", blank=True
     )
@@ -39,17 +34,21 @@ class User(AbstractUser):
     )
 
 
-    def fix_image_rotation(image_path):
-        image = Image.open(image_path)
-        # 이미지 회전을 위한 Exif 정보를 확인하고 회전시킴
-        if hasattr(image, "_getexif") and image._getexif() is not None:
-            exif = dict(image._getexif().items())
+    def process_image(profile_image):
+        img = A_Image.open(profile_image)
+        
+        # 회전 메타데이터를 확인하여 이미지 회전
+        if hasattr(img, '_getexif') and img._getexif():
+            exif = dict(img._getexif().items())
             orientation = exif.get(0x0112)
+            
             if orientation == 3:
-                image = image.rotate(180, expand=True)
+                img = img.rotate(180, expand=True)
             elif orientation == 6:
-                image = image.rotate(270, expand=True)
+                img = img.rotate(-90, expand=True)
             elif orientation == 8:
-                image = image.rotate(90, expand=True)
-        # 회전된 이미지를 저장하거나 처리에 사용할 수 있음
-        image.save(image_path)
+                img = img.rotate(90, expand=True)
+        
+        # 이미지 처리 및 저장
+        img.thumbnail((800, 800))  # 이미지 크기 조정 등 필요한 처리
+        img.save(profile_image.path)
