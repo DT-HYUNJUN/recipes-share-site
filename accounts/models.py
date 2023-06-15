@@ -23,7 +23,7 @@ class User(AbstractUser):
         "self", related_name="followings", symmetrical=False
     )
     def image_path(instance, filename):
-        return f'accounts/profile/{instance.user.pk}/{filename}'
+        return f'accounts/profile/{instance.pk}/{filename}'
     profile_image = models.ImageField(upload_to=image_path, null=True, blank=True)
     fridge = models.ManyToManyField(
         Ingredient, through="UserIngredient", related_name="fridge_users", blank=True
