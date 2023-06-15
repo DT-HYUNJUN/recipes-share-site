@@ -17,7 +17,7 @@
     <p class="block text-gray-700 text-sm font-bold mb-2">사진</p>
     {{ imageupdateformset.management_form }}
     {% for imageform in imageupdateformset %}
-    <div class="flex items-center">
+    <div class="flex items-center justify-between">
       {{ imageform|crispy }}
     </div>
     {% endfor %}
@@ -33,3 +33,7 @@
   </form>
 </div>
 {% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/communities/update.js' %}"></script>
+{% endblock script %}
