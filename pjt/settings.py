@@ -46,6 +46,7 @@ ALLOWED_HOSTS = [
     '.ap-northeast-2.compute.amazonaws.com',
     '.hjtable.shop',
     'hj-table.kro.kr',
+    '221.140.100.189',
 ]
 
 
