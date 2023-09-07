@@ -78,9 +78,18 @@
 
 ## 모델(Model) 설계 ERD
 
-![ERD](readme_img/erd.png)
+![ERD](readme_img/ERD.png)
 
 ## 화면(Template) 설계
+
+<details>
+  <summary>사전 설계</summary>
+  <div>
+    <img src="readme_img/pre1.png">
+    <img src="readme_img/pre2.png">
+  </div>
+</details>
+
 
 <details>
   <summary>메인</summary>
