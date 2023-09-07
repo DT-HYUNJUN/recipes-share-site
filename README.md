@@ -102,7 +102,7 @@
 <summary>회원가입 / 로그인 / 마이페이지</summary>
 <div>
   - 회원가입
-  <img src="readme_img/">
+  <img src="readme_img/signup.png">
   - 로그인
   <img src="readme_img/login.png">
   - 마이페이지
