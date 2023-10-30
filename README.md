@@ -1,6 +1,6 @@
 # 프로젝트 기획
 
-### [현준식탁](https://hj-table.kro.kr/)
+### [현준식탁 바로가기](https://hj-table.kro.kr/)
 
 ## 프로젝트 개요
 
